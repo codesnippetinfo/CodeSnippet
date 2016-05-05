@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem", "BlogSystem\BlogSystem.csproj", "{96166D78-8B68-419E-8333-6B41637AC9EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59B0FD2D-BFAA-4E86-AE71-E62A59A420A9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogDataSimulator", "BlogDataSimulator\BlogDataSimulator.csproj", "{5BCEF0E4-43A1-47B7-AFF9-BA648169D4BE}"
 EndProject

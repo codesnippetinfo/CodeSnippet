@@ -723,6 +723,7 @@
     <Content Include="Views\Home\DisplayTemplates\CollectionListItem.cshtml" />
     <Content Include="Views\Home\SerialList.cshtml" />
     <Content Include="Views\Home\DisplayTemplates\TopicListItem.cshtml" />
+    <Content Include="webconfig.dummy" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

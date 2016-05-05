@@ -18,7 +18,7 @@
                 <label>标题</label>
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 <br />
-                <input class="form-control" type="text" id="Title" name="Title" value="@Model.Title" onblur="GetTagFromTitle()" />
+                <input class="form-control" type="text" id="Title" name="Title" value="@Model.Title" onblur="GetTagFromTitle()" style="margin:10px 0" />
                 <span class="label label-info" style="margin:10px 10px" id="SystemTag"></span>
                 <span class="label label-info" style="margin:10px 10px">
                     标题请尽量准确，系统将通过标题建立内部关键字索引,如果系统无法获取标题中的关键字，请填写您的标签在自定义标签中
@@ -27,7 +27,7 @@
                 <label>自定义标签</label>
                 @Html.ValidationMessageFor(model => model.CustomTagList, "", new { @class = "text-danger" })
                 <br />
-                <input class="form-control" type="text" name="CustomTagList" value="@Model.CustomTagList" />
+                <input class="form-control" type="text" name="CustomTagList" value="@Model.CustomTagList" style="margin:10px 0" />
                 <span class="label label-info" style="margin:10px 10px">
                     使用半角分号分隔，最多五个标签 开发语言和框架等，请考虑版本问题，使用半角冒号添加版本号
                     例如:&nbsp;&nbsp; Swift:3.2.3;iOs;TCP协议

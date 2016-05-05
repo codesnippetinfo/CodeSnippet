@@ -94,6 +94,14 @@
       <remove name="TRACEVerbHandler" />
       <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
     </handlers>
+    <staticContent>
+      <remove fileExtension=".woff"/>
+      <remove fileExtension=".woff2"/>
+      <remove fileExtension=".svg"/>
+      <mimeMap fileExtension=".woff" mimeType="application/x-font-woff" />
+      <mimeMap fileExtension=".woff2" mimeType="application/x-font-woff" />
+      <mimeMap fileExtension=".svg" mimeType="image/svg+xmz" />
+    </staticContent>
   </system.webServer>
   <system.net>
     <settings>

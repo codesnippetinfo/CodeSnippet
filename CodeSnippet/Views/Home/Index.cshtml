@@ -1,0 +1,49 @@
+﻿@using InfraStructure.Utility
+@model IEnumerable<ArticleItemBody>
+@{
+    ViewBag.Title = "首页";
+    Pages pages = ViewBag.Pages;
+    ArticleBody TopArticle = ViewBag.TopArticle;
+    AsideColumnBody AsideFirst = ViewBag.AsideFirst;
+    AsideColumnBody AsideSecond = ViewBag.AsideSecond;
+    AsideColumnBody AsideThird = ViewBag.AsideThird;
+}
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        @if (TopArticle != null)
+        {
+            @Html.DisplayFor(t => TopArticle, "ArticleListItemForTop", TopArticle)
+            <br />
+        }
+        else
+        {
+            <hr style="padding:0;margin:0" />
+        }
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="/Home/Index">首页</a></li>
+            <li role="presentation"><a href="/Home/TopicList">专题列表</a></li>
+            <li role="presentation"><a href="/Home/SerialList">系列教程</a></li>
+        </ul>
+
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))
+
+        @foreach (var item in Model)
+        {
+            @Html.DisplayFor(t => item, "ArticleListItem", item)
+        }
+
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))
+    </div>
+
+    <div class="col-md-4  visible-md-block visible-lg-block" style="margin:0;padding:0">
+        @Html.DisplayFor(t => AsideFirst, "SideColumn", AsideFirst)
+        <br />
+        <br />
+        @Html.DisplayFor(t => AsideSecond, "SideColumn", AsideSecond)
+        <br />
+        <br />
+        @Html.DisplayFor(t => AsideThird, "SideColumn", AsideThird)
+    </div>
+
+</div>

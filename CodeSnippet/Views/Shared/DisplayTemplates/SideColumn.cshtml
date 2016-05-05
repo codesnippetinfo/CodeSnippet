@@ -1,0 +1,14 @@
+﻿@model AsideColumnBody
+<div class="panel panel-primary" style="margin:0px 0px 0px 10px">
+    <div class="panel-heading">@Model.Title</div>
+    <ul class="list-group">
+        @{
+            foreach (var item in Model.DetailItem)
+            {
+                <li class="list-group-item">
+                    <span class="badge">@item.Cnt</span> <a href="@Model.HrefBase@Url.Encode(item.KeyId)">@item.Display</a>
+                </li>
+            }
+        }
+    </ul>
+</div>

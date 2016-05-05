@@ -1,0 +1,48 @@
+﻿@model Collection
+@{
+    var user = UserInfo.GetUserInfoBySn(Model.OwnerId);
+}
+<div class="SingleArticle" style="padding:5px">
+    <div style="float:left;margin:5px;">
+        <img src="@user.Avatar_url" class="AvatarImage">
+    </div>
+    <div style="display:inline;padding:5px">
+        <a href="/Article/CollectionList?CollectionId=@Model.Sn">
+            <h4 style="display:inline;color:#555555;font-weight:bolder">@Model.Title</h4>
+        </a>
+    </div>
+    <div style="padding-left:65px">
+        <h5 style="color:#999999;">@Model.Description</h5>
+    </div>
+    <div style="padding:5px 0 0 65px">
+        @Html.DisplayFor(t => Model.TagName, "TagArea", null)
+    </div>
+    <div style="padding:10px 10px 10px 65px">
+        <a href="/Author/Index?AccountId=@Model.OwnerId">
+            <font style="color:#4094c7">
+                @user.NickName
+            </font>
+        </a>
+        @if (user.Privilege != UserType.Normal)
+        {
+            <label class="Privilege">
+                @switch (user.Privilege)
+                {
+                    case UserType.Author:
+                        @:特约作者
+                                break;
+                    case UserType.Editor:
+                        @:编辑
+                                break;
+                    case UserType.Admin:
+                        @:管理员
+                                break;
+                    default:
+                        break;
+                }
+            </label>
+        }
+        <font style="color:#999999">建立于 @Model.CreateDateTime</font>
+    </div>
+</div>
+<hr style="padding:0;margin:0" />

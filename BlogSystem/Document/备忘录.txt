@@ -1,0 +1,320 @@
+﻿以下经验基于 MVC 5.2.3
+
+ReSharp之后的问题
+未能加载文件或程序集“Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35”或它的某一个依赖项。系统找不到指定的文件。
+
+
+0.Debug版本的时候，VS无法察看很多变量的值，例如Ajax调用ASHX
+0.如果出现多个控制器的时候，可能是因为你的BIN目录没有删除干净，有一个过期的，以前版本的DLL导致的
+0.HttpRequestValidationException:ASHX里面最简单的解决方法是使用Unvalidated版本
+string strArticalID = context.Request.Unvalidated.Form["ArticalID"];
+
+1.如何设定启动Areas?
+参见RouteConfig的编写,这里可以指定默认的Area,写法必须严格按照例子.
+Home_Default这个路由名字不要使用（可能系统会默认注册这个名字）
+（错误信息：路由集合中已存在名为“Home_default”的路由。路由名称必须唯一。）
+
+2.View的Layout
+如果不指定Layout,默认使用  Views/Shared/_Layout（_ViewStart.cshtml）
+
+3.类似于React的组件，可以使用DisplayFor来显示组件
+组件放在Shared/DisplayTemplate/ 下面
+
+4 px 不能省略，RenderBody() 需要CSS3规范的Style
+
+5  <!DOCTYPE html> 加上去的话，类名称不允许写错，写错则不认
+
+6.Area名称不要使用实体名称,或者其它类的名称,不然需要名字空间前缀
+  修改Area名称后注意各处名字空间的统一
+
+7.每个Area的webConfig里面，可以添加默认名字空间
+<system.web.webPages.razor>
+	<pages pageBaseType="System.Web.Mvc.WebViewPage">
+		<namespaces>
+			<add namespace="System.Web.Mvc" />
+
+8.GET方法如果有参数，则如果需要对应可空的情况，可以使用参数默认值
+        public ActionResult Index(int PageNo = 1)
+*如果同时存在 没有参数和带参数的，会报错。可选参数倒没有问题。。。
+
+9.Controller里面设置过 ViewBag.XXXX,如果在之前使用过Model.XXXX，则ViewBag.XXXX变为Model.XXXX
+
+10.$ajax的变体
+	可以使用 $.post来简化Post操作
+
+11.ASHX里面如何使用Session
+	添加 IRequiresSessionState 接口即可
+    public class PublishPost : IHttpHandler, IRequiresSessionState
+
+12.如何用 Href 实现Post
+	注意 forms的下标
+	注意 POST方法必须写明
+<div class="SingleBox">
+    <a href="/Admin/Accept?ArticalID=@Model.ArticalInfo.Sn" class="btn btn-sm btn-success" onclick="return OpenModal(this.href, '确认接受', '确认接受该条记录？')">
+        <span class="glyphicon glyphicon-remove">&nbsp;接受&nbsp;</span>
+    </a>
+    <br /><br />
+    <form action="/Admin/Reject" method="post">
+        <a href="javascript:document.forms[2].submit();" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href, '确认拒绝', '确认拒绝该条记录？')">
+            <span class="glyphicon glyphicon-remove">&nbsp;拒绝&nbsp;</span>
+        </a>
+        审核留言：
+        <input type="text" name="message" style="width:400px" />
+        <input type="hidden" name="ArticalID" value="@Model.ArticalInfo.Sn" />
+    </form>
+</div>
+
+13. Javascript操作DOM的Style，属性是直接使用的，不是“xxx:xxx”
+ document.getElementById("ReplySubmit_" + PreViewReplyId).style.display = "none";
+
+14. btn-primary 可能有Submit的功能！！！
+
+15. 使用过的FileStream可能被清空，注意位置和长度
+
+16. MvcHtmlString 命令页面生成器不要再次转换字符串了
+
+C# &&　Mongo
+1.可以使用转换规则将DateTime变成Local,不用特性
+2.可以使用IgnoreIfNullConvention,则空数据不序列化
+3.属性,公共变量  序列化
+  静态变量,const 不序列化
+4.可以尝试类的嵌套,可以正常序列化
+5.快速JSON
+
+using Newtonsoft.Json;
+var result = new
+{
+    success = 1,
+    message = "提示的信息，上传成功或上传失败及错误信息等。",
+    url = filename
+};
+string json = JsonConvert.SerializeObject(result);
+context.Response.Write(json);
+
+6.HttpPostedFileWrapper
+new HttpPostedFileWrapper(file) as HttpPostedFileBase
+
+7.使用动态对象快速反序列
+dynamic obj = JsonConvert.DeserializeObject(sr.ReadToEnd());
+
+8.Jquery Wrap,可以给元素增加父元素。。。。。强大啊。。。
+9.图片放大方案
+<script type="text/javascript" src="http://tsi.github.io/jQuery.imgBox/imgBox/jquery.imgbox.js"></script>
+<link rel="stylesheet" href="http://tsi.github.io/jQuery.imgBox/imgBox/imgbox.css" />
+<script>
+    $(document).ready(function () {
+        $(".PostBody img").wrap(
+            function(){
+                return "<div class='imgArea'><a href='" + this.src + "'></a></div>"
+            }
+        );
+        $(".PostBody .imgArea a").imgbox({
+            slideshow: false
+        });
+    });
+</script>
+
+10.EQ可以用来查找列表中是否有数据
+IMongoQuery tagNameQuery = Query.EQ(nameof(TagName),tag);
+Distinct对于数组的处理，是拆开数组项目，进行Distinct！！！！
+使用In表示两个数组是否存在交集 因为In的相等，对于数组是拆开判断的
+
+11.Great Linq
+x.GroupBy((article) => article.OwnerId).Select(group => new { ownerId = group.Key, Count = group.Count() });
+
+12.Web服务：
+修改名字的时候，需要同时修改View MarkUp的代码
+
+13.ActionResult 可以通过来设置缓存时间  
+[OutputCache(Duration = int.MaxValue)]
+
+14.BSonDocument 转  ClassObject
+BsonSerializer.Deserialize<Article>(doc)
+
+15.暂时无法中文检索在Win平台，中文需要企业版的MongoDB
+   原因是系统不知道如何进行分词，可以使用第三方的分词组件
+
+MarkDown Editor研究
+http://pandao.github.io/editor.md/
+1.Editor 的可配置项目
+  打开源代码可以看到所有的可配置项目
+2.需要添加
+    <script src="~/Content/editormd/editormd.min.js"></script>
+    <link rel="stylesheet" href="~/Content/editormd/css/editormd.css" />
+	font文件夹也必须，不然部分图标确实	
+3.Install-Package CommonMark.NET
+	Convert MD To HTML
+4.plugins
+	图片上传等功能需要使用这个Plugins文件夹里面的插件
+5.autofocus:false
+	防止自动获得焦点，页面开始时候垂直位置不正确
+6.对于错误的MD语法，该编辑器HTML预览的时候不会报错！！！
+
+浏览器兼容性问题
+1.Chromn 12px 字体变为 16px
+  由于缩放问题造成的，CSS里面12px，如果缩放之后，系统还是维持原来的字体大小，整个字体在渲染的时候进行放大处理
+
+!!!Github OAuth
+v3必须加上这句话！！！！
+http://stackoverflow.com/questions/22649419/protocol-violation-using-github-api
+webRequest.UserAgent = "YourAppName";
+OAuth使用了重定向技术，那个CallBack是由浏览器发送的，不是服务器。。。。
+所以，可以在Github的设定页面上，OAuth的页面上直接写本地的localhost地址便于调试！！！！！！！！！！！！！
+（WinApp似乎无法调试）
+
+Infra整体问题
+*Entity里面有一些特性是数据库序列化用的,一些是画面用的....
+ 导致BL里面引入了很多MVC和MONGO的类.
+ 修改工具，生成无特性的类，在BL项目中使用无特性类
+*OwnerTable活用
+ 用户拥有的文章等，可以看作用户为Owner的资源 	
+
+DominoKit
+1.可以指定特性的日期格式
+2.可以指定是否为Local(Mongo的DateTime)
+[OK]3.可以指定生成无特性版本的纯模型
+改进点:
+1.生成模型时候,可以省略源代码路径
+2.右单击某个xlxs,生成源代码
+OK3.Master表自动添加M_前缀
+OK4. [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode= true)]
+5.继承类没有填写时候的对应
+[OK]Struts2数据验证初步
+
+
+思考：
+
+文章信息综合体 和 缓存的概念：
+使用MongoDB的Index中，过期自动删除的概念（5 - 15 分钟过期）
+如果有需求，先从数据集中寻找数据，如果有则使用，如果没有则重新组合综合体，放入这个数据集
+
+1.对于具有关联性的对象，传统的数据库使用的是Join的SQL语句，来制作视图。
+NOSQL的话，则无法使用这个功能？
+2.可以将数据综合体做成缓存，然后放入数据库中备用（配合过期规则适用）。
+3.将需要查询的东西做成缓存
+4.GenericItem:ASideColumnManager,Href的东西应该是前端的。
+
+
+Circle这样的信息是不是放到单独的表中，还是变成用户的一个属性？
+1.如果Circle项目较少，可以放到用户属性中
+2.当然变成一个属性后，节约了一张表的空间，但是在进行统计的时候，逻辑和性能肯定会出现一些损失，这里需要一定的权衡
+==============================================================================
+博客园项目的问题：
+PostEdit这个页面变得无效了
+Register这个页面变得无效了
+==============================================================================​
+MongoCola
+DONE1.修改字段属性后，再一次修改，报错。(修改后Tag设置错误)
+2.文件管理，菜单栏无效
+3.改进
+	3.1 增加快速的TTL功能，直接输入名称，字段，时间即可完成Cache的设定
+DONE3.2 刷新后保持树型目录打开的状态  
+DONE4.下面的错误(Done 判断是否对象数为零)
+MongoDbDriverVersion:2.2.3
+MongoDbBsonVersion:2.2.3
+System.Collections.Generic.KeyNotFoundException: Element 'avgObjSize' not found.
+   在 MongoDB.Bson.BsonDocument.get_Item(String name)
+   在 MongoDB.Driver.CollectionStatsResult.get_AverageObjectSize()
+   在 FunctionForm.Status.FrmStatus.RefreshDbStatusChart(String strField) 位置 E:\WorkSpace\MongoCola\FunctionForm\Status\frmStatus.cs:行号 160
+
+关于Elasticsearch
+
+和MongoDB类似，QueryContainer就是单个的Query
+Mongo使用EQ.AND,这里直接使用 && 进行操作！！
+SearchRequest后面的字符貌似是路径，这里就不用写了。
+
+    var KeyWordArray = KeyWord.Split(" ".ToArray());
+    QueryContainer query = null;
+    for (int i = 0; i < KeyWordArray.Length; i++)
+    {
+        if (query == null)
+        {
+            query = new QueryStringQuery() { Query = KeyWordArray[i], DefaultOperator = Operator.And };
+        }
+        else
+        {
+            query = query && new QueryStringQuery() { Query = KeyWordArray[i], DefaultOperator = Operator.And };
+        }
+    }
+    ISearchRequest s = new SearchRequest();
+    s.Query = query;
+    s.Size = 100;
+    var searchResults = client.Search<Article>(s);
+    return searchResults.Documents.ToList();
+
+
+安装：
+下载  https://www.elastic.co/downloads/elasticsearch
+安装的时候注意JAVA_HOME环境变量
+
+安装PlugIn
+PlugIn.bat install analysis-smartcn
+(需要重启Elasticsearch)
+
+
+
+elasticsearch-analysis-ik
+教程：http://blog.sina.com.cn/s/blog_6f3ff2c90102vwkd.html
+
+https://github.com/medcl/elasticsearch-analysis-ik
+
+拷贝字库
+修改Config文件
+
+MVN的安装
+http://maven.apache.org/install.html
+最后还在在Eclipse里面，作为Maven工程打开的。
+Run As Install
+（漫长的更新）
+
+http://localhost:9200/_analyze?analyzer=ik&pretty=true&text=%E6%88%91%E6%98%AF%E4%B8%AD%E5%9B%BD%E4%BA%BA
+
+
+Github
+
+
+https://github.com/login/oauth/authorize?client_id=01a8bf26baecfa8db577
+=>  url?code=xxxxxxxxxxxxx
+
+https://github.com/login/oauth/access_token?code=440c4cc57855dd85d042&client_id=01a8bf26baecfa8db577&client_secret=79137611b498051330a1695248b572b18f5983e0
+=>access_token=xxxxxxxx
+
+access_token=145c807148a595ac1117f97116d0be35f7033526&scope=&token_type=bearer
+
+https://api.github.com/user?access_token=145c807148a595ac1117f97116d0be35f7033526&scope=&token_type=bearer
+
+access_token=145c807148a595ac1117f97116d0be35f7033526&scope=&token_type=bearer
+
+
+{
+  "login": "magicdict",
+  "id": 897796,
+  "avatar_url": "https://avatars.githubusercontent.com/u/897796?v=3",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/magicdict",
+  "html_url": "https://github.com/magicdict",
+  "followers_url": "https://api.github.com/users/magicdict/followers",
+  "following_url": "https://api.github.com/users/magicdict/following{/other_user}",
+  "gists_url": "https://api.github.com/users/magicdict/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/magicdict/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/magicdict/subscriptions",
+  "organizations_url": "https://api.github.com/users/magicdict/orgs",
+  "repos_url": "https://api.github.com/users/magicdict/repos",
+  "events_url": "https://api.github.com/users/magicdict/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/magicdict/received_events",
+  "type": "User",
+  "site_admin": false,
+  "name": "MagicHu",
+  "company": "Shanghai Chuwa software co.ltd",
+  "blog": "http://www.mywechatapp.com",
+  "location": "Shanghai,China",
+  "email": "mynightelfplayer@hotmail.com",
+  "hireable": true,
+  "bio": null,
+  "public_repos": 7,
+  "public_gists": 0,
+  "followers": 50,
+  "following": 2,
+  "created_at": "2011-07-06T09:26:40Z",
+  "updated_at": "2016-02-06T09:09:34Z"
+}

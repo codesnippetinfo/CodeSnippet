@@ -1,0 +1,61 @@
+﻿@model ArticleBody
+<div class="TopArticle">
+    <div style="padding:10px 10px 10px 65px">
+        <p style="float:right" class="btn btn-primary btn-lg"> @Model.StockCnt </p>
+        <br />
+        <h3 style="display:inline;color:#555555;font-weight:bolder">
+            <a href="/Article/Index?ArticleId=@Model.ArticleInfo.Sn">@Model.ArticleInfo.Title</a>
+        </h3>
+    </div>
+    <div style="padding:10px 10px 10px 65px">
+        @switch (Model.ArticleInfo.Level)
+        {
+            case ArticleLevel.Easy:
+                <span class="label label-info">
+                    入门
+                </span>
+                break;
+            case ArticleLevel.Normal:
+                <span class="label label-success">
+                    普通
+                </span>
+                break;
+            case ArticleLevel.Hard:
+                <span class="label label-primary">
+                    困难
+                </span>
+                break;
+        }
+        &nbsp;&nbsp;
+        @Html.DisplayFor(t => Model.ArticleInfo.TagName, "TagArea", null)
+    </div>
+    <div style="padding:10px 10px 10px 65px">
+        <img src="@Model.AuthorInfo.Avatar_url" class="AvatarImage" />
+        <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a>
+        @if (Model.AuthorInfo.Privilege != UserType.Normal)
+        {
+            <label class="Privilege">
+                @switch (Model.AuthorInfo.Privilege)
+                {
+                    case UserType.Author:
+                        @:特约作者
+                                break;
+                    case UserType.Editor:
+                        @:编辑
+                                break;
+                    case UserType.Admin:
+                        @:管理员
+                                break;
+                    default:
+                        break;
+                }
+            </label>
+        }
+        <font style="color:#999999">发布于 @Model.ArticleInfo.PublishDateTime</font>
+        <p style="float:right;color:#999999">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;评论(@Model.CommentCnt)&nbsp;
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;评论者数(@Model.CommentAccountCnt)&nbsp;
+            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;阅读(@Model.ReadCnt)&nbsp;
+        </p>
+    </div>
+</div>

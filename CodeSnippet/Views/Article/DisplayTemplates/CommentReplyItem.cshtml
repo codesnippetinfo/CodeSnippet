@@ -1,0 +1,25 @@
+﻿@model CommentBody
+<div style="margin-left:60px;border:dashed;border-width:1px;border-color: #ddd;border-top:none;">
+
+    <div style="background-color:aliceblue;border:dashed;border-width:1px;border-color: #ddd;">
+        <img src="@Model.AuthorInfo.Avatar_url" style="float:left;padding:5px;" class="AvatarImage" />
+        <h6 style="padding:10px 0 0 70px;margin:0">
+            <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@(ViewBag.AuthorId == Model.AuthorInfo.Sn ? "[楼主]" : "") @Model.AuthorInfo.NickName</a>
+        </h6>
+        <h6 style="padding:10px 0 10px 70px;margin:0">
+            发布于 @Model.CommentInfo.CreateDateTime
+        </h6>
+    </div>
+    <div style="padding:10px 0 0 60px;color:#4a4a4a" class="PostBody">
+        @MvcHtmlString.Create(Model.CommentInfo.ContentHTML)
+    </div>
+    @if (Session[ConstHelper.Session_USERID] != null && Session[ConstHelper.Session_USERID].ToString().Equals(Model.AuthorInfo.Sn))
+    {
+        <div class="btn-group" role="group" style="padding-bottom:10px;padding-left:60px">
+            <a href="/Article/DeleteComment?CommentId=@Model.CommentInfo.Sn" class="btn-sm btn-danger">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
+            </a>
+        </div>
+    }
+</div>
+

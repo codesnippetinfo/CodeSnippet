@@ -1,0 +1,315 @@
+﻿@model ArticleBody
+@using System.Configuration;
+@{
+    List<CommentBody> CommentList = ViewBag.CommentList;
+    <script type="text/javascript" src="/Content/imgBox/jquery.imgbox.js"></script>
+    <link rel="stylesheet" href="/Content/imgBox/imgbox.css" />
+    <script src="~/Content/editormd/lib/marked.min.js"></script>
+    <script src="~/Content/editormd/lib/prettify.min.js"></script>
+    <script src="~/Content/editormd/lib/raphael.min.js"></script>
+    <script src="~/Content/editormd/lib/underscore.min.js"></script>
+    <script src="~/Content/editormd/lib/sequence-diagram.min.js"></script>
+    <script src="~/Content/editormd/lib/flowchart.min.js"></script>
+    <script src="~/Content/editormd/lib/jquery.flowchart.min.js"></script>
+    Dictionary<string, string> FileMapping = ViewBag.FileMapping;
+    var CommentOrder = 1;
+
+}
+<div class="row" style="width:1200px;margin: 20px auto;">
+    <div class="col-md-9" style="margin:0;padding:0">
+
+        <div class="SingleBox" style="margin:0 auto;padding:20px 0">
+            <h1 style="font-weight:bold;">@Model.ArticleInfo.Title</h1>
+            <h5 style="float:right">
+                <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a> 发表于 @Model.ArticleInfo.ConfirmDateTime
+            </h5>
+            @switch (Model.ArticleInfo.Level)
+            {
+                case ArticleLevel.Easy:
+                    <span class="label label-info">
+                        入门
+                    </span>
+                    break;
+                case ArticleLevel.Normal:
+                    <span class="label label-success">
+                        普通
+                    </span>
+                    break;
+                case ArticleLevel.Hard:
+                    <span class="label label-primary">
+                        困难
+                    </span>
+                    break;
+            }
+            <span class="label label-warning">
+                @Model.ArticleInfo.Catalog
+            </span>
+            &nbsp;&nbsp;
+            @Html.DisplayFor(t => Model.ArticleInfo.TagName, "TagArea", null)
+            <div style="padding-top:10px">
+                @{ int stockdisplaycnt = 0;
+                    foreach (var item in Model.StockAccountList)
+                    {
+                        <a href="/Author/Index?AccountId=@item.Sn">
+                            <img src="@item.Avatar_url" class="AvatarImageSmall" title="@item.NickName" />
+                        </a>
+                        stockdisplaycnt++;
+                        if (stockdisplaycnt == 10)
+                        {
+                            break;
+                        }
+                    }
+                }
+                <a href="/Article/StockUserList?ArticleId=@Model.ArticleInfo.Sn" class="btn btn-success">
+                    <span class="glyphicon glyphicon-list">&nbsp;所有收藏者(@Model.StockAccountList.Count)</span>
+                </a>
+            </div>
+            <div style="padding-top:10px">
+                <span class="btn btn-info btn-sm">
+                    本文包含图片数：@Model.MarkDownAnlyze.ImageList.Count
+                </span>
+                <span class="btn btn-info btn-sm">
+                    本文长度：@Model.MarkDownAnlyze.TotalLineCnt()
+                </span>
+                @if (Model.MarkDownAnlyze.CodeLineCnt != null)
+                {
+                    foreach (var lan in Model.MarkDownAnlyze.CodeLineCnt)
+                    {
+                        <span class="btn btn-warning btn-sm">
+                            @lan.Key : @lan.Value
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="SingleBox">
+            <div class="PostBody">
+                <div id="test-editormd" style="margin:0">
+                    <textarea style="display:none;">@ArticleContent.GetMarkDown(Model.ArticleInfo.Sn, RevisionType.Current).Content</textarea>
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ArticleInfo.AdvImageUrl) || !string.IsNullOrEmpty(Model.ArticleInfo.AdvText))
+        {
+            <div class="SingleBox" style="margin-bottom:0;border:dashed; border-width: 2px; border-color: #ddd;">
+                <div style="background-color:white;padding:10px">
+                    <button class="btn-sm btn-success" style="float:left;margin:0;padding:0">
+                        文章作者推广（请谨慎点击链接或者扫描二维码）
+                    </button>
+                    <br /><br />
+                    @if (!string.IsNullOrEmpty(Model.ArticleInfo.AdvImageUrl))
+                    {
+                        <!--推广图片-->
+                        <div style="text-align:center">
+                            <img src="@Model.ArticleInfo.AdvImageUrl" style="max-height:400px;max-width:400px;" />
+                        </div>
+                        <br />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ArticleInfo.AdvText))
+                    {
+                        <!--推广文字-->
+                        <div style="text-align:center">
+                            @if (string.IsNullOrEmpty(Model.ArticleInfo.AdvLink))
+                            {
+                                <label>
+                                    @Model.ArticleInfo.AdvText
+                                </label>
+                            }
+                            else
+                            {
+                                <a href="@Model.ArticleInfo.AdvLink">
+                                    @Model.ArticleInfo.AdvText
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @Html.DisplayFor(t => Model, "ArticleInfo", Model)
+        <br />
+        @Html.DisplayFor(t => Model, "AuthorInfo", Model)
+
+        @Html.DisplayFor(t => Model, "FunctionArea", Model)
+
+        @if (!Model.ArticleInfo.IsCloseComment)
+        {
+            <form action="/Article/ModifyOrReplyComment?ArticleId=@Model.ArticleInfo.Sn" method="post">
+                <div class="SingleBox" style="border:dashed;border-width:1px;border-color: #ddd;">
+                    @for (int i = 0; i < CommentList.Count; i++)
+                    {
+                        var commentItem = CommentList[i];
+                        if (string.IsNullOrEmpty(commentItem.CommentInfo.ReplyCommentID))
+                        {
+                            commentItem.Order = CommentOrder;
+                            @Html.DisplayFor(t => commentItem, "CommentItem", commentItem)
+                            var replyList = CommentList.Where((x) => { return x.CommentInfo.ReplyCommentID == commentItem.CommentInfo.Sn; });
+                            foreach (var replyItem in replyList)
+                            {
+                                @Html.DisplayFor(t => replyItem, "CommentReplyItem", replyItem)
+                            }
+                            CommentOrder++;
+                        }
+                    }
+                </div>
+                <input type="hidden" id="ModifyReplyContent" name="ModifyReplyContent" />
+                <input type="hidden" id="ModifyReplyHTML" name="ModifyReplyHTML" />
+                <input type="hidden" id="ModifyCommentId" name="ModifyCommentId" />
+                <input type="hidden" id="ReplyCommentId" name="ReplyCommentId" />
+            </form>
+            if (Session[ConstHelper.Session_USERID] != null)
+            {
+                <form action="/Article/CreateComment?ArticleId=@Model.ArticleInfo.Sn" method="post">
+                    @Html.DisplayFor(t => t, "CommentEditor", null)
+                </form>
+            }
+        }
+    </div>
+
+    <div class="col-md-3 visible-md-block visible-lg-block" style="margin:0;padding:10px">
+        <div id="sidebar" style="position:fixed; top:250px;">
+            <h4 style="margin:5px">
+                <b>内容目录</b>
+            </h4>
+            <div class="markdown-body editormd-preview-container" id="custom-toc-container" style="padding:0">#custom-toc-container</div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $(function () {
+        var testEditor = editormd.markdownToHTML("test-editormd",
+        {
+            tocm            : true,    // Using [TOCM]
+            tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true,  // 默认不解析
+        });
+    });
+
+    var _urlstr = window.location.href;
+    if (_urlstr.indexOf("?") > -1) {
+        _urlstr = _urlstr.substring(0, _urlstr.lastIndexOf("?"));
+    }
+    _urlstr = _urlstr.substring(0, _urlstr.lastIndexOf("/"));
+    _urlstr = _urlstr.substring(0, _urlstr.lastIndexOf("/"));
+
+    var FileMapping = new Array();
+
+    $(document).ready(function () {
+        $(".PostBody img").wrap(
+            function () {
+                var filepath = this.src;
+                var imagefilename = filepath.substring(_urlstr.length + "/FileSystem/Thumbnail?filename=".length)
+                @{
+                    string Image = ConfigurationManager.AppSettings["Image"];
+                    string jsCode = string.Empty;
+                    if (Image == "QiNiu")
+                    {
+                        jsCode = "filepath = '" + @ConfigurationManager.AppSettings["URLBASE"]  + "' + imagefilename;";
+                    }else
+                    {
+                        jsCode = "filepath = '/FileSystem/Image?filename=' + imagefilename;";
+                    }
+                }
+                @MvcHtmlString.Create(jsCode)
+                //原图是外部连接的处理
+                if (this.src.indexOf("/FileSystem/Thumbnail") == -1){
+                    if (this.src.indexOf("@ConfigurationManager.AppSettings["URLBASE"]") == -1){
+                        filepath = this.src;
+                    }
+                }
+                return "<div class='imgArea'><a href='" + filepath + "'></a></div>"
+            }
+        );
+        //http://tsi.github.io/jQuery.imgBox/
+        $(".PostBody .imgArea a").imgbox({
+            slideshow: false,
+            autoScale: true,
+        });
+    });
+</script>
+
+<script>
+    //处理评论的回复
+    var ReplyEditor;
+    var PreViewReplyId = "";
+    function ShowReplayWindow(strReplyId, strContent) {
+        if (PreViewReplyId != "") {
+            document.getElementById("ReplyEditorDiv_" + PreViewReplyId).hidden = "true";
+            document.getElementById("ReplySubmit_" + PreViewReplyId).style.display = "none";
+        }
+        PreViewReplyId = strReplyId;
+        document.getElementById("ReplyEditorDiv_" + strReplyId).hidden = "";
+        //彻底销毁，防止无法修改文本
+        document.getElementById("ReplyEditorDiv_" + strReplyId).innerHTML =
+            "<textarea class='editormd-markdown-textarea' name='$id-markdown-doc' style='display:none;'></textarea><textarea class='editormd-html-textarea' name='$id-html-code' style='display:none;'></textarea>";
+        document.getElementById("ReplySubmit_" + strReplyId).style.display = "block";
+        ReplyEditor = editormd("ReplyEditorDiv_" + strReplyId,
+         {
+             width: 700,
+             height: 300,
+             syncScrolling: "single",
+             path: "/Content/editormd/lib/",
+             // 保存 HTML 到 Textarea
+             saveHTMLToTextarea : true,
+             placeholder: "等待您的评论",
+             imageUpload: true,
+             imageFormats:  @MvcHtmlString.Create(ConstHelper.ImageFileExtend),
+             imageUploadURL: "/API/Upload.ashx?ArticleId=@Request["ArticleId"]&OwnerId=@Session[ConstHelper.Session_USERID]",
+             autoFocus: false,
+             markdown: strContent
+         });
+    }
+    //提交前收集修改评论或者回复评论的内容
+    function GetReplyComment() {
+        var md = ReplyEditor.getMarkdown();
+        var html = ReplyEditor.getHTML();
+        document.getElementById("ModifyReplyContent").value = md;
+        document.getElementById("ModifyReplyHTML").value = html;
+        return true;
+    }
+
+    //回复指定评论编号的内容
+    function ReplyComment(strCommentId) {
+        ShowReplayWindow(strCommentId, "")
+        document.getElementById("ReplyCommentId").value = strCommentId;
+        return false;
+    }
+
+    //修改指定评论编号的内容
+    function ModifyComment(strCommentId) {
+        document.getElementById("ModifyCommentId").value = strCommentId;
+        $.get("/API/GetCommentMarkDown.ashx",
+             { CommentId: strCommentId },
+            function (data, textStatus) {
+                //这里不知道为什么不能在上面ShowReplayWindow，
+                //然后再使用setMarkDown方法。闭包？Ajax？
+                ShowReplayWindow(strCommentId, data.MDContent);
+            }, "json");
+
+        return false;
+    }
+
+    //引用：将评论内容放入底部的评论框
+    function QuoteCommentId(strCommentId) {
+        $.get("/API/GetCommentMarkDown.ashx",
+             { CommentId: strCommentId },
+            function (data, textStatus) {
+                testEditor.setMarkdown(">" + data.MDContent);
+            }, "json");
+        document.getElementsByTagName('BODY')[0].scrollTop = document.getElementsByTagName('BODY')[0].scrollHeight;
+        return false;
+    }
+
+</script>

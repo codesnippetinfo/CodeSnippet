@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using BlogSystem.DisplayEntity
+@using InfraStructure.Utility
+@{
+    List<Collection>
+        CollectionList = ViewBag.CollectionList;
+    string CollectionId = ViewBag.CollectionId;
+    string TopicId = ViewBag.TopicId;
+}
+<div class="SingleBox" style="border:none;width:1000px;">
+
+    <div class="form-inline">
+        <label>文集名称</label>
+        <select class="form-control" name="CollectionID" id="CollectionID" onchange="selectCollection()">
+            @foreach (Collection item in CollectionList)
+            {
+                if (item.Sn == CollectionId)
+                {
+                    <option value="@item.Sn" selected>@item.Title</option>
+                }
+                else
+                {
+                    <option value="@item.Sn">@item.Title</option>
+                }
+            }
+        </select>
+    </div>
+    <br />
+    <table class="table table-striped">
+        <tr>
+            <th style="text-align:center">
+                标题
+            </th>
+            <th style="text-align:center">
+                私有
+            </th>
+            <th style="text-align:center">
+                状态
+            </th>
+            <th style="text-align:center">
+                阅读数
+            </th>
+            <th style="text-align:center">
+                评论数
+            </th>
+            <th style="text-align:center">
+                收藏数
+            </th>
+            <th style="text-align:center">
+                审核结果
+            </th>
+            <th style="text-align:center">
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ArticleInfo.Title
+                </td>
+                <td>
+                    @HtmlUiHelper.GetBooleanValue(item.ArticleInfo.IsPrivate)
+                </td>
+                <td>
+                    @item.ArticleInfo.PublishStatus
+                </td>
+                <td style="text-align:right">
+                    @item.ReadCnt
+                </td>
+                <td style="text-align:right">
+                    @item.CommentCnt
+                </td>
+                <td style="text-align:right">
+                    @item.StockCnt
+                </td>
+                <td>
+                    @item.ArticleInfo.FirstPageMessage
+                </td>
+                <td>
+                    @{
+                        //原来的意思是，该文章是否允许被别的专题收录 ，这里也认为，不允许投稿，权利和义务是一样的
+                        //非私有的，已经被发布的，或者是非首页的文章
+                        bool isPost = item.ArticleInfo.IsTopicable && (!item.ArticleInfo.IsPrivate) &&
+                                             (item.ArticleInfo.PublishStatus == ApproveStatus.Accept || item.ArticleInfo.PublishStatus == ApproveStatus.NotNeed);
+                    }
+                    @if (isPost)
+                    {
+                        if (TopicArticle.IsExist(TopicId, item.ArticleInfo.Sn))
+                        {
+                            <label>已处理</label>
+                        }
+                        else
+                        {
+                            <a href="/Author/PostArticle?TopicId=@ViewBag.TopicId&ArticleId=@item.ArticleInfo.Sn" class="btn btn-success">
+                                <span class="glyphicon glyphicon-open">&nbsp;投稿</span>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <label>无法投稿</label>
+                    }
+                </td>
+            </tr>
+                        }
+    </table>
+</div>
+
+<script>
+    function selectCollection() {
+        location.href = "PostToTopic?TopicId=@ViewBag.TopicId&CollectionId=" + document.getElementById("CollectionID").value;
+    }
+</script>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+}
+@Html.DisplayFor(t => t, "AdminNavi", null)
+<div class="SingleBox" style="border:none;width:1200px">
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "ArticleList", new { PageNo = pageno }).ToString()))
+    <table class="table table-striped">
+        <tr>
+            <th>
+                标题
+            </th>
+            <th>
+                是否为首页
+            </th>
+            <th  width="150px">
+                作者
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                阅读数
+            </th>
+            <th>
+                评论数
+            </th>
+            <th>
+                收藏数
+            </th>
+            <th width="300px">
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                        @item.ArticleInfo.Title
+                    </a>
+                </td>
+                <td>
+                    @HtmlUiHelper.GetBooleanValue(item.ArticleInfo.IsFirstPage)
+                </td>
+                <td>
+                    @item.AuthorInfo.NickName
+                    @if (item.AuthorInfo.Privilege != UserType.Normal)
+                    {
+                        <label class="Privilege">
+                            @switch (item.AuthorInfo.Privilege)
+                            {
+                                case UserType.Author:
+                                    @:特约作者
+                                break;
+                                case UserType.Editor:
+                                    @:编辑
+                                break;
+                                case UserType.Admin:
+                                    @:管理员
+                                break;
+                                default:
+                                    break;
+                            }
+                        </label>
+                    }
+                </td>
+                <td>
+                    @item.ArticleInfo.PublishStatus
+                </td>
+                <td>
+                    @item.ReadCnt
+                </td>
+                <td>
+                    @item.CommentCnt
+                </td>
+                <td>
+                    @item.StockCnt
+                </td>
+                <td>
+                    @if (item.ArticleInfo.IsFirstPage && item.ArticleInfo.PublishStatus == ApproveStatus.Accept)
+                    {
+                        <a href="/Admin/SetTopArticle?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-primary">
+                            <span class="glyphicon glyphicon-star">&nbsp;置顶文章&nbsp;</span>
+                        </a>
+                        <a href="/Admin/RemoveFromFirstPage?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-remove">&nbsp;移出首页&nbsp;</span>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "ArticleList", new { PageNo = pageno }).ToString()))
+</div>
+

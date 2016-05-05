@@ -1,0 +1,123 @@
+﻿@using System.Configuration;
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewBag.Title - codesnippet.info</title>
+    <meta charset="utf-8" />
+    <meta property="qc:admins" content="122527757763745361005461667" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+    <script src="/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="/Content/bootstrap/js/bootstrap.js"></script>
+    <script src="/Content/editormd/editormd.min.js"></script>
+    <script src="/Scripts/Domino.js?v=20160429"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/editormd/css/editormd.min.css" />
+    <link rel="stylesheet" href="~/Content/style/Style.css" />
+    <link rel="icon" href="~/Content/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="~/Content/img/favicon.ico" type="image/x-icon">  
+</head>
+
+<body style="background-color: #fff">
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="navbar-brand" style="padding:0">
+                        <img src="/Content/img/logo_small.gif" height="48" />
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <form class="navbar-form navbar-left" role="search" action="/Home/Search?PageNo=1" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="请输入关键字" id="txtKeyword" name="txtKeyword">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search">&nbsp;检索&nbsp;</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="nav navbar-nav navbar-right">
+                        @if (Session[ConstHelper.Session_USERID] == null)
+                        {
+                            string authUrl = "https://github.com/login/oauth/authorize?client_id=" + GithubAccount.ClientID;
+                            <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
+                                @if (ConfigurationManager.AppSettings["DEBUGMODE"] == "true")
+                                {
+                                    <button class="btn btn-default" onclick="window.location.href = '/Home/LoginAsUserId?UID=1'">
+                                        @Html.DisplayForModel("GithubSVG")&nbsp;模拟管理员登录&nbsp;
+                                    </button>
+                                    <button class="btn btn-default" onclick="window.location.href = '/Home/LoginAsUserId?UID=2'">
+                                        @Html.DisplayForModel("GithubSVG")&nbsp;模拟编辑登录&nbsp;
+                                    </button>
+                                    <button class="btn btn-default" onclick="window.location.href = '/Home/LoginAsUserId?UID=3'">
+                                        @Html.DisplayForModel("GithubSVG")&nbsp;模拟普通用户登陆&nbsp;
+                                    </button>
+                                }
+                                <button class="btn btn-default" onclick="window.location.href = '@authUrl'">
+                                    @Html.DisplayForModel("GithubSVG")&nbsp;使用GitHub登录&nbsp;
+                                </button>
+                                <button class="btn btn-default" onclick="window.location.href = '/Home/LoginQQ'" style="padding:5px">
+                                    <img src="~/Content/img/QQLogin.png" alt="" />
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
+                                @if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Admin)
+                                {
+                                    <button class="btn btn-info" onclick="window.location.href = '/Admin/Index'">
+                                        <span class="glyphicon glyphicon-user">&nbsp;管理员&nbsp;</span>
+                                    </button>
+                                }
+                                @if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Editor)
+                                {
+                                    <button class="btn btn-info" onclick="window.location.href = '/Admin/Index'">
+                                        <span class="glyphicon glyphicon-user">&nbsp;审核&nbsp;</span>
+                                    </button>
+                                }
+                                <button onclick="window.location.href = '/PostEdit/PostList'" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-pencil">&nbsp;投稿&nbsp;</span>
+                                </button>
+                                <button onclick="window.location.href = '/Author/SiteMessageList?PageNo=1'" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-th">&nbsp;管理&nbsp;</span>
+                                </button>
+                                <button class="btn btn-danger" onclick="window.location.href = '/Home/Logoff'">
+                                    <span class="glyphicon glyphicon-log-out">&nbsp;注销&nbsp;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+    <footer>
+        <div class="footer" style="text-align:center">
+            友情链接&nbsp;&nbsp;
+            <a href="http://www.shouce.ren/">
+                <label style="border: 1px solid #0094ff;color: #0094ff;padding:1px;">手册网</label>
+            </a>
+        </div>
+        <div class="footer" style="text-align:center">
+            <a>关于 CodeSnippet</a>
+            <a>联系我们</a>
+            ©2004-2016<a href="http://www.codesnippet.info">CodeSnippet</a>保留所有权利
+            <a href="http://www.miitbeian.gov.cn/">沪ICP备14004706号-2</a>
+        </div>
+    </footer>
+    @Html.Partial("_ModalDialog")
+</body>
+
+</html>

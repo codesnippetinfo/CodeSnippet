@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net46": {
+      "bin": {
+        "assembly": "../../../packages/NPOI.2.1.3.1/lib/net40/NPOI.dll"
+      },
+      "dependencies": {
+        "ICSharpCode.SharpZipLib": "1.0.0-*"
+      }
+    }
+  }
+}

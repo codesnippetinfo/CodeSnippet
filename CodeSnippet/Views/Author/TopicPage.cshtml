@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+    Topic topic = Topic.GetTopicByAccountId(Request.QueryString["AccountId"]);
+}
+
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        <h2>@ViewBag.Title</h2>
+        @if (topic.IsPostable)
+        {
+            <a class="btn btn-success" href="/Author/PostToTopic?TopicId=@topic.Sn">
+                <span class="glyphicon glyphicon-open">&nbsp;投稿</span> 
+            </a>
+        }
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "TopicPage", new { PageNo = (pageno), AccountId = Request.QueryString["AccountId"] }).ToString()))
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    标题
+                </th>
+                <th>
+                    阅读数
+                </th>
+                <th>
+                    评论数
+                </th>
+                <th>
+                    收藏数
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                            @item.ArticleInfo.Title
+                        </a>
+                    </td>
+                    <td>
+                        @item.ReadCnt
+                    </td>
+                    <td>
+                        @item.CommentCnt
+                    </td>
+                    <td>
+                        @item.StockCnt
+                    </td>
+                </tr>
+            }
+        </table>
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "TopicPage", new { PageNo = (pageno), AccountId = Request.QueryString["AccountId"] }).ToString()))
+    </div>
+    <div class="col-md-4" style="margin:0;padding:0">
+    </div>
+</div>
+
+

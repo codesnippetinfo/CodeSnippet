@@ -1,0 +1,13 @@
+﻿@model ArticleBody
+<div class="SingleBox" id="SingleArticleHeader">
+    <div style="height:70px">
+        <img src="@Model.AuthorInfo.Avatar_url" style="float:left;" class="AvatarImageBig" />
+        <h6 style="padding:10px 0 0 70px">
+            <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a>
+            发布于 @Model.ArticleInfo.PublishDateTime
+        </h6>
+        <h6 style="padding:10px 0 0 70px">
+            关注-@Model.FocusCnt &nbsp;&nbsp; 粉丝-@Model.FollowCnt&nbsp;&nbsp; 收藏-@Model.AuthorStockCnt
+        </h6>
+    </div>
+</div>

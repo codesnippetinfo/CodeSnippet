@@ -1,0 +1,46 @@
+﻿@using InfraStructure.Log;
+@model IEnumerable<ExceptionLog>
+
+@Html.DisplayFor(t => t, "AdminNavi", null)
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            CreateTime
+        </th>
+        <th>
+            Action
+        </th>
+        <th>
+            Controller
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            SourceTrace
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.CreateDateTime
+            </td>
+            <td>
+                @item.Action
+            </td>
+            <td>
+                @item.Controller
+            </td>
+            <td>
+                @item.Code
+            </td>
+            <td>
+                @item.SourceTrace
+            </td>
+        </tr>
+    }
+</table>
+
+

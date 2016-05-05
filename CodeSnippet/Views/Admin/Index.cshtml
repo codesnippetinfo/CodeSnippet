@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Article>
+@if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Admin)
+{
+    @Html.DisplayFor(t => t, "AdminNavi", null)
+}
+<div class="SingleBox" style="border:none">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                标题
+            </th>
+            <th>
+                申请时间
+            </th>
+            <th>
+                作者
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.PublishDateTime
+                </td>
+                <td>
+                    @GithubAccount.GetGithubAccountBySn(item.OwnerId).Name
+                </td>
+                <td>
+                    <a href="/Admin/ViewArticle?ArticleID=@item.Sn" class="btn btn-sm btn-primary">
+                        <span class="glyphicon glyphicon-open">&nbsp;查看&nbsp;</span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

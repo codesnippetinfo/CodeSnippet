@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+    AsideColumnBody PersonalStockAside = ViewBag.PersonalStockAside;
+}
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        @Html.DisplayFor(t => t, "AuthorNavi", null)
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "StockPage", new { PageNo = (pageno)}).ToString()))
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    标题
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    阅读数
+                </th>
+                <th>
+                    评论数
+                </th>
+                <th>
+                    收藏数
+                </th>
+                @if (Session[CodeSnippet.ConstHelper.Session_USERID] != null )
+                {
+                    <th>
+                        操作
+                    </th>
+                }
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                            @item.ArticleInfo.Title
+                        </a>
+                    </td>
+                    <td>
+                        @item.ArticleInfo.PublishStatus
+                    </td>
+                    <td>
+                        @item.ReadCnt
+                    </td>
+                    <td>
+                        @item.CommentCnt
+                    </td>
+                    <td>
+                        @item.StockCnt
+                    </td>
+                    @if (Session[CodeSnippet.ConstHelper.Session_USERID] != null)
+                    {
+                        <td>
+                            <a href="/Author/RemoveFromStock?ArticleId=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href, '取消收藏', '确认取消收藏该文章？')">
+                                <span class="glyphicon glyphicon-remove">&nbsp;取消收藏&nbsp;</span>
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "StockPage", new { PageNo = (pageno), AccountId = Request.QueryString["AccountId"] }).ToString()))
+    </div>
+    <div class="col-md-4" style="margin:0;padding:0">
+        @Html.DisplayFor(t => PersonalStockAside, "SideColumn", PersonalStockAside)
+    </div>
+</div>
+

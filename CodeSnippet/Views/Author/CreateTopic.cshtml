@@ -1,0 +1,69 @@
+﻿@model Topic
+@using (Html.BeginForm())
+{
+    <div class="SingleBox" style="border:none">
+        <div class="panel panel-primary">
+            <div class="panel-heading">专题详细</div>
+            <div class="panel-body">
+                <label>名称</label>
+                @if (string.IsNullOrEmpty(Model.Title))
+                {
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    <input class="form-control" type="text" name="Title" value="@Model.Title" />
+                }
+                else
+                {
+                    <label>@Model.Title</label>
+                }
+                <br />
+                <label>简介</label>
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                <input class="form-control" type="text" name="Description" value="@Model.Description" />
+                <br />
+                <label>标签</label>
+                @Html.ValidationMessageFor(model => model.CustomTagList, "", new { @class = "text-danger" })
+                <input class="form-control" type="text" name="CustomTagList" value="@Model.CustomTagList" />
+                <br />
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsPostable)
+                        {
+                            <input type="checkbox" name="IsPostable" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsPostable" />
+                        }
+                        允许投稿
+                        @Html.ValidationMessageFor(model => model.IsPostable, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsNeedApproval)
+                        {
+                            <input type="checkbox" name="IsNeedApproval" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsNeedApproval" />
+                        }
+                        需要审核
+                        @Html.ValidationMessageFor(model => model.IsNeedApproval, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <span class="label label-info" style="margin:10px 10px">
+                    每个用户只能建立一个专题，并且新建之后无法修改名称，请谨慎新建专题
+                </span>
+                @if (string.IsNullOrEmpty(Model.Title))
+                {
+                    <input type="submit" class="btn btn-primary " value="新建" />
+                }
+                else
+                {
+                    <input type="submit" class="btn btn-primary " value="保存" />
+                }
+            </div>
+        </div>
+    </div>
+}

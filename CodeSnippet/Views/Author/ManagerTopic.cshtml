@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+}
+<div class="SingleBox" style="border:none;width:1200px">
+    @Html.DisplayFor(t => t, "AuthorNavi", null)
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "ManagerTopic", new { PageNo = (pageno) }).ToString()))
+    <table class="table table-striped">
+        <tr>
+            <th>
+                标题
+            </th>
+            <th>
+                阅读数
+            </th>
+            <th>
+                评论数
+            </th>
+            <th>
+                收藏数
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                        @item.ArticleInfo.Title
+                    </a>
+                </td>
+                <td>
+                    @item.ReadCnt
+                </td>
+                <td>
+                    @item.CommentCnt
+                </td>
+                <td>
+                    @item.StockCnt
+                </td>
+                <td>
+                    @switch ((ApproveStatus)Enum.Parse(typeof(ApproveStatus), item.Score.ToString()))
+                    {
+                        case ApproveStatus.Accept:
+                        case ApproveStatus.NotNeed:
+                            @:收录
+                                break;
+                        case ApproveStatus.None:
+                            @:移出
+                                break;
+                    }
+                </td>
+                <td>
+                    @if (item.Score != 0)
+                    {
+                        <a href="/Author/RemoveFromTopic?ArticleId=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href, '取消收藏', '确认取消收藏该文章？')">
+                            <span class="glyphicon glyphicon-remove">&nbsp;移出专题&nbsp;</span>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "ManagerTopic", new { PageNo = (pageno) }).ToString()))
+</div>
+
+
+
+

@@ -1,0 +1,109 @@
+﻿
+@model IEnumerable<ArticleItemBody>
+@using BlogSystem.DisplayEntity
+@using InfraStructure.Utility
+@{
+    List<Collection> CollectionList = ViewBag.CollectionList;
+    string CollectionId = ViewBag.CollectionId;
+}
+<div class="SingleBox" style="border:none;width:1200px;">
+
+    <div class="form-inline">
+        <label>文集名称</label>
+        <select class="form-control" name="CollectionID" id="CollectionID" onchange="selectCollection()">
+            @foreach (Collection item in CollectionList)
+            {
+                if (item.Sn == CollectionId)
+                {
+                    <option value="@item.Sn" selected>@item.Title</option>
+                }
+                else
+                {
+                    <option value="@item.Sn">@item.Title</option>
+                }
+            }
+        </select>
+        <a href="/PostEdit/CollectionEdit" class="btn-primary btn">新建文集</a>
+        @if (!string.IsNullOrEmpty(CollectionId))
+        {
+            <a href="/PostEdit/CollectionEdit?CollectionId=@CollectionId" class="btn-primary btn">编辑文集</a>
+            <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId" class="btn-primary btn">添加新文章</a>
+        }
+    </div>
+
+    <br />
+
+    <table class="table table-striped">
+        <tr>
+            <th style="text-align:center">
+                标题
+            </th>
+            <th style="text-align:center">
+                私有
+            </th>
+            <th style="text-align:center">
+                状态
+            </th>
+            <th style="text-align:center">
+                阅读数
+            </th>
+            <th style="text-align:center">
+                评论数
+            </th>
+            <th style="text-align:center">
+                收藏数
+            </th>
+            <th style="text-align:center">
+                首页审核结果
+            </th>
+            <th style="text-align:center">
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ArticleInfo.Title
+                </td>
+                <td>
+                    @HtmlUiHelper.GetBooleanValue(item.ArticleInfo.IsPrivate)
+                </td>
+                <td>
+                    @item.ArticleInfo.PublishStatus
+                </td>
+                <td style="text-align:right">
+                    @item.ReadCnt
+                </td>
+                <td style="text-align:right">
+                    @item.CommentCnt
+                </td>
+                <td style="text-align:right">
+                    @item.StockCnt
+                </td>
+                <td>
+                    @item.ArticleInfo.FirstPageMessage
+                </td>
+                <td>
+                    <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId&ArticleId=@item.ArticleInfo.Sn" class="btn-primary btn">修改信息</a>
+                    <a href="/PostEdit/MarkDownEditor?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-primary">
+                        <span class="glyphicon glyphicon-pencil">&nbsp;编辑&nbsp;</span>
+                    </a>
+                    @if (!(item.ArticleInfo.IsFirstPage && item.ArticleInfo.PublishStatus == ApproveStatus.Accept))
+                    {
+                        <a href="/PostEdit/DeletePost?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href,'确认删除','确认删除该条记录？')">
+                            <span class="glyphicon glyphicon-remove">&nbsp;删除&nbsp;</span>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+<script>
+    function selectCollection() {
+        location.href = "postlist?CollectionId=" + document.getElementById("CollectionID").value;
+    }
+</script>

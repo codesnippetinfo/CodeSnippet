@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ArticleItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+}
+<div style="width:1275px;margin: 20px auto;">
+    @HtmlUiHelper.GetTitle("[" + ViewBag.KeyWord + "]的检索结果")
+</div>
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Search", new { PageNo = (pageno), KeyWord = ViewBag.KeyWord }).ToString()))
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    标题
+                </th>
+                <th>
+                    发布时间
+                </th>
+                <th>
+                    阅读数
+                </th>
+                <th>
+                    评论数
+                </th>
+                <th>
+                    收藏数
+                </th>
+            </tr>
+            @foreach (ArticleItemBody item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                            @item.ArticleInfo.Title
+                        </a>
+                    </td>
+                    <td>
+                        @item.ArticleInfo.PublishDateTime
+                    </td>
+                    <td>
+                        @item.ReadCnt
+                    </td>
+                    <td>
+                        @item.CommentCnt
+                    </td>
+                    <td>
+                        @item.StockCnt
+                    </td>
+                </tr>
+            }
+        </table>
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Search", new { PageNo = (pageno), KeyWord = ViewBag.KeyWord }).ToString()))
+    </div>
+    <div class="col-md-4" style="margin:0;padding:0">
+
+    </div>
+</div>
+

@@ -1,0 +1,35 @@
+﻿@model ArticleBody
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/Content/editormd/css/editormd.min.css" />
+    <style>
+        html {
+            width: 100%;
+        }
+
+            html img {
+                max-width: 700px;
+                max-height: 1200px;
+            }
+    </style>
+</head>
+
+<body>
+    <div id="simplepdf" style="margin:0 auto;width:700px" class="markdown-body editormd-html-preview">
+        <h1>
+            @Model.ArticleInfo.Title
+        </h1>
+        <h5 style="float:right">
+            @Model.AuthorInfo.NickName 发表于 @Model.ArticleInfo.ConfirmDateTime
+        </h5>
+        <br /><br />
+        @MvcHtmlString.Create(ViewBag.Html)
+    </div>
+</body>
+
+</html>

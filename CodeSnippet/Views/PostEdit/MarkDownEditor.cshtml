@@ -1,0 +1,104 @@
+﻿@model ArticleContent
+<span class="label label-primary">@ViewBag.Title</span>
+<span id="AutoSaveTooltip" class="label label-success">@ViewBag.FreeVolumn</span>
+<div class="btn-group" role="group" style="float:right;padding:5px">
+    <a class="btn btn-primary" onclick="PublishContent()">
+        <span class="glyphicon glyphicon-send">&nbsp;发布&nbsp;</span>
+    </a>
+    @if (!ViewBag.IsPrivate)
+    {
+        <a class="btn btn-primary" onclick="SaveContent()">
+            <span class="glyphicon glyphicon-floppy-save">&nbsp;保存&nbsp;</span>
+        </a>
+    }
+    <a href="/Home/Index" class="btn btn-danger">
+        <span class="glyphicon glyphicon-remove">&nbsp;退出&nbsp;</span>
+    </a>
+</div>
+<div id="article-editormd" style="margin:0">
+    <textarea style="display:none;">@Model.Content</textarea>
+</div>
+<input type="hidden" name="ArticleID" value="@Model.ArticleID" />
+<script>
+    // var autoSave = false; 暂时不考虑关闭自动保存功能
+    //每次进入的时候，查看有没有localstorage缓存，有的话，则提示是否在加载localstroage
+    //保存成功或者发布成功的时候，清空localstorage缓存
+    //暂时不使用LocalStroage版本
+
+    $(document).ready(function () {
+        //自动保存时间间隔
+        var AutoSaveTime = 5 * 60 * 1000;
+        //设置自动保存
+        self.setInterval("SaveContent()", AutoSaveTime);
+        //self.setInterval("SaveContentLocal()", AutoSaveTime);
+    });
+
+    var articleMarkdownEditor;
+    var localstroagekey = 'ArticleMarkDownContent_' + '@Model.ArticleID';
+    $(function () {
+        articleMarkdownEditor = editormd(
+            "article-editormd",
+            {
+                width: "100%",
+                height: 800,
+                saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                syncScrolling: "single",
+                path: "/Content/editormd/lib/",
+                watch: true,
+                imageUpload: true, //找不到成功上传的事件，可以修改插件代码出一个alert
+                imageFormats:  @MvcHtmlString.Create(ConstHelper.ImageFileExtend),
+                imageUploadURL: "/API/Upload.ashx?ArticleId=@Model.ArticleID&OwnerId=@Session[ConstHelper.Session_USERID]",
+            }
+        );
+    });
+
+    //LocalStroage
+    function SaveContentLocal(){
+        var strMarkDown = articleMarkdownEditor.getMarkdown();
+        localStorage.setItem(localstroagekey,strMarkDown);
+    }
+
+    //保存内容，仅仅保存MarkDown
+    function SaveContent() {
+        var strMarkDown = articleMarkdownEditor.getMarkdown();
+        var strHTML = articleMarkdownEditor.getPreviewedHTML();
+        $.post("/API/SavePost.ashx",
+                {
+                    Content: strMarkDown,
+                    ArticleID: "@Model.ArticleID"
+                },
+                function (data, textStatus) {
+                    //data 可以是 xmlDoc, jsonObj, html, text, 等等.
+                    //this; // 这个Ajax请求的选项配置信息，请参考jQuery.get()说到的this
+                    if (data.success == 1) {
+                        document.getElementById("AutoSaveTooltip").className = "label label-success";
+                        document.getElementById("AutoSaveTooltip").innerHTML = data.message;
+                    }else{
+                        document.getElementById("AutoSaveTooltip").className = "label label-danger";
+                        document.getElementById("AutoSaveTooltip").innerHTML = data.message;
+                    }
+                }, "json");
+    }
+    //发布内容，则保存MarkDown和Html
+    function PublishContent() {
+        var strMarkDown = articleMarkdownEditor.getMarkdown();
+        var strHTML = articleMarkdownEditor.getPreviewedHTML();
+        $.post("/API/PublishPost.ashx",
+                {
+                    Content: strMarkDown,
+                    HTML: strHTML,
+                    ArticleID: "@Model.ArticleID"
+                },
+                function (data, textStatus) {
+                    //data 可以是 xmlDoc, jsonObj, html, text, 等等.
+                    //this; // 这个Ajax请求的选项配置信息，请参考jQuery.get()说到的this
+                    if (data.success == 1) {
+                        document.getElementById("AutoSaveTooltip").className = "label label-success";
+                        document.getElementById("AutoSaveTooltip").innerHTML = "发布成功时间:" + new Date().toLocaleString();
+                    } else {
+                        document.getElementById("AutoSaveTooltip").className = "label label-danger";
+                        document.getElementById("AutoSaveTooltip").innerHTML = data.message;
+                    }
+                }, "json");
+    }
+</script>

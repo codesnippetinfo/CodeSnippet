@@ -1,0 +1,37 @@
+﻿<div class="SingleBox">
+    <div id="Comment_Edit" style="margin:0;padding:0;">
+        <textarea class="editormd-markdown-textarea" name="$id-markdown-doc"></textarea>
+        <textarea class="editormd-html-textarea" name="$id-html-code"></textarea>
+    </div>
+    <br />
+    <input id="PublishComment" type="submit" class="btn btn-primary" value="发布评论" onclick="return GetComment()" />
+    <input type="hidden" id="CommentContent" name="CommentContent" />
+    <input type="hidden" id="CommentHTML" name="CommentHTML" />
+</div>
+<script>
+    var testEditor;
+    $(function () {
+        testEditor = editormd("Comment_Edit",
+         {
+             width: 900,
+             height: 300,
+             syncScrolling: "single",
+             path: "/Content/editormd/lib/",
+             placeholder: "等待您的评论",
+             // 保存 HTML 到 Textarea
+             saveHTMLToTextarea : true,
+             imageUpload    : true,
+             imageFormats:  @MvcHtmlString.Create(ConstHelper.ImageFileExtend),
+             imageUploadURL: "/API/Upload.ashx?ArticleId=@Request["ArticleId"]&OwnerId=@Session[ConstHelper.Session_USERID]",
+             autoFocus : false,
+             watch:false
+         });
+    });
+    function GetComment() {
+        var md = testEditor.getMarkdown();
+        var html = testEditor.getHTML();
+        document.getElementById("CommentContent").value = md;
+        document.getElementById("CommentHTML").value = html;
+        return true;
+    }
+</script>

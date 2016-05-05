@@ -1,0 +1,188 @@
+﻿@model UserBody
+
+@{
+    AsideColumnBody PersonalTagAside = ViewBag.PersonalTagAside;
+    AsideColumnBody PersonalHobbyAside = ViewBag.PersonalHobbyAside;
+}
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        <div class="form-inline">
+            <label>文集名称</label>
+            <select class="form-control" name="CollectionID" id="CollectionID" onchange="selectCollection()" style="min-width:200px">
+                @foreach (Collection item in ViewBag.CollectionList)
+                {
+                    if (item.Sn == ViewBag.CollectionId)
+                    {
+                        <option value="@item.Sn" selected>@item.Title</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Sn">@item.Title</option>
+                    }
+                }
+            </select>
+        </div>
+        <br />
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    标题
+                </th>
+                @if (Session[ConstHelper.Session_USERID] != null && Session[ConstHelper.Session_USERID].ToString() == Request["AccountId"])
+                {
+                    <th>
+                        状态
+                    </th>
+                    <th>
+                        私有
+                    </th>
+                }
+                <th>
+                    阅读数
+                </th>
+                <th>
+                    评论数
+                </th>
+                <th>
+                    收藏数
+                </th>
+            </tr>
+            @foreach (ArticleItemBody item in ViewBag.CollectionArticles)
+            {
+                <tr>
+                    <td>
+                        @if (item.ArticleInfo.PublishStatus == ApproveStatus.Accept || item.ArticleInfo.PublishStatus == ApproveStatus.NotNeed)
+                        {
+                            <a href="/Article/Index?ArticleId=@item.ArticleInfo.Sn">
+                                @item.ArticleInfo.Title
+                            </a>
+                        }
+                        else
+                        {
+                            @item.ArticleInfo.Title
+                        }
+                    </td>
+                    @if (Session[ConstHelper.Session_USERID] != null && Session[ConstHelper.Session_USERID].ToString() == Request["AccountId"])
+                    {
+                        <td>
+                            @item.ArticleInfo.PublishStatus
+                        </td>
+                        <td>
+                            @InfraStructure.Utility.HtmlUiHelper.GetBooleanValue(item.ArticleInfo.IsPrivate)
+                        </td>
+                    }
+                    <td>
+                        @item.ReadCnt
+                    </td>
+                    <td>
+                        @item.CommentCnt
+                    </td>
+                    <td>
+                        @item.StockCnt
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4" style="margin:0;padding:0">
+
+
+        <div class="panel panel-primary" style="margin:0 0 0 10px">
+            <div class="panel-heading">
+                <img src="@Model.GitInfo.Avatar_url" class="AvatarImage" />
+                <label>@Model.GitInfo.Name</label>
+                @if (Model.UserInfo.Privilege == UserType.Author)
+                {
+                    <label class="Privilege">特约作者</label>
+                }
+                @if (Model.UserInfo.Privilege == UserType.Editor)
+                {
+                    <label class="Privilege">编辑</label>
+                }
+                @if (Model.UserInfo.Privilege == UserType.Admin)
+                {
+                    <label class="Privilege">管理员</label>
+                }
+            </div>
+            @if (Model.UserInfo.RegisterMethod == GithubAccount.Github)
+            {
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label>电子邮件:</label>
+                        <a href="mailto:@Model.GitInfo.Email">@Model.GitInfo.Email</a><br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>公司:</label>
+                        @Model.GitInfo.Company<br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>博客:</label>
+                        <a href="@Model.GitInfo.Blog">@Model.GitInfo.Blog</a><br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>位置:</label>
+                        @Model.GitInfo.Location<br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>粉丝人数(Github):</label>
+                        @Model.GitInfo.Followers<br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>关注人数(Github):</label>
+                        @Model.GitInfo.Following<br />
+                    </li>
+                </ul>
+            }
+            @if (Model.UserInfo.RegisterMethod == QQAccount.QQ)
+            {
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label>性别:</label>
+                        @Model.QQInfo.gender<br />
+                    </li>
+                </ul>
+            }
+        </div>
+        <br />
+        <div class="panel panel-primary" style="margin:0 0 0 10px">
+            <div class="panel-heading">
+                @Model.UserInfo.NickName 关注的人
+                <a href="/Author/FocusList?UserId=@Model.UserInfo.Sn" class="btn btn-primary" style="float:right;padding:0;border:0;">
+                    <span class="glyphicon glyphicon-list">&nbsp;详细(@Model.FocusList.Count)</span>
+                </a>
+            </div>
+            <div class="panel-body">
+                @foreach (var item in Model.FocusList)
+                {
+                    <a href="/Author/Index?AccountId=@item.Sn">
+                        <img src="@item.Avatar_url" class="AvatarImageSmall" title="@item.NickName" style="margin:5px" />
+                    </a>
+                }
+            </div>
+        </div>
+        <br />
+        <div class="panel panel-primary" style="margin:0 0 0 10px">
+            <div class="panel-heading">
+                关注 @Model.UserInfo.NickName 的人
+                <a href="/Author/FollowList?UserId=@Model.UserInfo.Sn" class="btn btn-primary" style="float:right;padding:0;border:0;">
+                    <span class="glyphicon glyphicon-list">&nbsp;详细(@Model.FollowList.Count)</span>
+                </a>
+            </div>
+            <div class="panel-body">
+                @foreach (var item in Model.FollowList)
+                {
+                    <a href="/Author/Index?AccountId=@item.Sn">
+                        <img src="@item.Avatar_url" class="AvatarImageSmall" title="@item.NickName" style="margin:5px" />
+                    </a>
+                }
+            </div>
+        </div>
+        <br />
+    </div>
+</div>
+
+<script>
+    function selectCollection() {
+        location.href = "/Author/Index?AccountId=@Request.QueryString["AccountId"]&CollectionId=" + document.getElementById("CollectionID").value;
+    }
+</script>

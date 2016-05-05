@@ -1,0 +1,94 @@
+﻿@using BlogSystem.TagSystem
+@model IEnumerable<Tag>
+@{
+    List<string> CustomeTag = ViewBag.CustomeTag;
+}
+
+@Html.DisplayFor(t => t, "AdminNavi", null)
+<br />
+@using (Html.BeginForm("ImportTag", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="control-group">
+        <div class="controls">
+            <input type="file" name="file" id="file" style="display:inline" />
+            <input type="submit" value="导入" class="btn btn-success" />
+        </div>
+    </div>
+}
+<br />
+@if (CustomeTag.Count != 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <td>
+                新标签
+            </td>
+        </tr>
+        @foreach (var item in CustomeTag)
+        {
+            <tr>
+                <td>
+                    @item
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+}
+<label>
+    标题中提取出关键字数量：  @Model.Sum((x) => { return TagUtility.TagRankContain.GetCountByKey(x.TagName); })
+</label>
+<table class="table table-striped">
+    <tr>
+        <td>
+            标签
+        </td>
+        <td>
+            分类
+        </td>
+        <td>
+            区分大小写
+        </td>
+        <td>
+            隶属于
+        </td>
+        <td>
+            简介
+        </td>
+        <td>
+            数量
+        </td>
+        <td>
+            排位
+        </td>
+    </tr>
+    @foreach (Tag tag in Model)
+            {
+        <tr>
+            <td>
+                @tag.TagName
+            </td>
+            <td>
+                @tag.Catalog
+            </td>
+            <td>
+                @(tag.IsCaseSensitive ? "Y" : string.Empty)
+            </td>
+            <td>
+                @tag.BaseTagName
+            </td>
+            <td>
+                @tag.Comment
+            </td>
+            <td>
+                @TagUtility.TagRankContain.GetCountByKey(tag.TagName)
+                (
+                @TagUtility.TagRankContain.GetPercentStringByKey(tag.TagName)
+                )
+            </td>
+            <td>
+                @TagUtility.TagRankContain.GetRankByKey(tag.TagName)
+            </td>
+        </tr>
+    }
+</table>

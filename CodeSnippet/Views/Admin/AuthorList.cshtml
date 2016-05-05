@@ -1,0 +1,95 @@
+﻿@model IEnumerable<UserItemBody>
+@using InfraStructure.Utility
+@{
+    Pages pages = ViewBag.Pages;
+}
+@Html.DisplayFor(t => t, "AdminNavi", null)
+
+<div class="SingleBox" style="border:none">
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "AuthorList", new { PageNo = pageno }).ToString()))
+    <table class="table table-striped">
+        <tr>
+            <th>
+                名称
+            </th>
+            <th>
+                文章数
+            </th>
+            <th>
+                关注人数
+            </th>
+            <th>
+                粉丝人数
+            </th>
+            <th>
+                被收藏数
+            </th>
+            <th>
+                注册方式
+            </th>
+            <th>
+                用户组
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img class="AvatarImageSmall" src="@item.UserInfo.Avatar_url" />
+                    <a href="/Author/Index?AccountId=@item.UserInfo.Sn">
+                        @item.UserInfo.NickName
+                    </a>
+                </td>
+                <td>
+                    @item.ArticleCnt
+                </td>
+                <td>
+                    @item.FocusCnt
+                </td>
+                <td>
+                    @item.FollwersCnt
+                </td>
+                <td>
+                    @item.StockCnt
+                </td>
+                <td>
+                    @item.UserInfo.RegisterMethod
+                </td>
+                <td>
+                    @if (item.UserInfo.Privilege != UserType.Normal)
+                    {
+                        <label class="Privilege">
+                            @switch (item.UserInfo.Privilege)
+                            {
+                                case UserType.Author:
+                                    @:特约作者
+                                break;
+                                case UserType.Editor:
+                                    @:编辑
+                                break;
+                                case UserType.Admin:
+                                    @:管理员
+                                break;
+                                default:
+                                    break;
+                            }
+                        </label>
+                    }
+                    else
+                    {
+                        @:普通用户
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/Privilege?Group=@UserType.Editor.ToString()&AccountId=@item.UserInfo.Sn">编辑</a> |
+                    <a href="/Admin/Privilege?Group=@UserType.Author.ToString()&AccountId=@item.UserInfo.Sn">特约作者</a> |
+                    <a href="/Admin/Privilege?Group=@UserType.Block.ToString()&AccountId=@item.UserInfo.Sn">拉黑</a>
+                </td>
+            </tr>
+        }
+    </table>
+    @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "AuthorList", new { PageNo = pageno }).ToString()))
+</div>

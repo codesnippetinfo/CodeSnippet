@@ -1,0 +1,188 @@
+﻿@model Article
+@{
+    string IsDisabled = Model.PublishStatus != ApproveStatus.Accept ? string.Empty : "disabled";
+    string IsReadOnly = Model.PublishStatus != ApproveStatus.Accept ? string.Empty : "readonly";
+
+}
+@using (Html.BeginForm())
+{
+    <div class="SingleBox" style="border:none">
+        <div class="panel panel-primary">
+            <div class="panel-heading">文章详细</div>
+            <div class="panel-body">
+                <label>文集</label>
+                <br />
+                @Collection.GetCollectionBySn(Request.QueryString["CollectionId"]).Title
+                <br />
+                <br />
+                <label>标题</label>
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                <br />
+                <input class="form-control" type="text" id="Title" name="Title" value="@Model.Title" onblur="GetTagFromTitle()" />
+                <span class="label label-info" style="margin:10px 10px" id="SystemTag"></span>
+                <span class="label label-info" style="margin:10px 10px">
+                    标题请尽量准确，系统将通过标题建立内部关键字索引,如果系统无法获取标题中的关键字，请填写您的标签在自定义标签中
+                </span>
+                <br /><br />
+                <label>自定义标签</label>
+                @Html.ValidationMessageFor(model => model.CustomTagList, "", new { @class = "text-danger" })
+                <br />
+                <input class="form-control" type="text" name="CustomTagList" value="@Model.CustomTagList" />
+                <span class="label label-info" style="margin:10px 10px">
+                    使用半角分号分隔，最多五个标签 开发语言和框架等，请考虑版本问题，使用半角冒号添加版本号
+                    例如:&nbsp;&nbsp; Swift:3.2.3;iOs;TCP协议
+                </span>
+                <br /><br />
+                <label>分类</label>
+                <select class="form-control" name="Catalog" id="Catalog">
+                    @foreach (string item in Article.CatalogItem)
+                    {
+                        if (Model.Catalog == item.Substring(0, 4))
+                        {
+                            <option value="@item.Substring(0,4)" selected>@item</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Substring(0, 4)">@item</option>
+                        }
+                    }
+                </select>
+                <br />
+                <label>难度</label>
+                <br />
+                <input name="Level" type="radio" value="10" />入门 (某个技术的简介) &nbsp;
+                <input name="Level" type="radio" value="20" checked />普通 (一般开发经验) &nbsp;
+                <input name="Level" type="radio" value="30" />困难 (源代码分析)
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsOriginal)
+                        {
+                            <input type="checkbox" name="IsOriginal" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsOriginal" />
+                        }
+                        该文章是首发原创（非转载）
+                        @Html.ValidationMessageFor(model => model.IsOriginal, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsFirstPage)
+                        {
+                            <input type="checkbox" name="IsFirstPage" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsFirstPage" @IsDisabled />
+                        }
+                        申请发布到首页（仅供首发原创，该选项发布后无法更改，首页文章无法删除）
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsCloseComment)
+                        {
+                            <input type="checkbox" name="IsCloseComment" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsCloseComment" />
+                        }
+                        关闭评论
+                        @Html.ValidationMessageFor(model => model.IsCloseComment, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsPrivate)
+                        {
+                            <input type="checkbox" name="IsPrivate" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsPrivate" @IsDisabled />
+                        }
+                        私有（不能被检索到，不能被其他人看到，该选项发布后无法更改）
+                        @Html.ValidationMessageFor(model => model.IsPrivate, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsTopicable)
+                        {
+                            <input type="checkbox" name="IsTopicable" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsTopicable" @IsDisabled />
+                        }
+                        允许被其他专题收录（该选项发布后无法更改）
+                        @Html.ValidationMessageFor(model => model.IsTopicable, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsNeedTopicApproval)
+                        {
+                            <input type="checkbox" name="IsNeedTopicApproval" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsNeedTopicApproval" @IsDisabled />
+                        }
+                        必须要获得作者同意才能收录（该选项发布后无法更改）
+                        @Html.ValidationMessageFor(model => model.IsNeedTopicApproval, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsPutToMyTopic)
+                        {
+                            <input type="checkbox" name="IsPutToMyTopic" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsPutToMyTopic" @IsDisabled />
+                        }
+                        加入自己的专题（该选项发布后无法更改）
+                        @Html.ValidationMessageFor(model => model.IsPutToMyTopic, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <span class="label label-info">
+                    作为对于首发原创的感谢，允许在文章末尾进行推广活动,不过请不要滥用，或者发布虚假信息。<br />
+                    所有文章必须遵守国家的法律法规,申请发布到首页的文章，请保证摘要的完整性，标签的合理性，文章的品质
+                </span>
+                <br /><br />
+                <label>推广文字（发布后无法更改）</label><input class="form-control" type="text" name="AdvText" value="@Model.AdvText" @IsReadOnly /><br />
+                <label>推广链接(发布后无法更改，必须添加 http:// )</label><input class="form-control" type="text" name="AdvLink" value="@Model.AdvLink" @IsReadOnly /><br />
+                <label>推广图片(发布后无法更改，必须添加 http:// )</label><input class="form-control" type="text" name="AdvImageUrl" value="@Model.AdvImageUrl" @IsReadOnly /><br />
+                @if (string.IsNullOrEmpty(Request.QueryString["ArticleId"]))
+                {
+                    <input type="submit" class="btn btn-primary " value="新建" />
+                }
+                else
+                {
+                    <input type="submit" class="btn btn-primary " value="保存" />
+                }
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function GetTagFromTitle() {
+        var _title = document.getElementById("Title").value;
+        $.post("/API/GetTagListByString.ashx",
+                {
+                    strTitle: _title,
+                },
+                function (data, textStatus) {
+                    //data 可以是 xmlDoc, jsonObj, html, text, 等等.
+                    //this; // 这个Ajax请求的选项配置信息，请参考jQuery.get()说到的this
+                    if (data.success == 1) {
+                        document.getElementById("SystemTag").innerText = "检测到标签：" + data.TagList
+                    }
+                }, "json");
+    }
+</script>

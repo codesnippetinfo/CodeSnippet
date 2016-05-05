@@ -1,0 +1,67 @@
+﻿@model IEnumerable<UserInfo>
+@using BlogSystem.BussinessLogic
+@{
+    List<string> FocusIdList = new List<string>();
+    if (Session[ConstHelper.Session_USERID] != null)
+    {
+        var focuslist = UserManager.GetUserBody(Session[ConstHelper.Session_USERID].ToString()).FocusList;
+        foreach (var focus in focuslist)
+        {
+            FocusIdList.Add(focus.Sn);
+        }
+    }
+}
+
+
+<div class="SingleArticle" style="margin:0 auto;padding:20px 0">
+    <h1>@ViewBag.Title</h1>
+    <table class="table table-striped">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img class="AvatarImageSmall" src="@item.Avatar_url" />
+                    <a href="/Author/Index?AccountId=@item.Sn">
+                        @item.NickName
+                    </a>
+                    @if (item.Privilege != UserType.Normal)
+                    {
+                        <label class="Privilege">
+                            @switch (item.Privilege)
+                            {
+                                case UserType.Author:
+                                    @:特约作者
+                                break;
+                                case UserType.Editor:
+                                    @:编辑
+                                break;
+                                case UserType.Admin:
+                                    @:管理员
+                                break;
+                                default:
+                                    break;
+                            }
+                        </label>
+                    }
+                </td>
+                <td align="right">
+                    @if (Session[ConstHelper.Session_USERID] != null)
+                    {
+                        if (FocusIdList.Contains(item.Sn))
+                        {
+                            <button class="btn btn-primary" style="width:150px">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true">&nbsp;已关注</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary" style="width:150px" onclick="FocusUser('@item.Sn')">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnFocus_@item.Sn">&nbsp;关注</span>
+                            </button>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,46 @@
+﻿@model List<string>
+@using BlogSystem.TagSystem
+
+@if (Model!=null && Model.Count != 0)
+{
+    foreach (var tag in Model)
+    {
+        string tagComment = TagUtility.GetTagCommentByTagName(tag);
+        if (TagUtility.TagRankContain.GetRankByKey(tag) < 11)
+        {
+            if (TagUtility.TagRankContain.GetRankByKey(tag) < 5)
+            {
+                <a href="/Home/TagList?PageNo=1&TagName=@Url.Encode(tag)" title="@tagComment">
+                    <label class="btn btn-danger btn-sm">
+                        @tag
+                        (
+                        @TagUtility.TagRankContain.GetCountByKey(tag)
+                        )
+                    </label>
+                </a>
+            }
+            else
+            {
+                <a href="/Home/TagList?PageNo=1&TagName=@Url.Encode(tag)" title="@tagComment">
+                    <label class="btn btn-warning btn-sm">
+                        @tag
+                        (
+                        @TagUtility.TagRankContain.GetCountByKey(tag)
+                        )
+                    </label>
+                </a>
+            }
+        }
+        else
+        {
+            <a href="/Home/TagList?PageNo=1&TagName=@Url.Encode(tag)" title="@tagComment">
+                <label class="btn btn-info btn-sm">
+                    @tag
+                    (
+                    @TagUtility.TagRankContain.GetCountByKey(tag)
+                    )
+                </label>
+            </a>
+        }
+    }
+}

@@ -21,6 +21,10 @@
         <div class="SingleBox" style="margin:0 auto;padding:20px 0">
             <h1 style="font-weight:bold;">@Model.ArticleInfo.Title</h1>
             <h5 style="float:right">
+                <!--微信朋友圈的默认图片为作者头像-->
+                <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">
+                    <img src="@Model.AuthorInfo.Avatar_url" class="AvatarImageSmall" title="@Model.AuthorInfo.NickName" />
+                </a>
                 <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a> 发表于 @Model.ArticleInfo.ConfirmDateTime
             </h5>
             @switch (Model.ArticleInfo.Level)

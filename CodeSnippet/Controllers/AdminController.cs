@@ -199,12 +199,12 @@ namespace CodeSnippet.Controllers
         {
             if (Session[ConstHelper.Session_USERID] == null || (UserType)Session[ConstHelper.Session_PRIVILEGE] != UserType.Admin) return Redirect("/");
             ViewData.Model = Tag.GetAllTags();
-            ViewBag.CustomeTag = TagUtility.CustomNewTags;
             if (Request.Files.Count == 1 && Request.Files[0].ContentLength > 0)
             {
                 ReloadTagListFromExcel(Request.Files[0]);
                 TagUtility.Init();
                 ViewData.Model = Tag.GetAllTags();
+                ViewBag.CustomeTag = TagUtility.CustomNewTags;
             }
             ViewBag.Title = "导入标签";
             return View();

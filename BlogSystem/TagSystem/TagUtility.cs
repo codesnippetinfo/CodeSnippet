@@ -238,6 +238,8 @@ namespace BlogSystem.TagSystem
         {
             Tags = Tag.GetAllTags();
             List<string> officeTag = new List<string>();
+            //必须先初始化
+            CustomNewTags.Clear();
             foreach (var tag in Tags)
             {
                 officeTag.Add(tag.TagName);
@@ -250,7 +252,6 @@ namespace BlogSystem.TagSystem
             {
                 //防御代码
                 if (string.IsNullOrEmpty(article.CustomTagList)) article.CustomTagList = string.Empty;
-
                 article.TagName = GetTagNameList(article.Title, article.CustomTagList);
                 foreach (var tag in article.TagName)
                 {
@@ -263,8 +264,6 @@ namespace BlogSystem.TagSystem
             {
                 //防御代码
                 if (string.IsNullOrEmpty(topic.CustomTagList)) topic.CustomTagList = string.Empty;
-
-
                 topic.TagName = GetTagNameList(topic.Title, topic.CustomTagList);
                 foreach (var tag in topic.TagName)
                 {
@@ -277,7 +276,6 @@ namespace BlogSystem.TagSystem
             {
                 //防御代码
                 if (string.IsNullOrEmpty(collection.CustomTagList)) collection.CustomTagList = string.Empty;
-
                 collection.TagName = GetTagNameList(collection.Title, collection.CustomTagList);
                 foreach (var tag in collection.TagName)
                 {
@@ -295,6 +293,8 @@ namespace BlogSystem.TagSystem
         public static List<string> GetTagNameList(string Title, string CustomTagList)
         {
             var totalTags = getTagsFromTitle(Title);
+            //这里注意，如果作者的自定义标签已经被系统收录了，但是这个自定义标签又归属于一个基础词
+            //这个时候就会发生用户自定义标签统计为0的问题
             var customTags = Tag.GetCustomTag(CustomTagList);
             foreach (var customTag in customTags)
             {
@@ -359,7 +359,7 @@ namespace BlogSystem.TagSystem
         }
 
         /// <summary>
-        /// 
+        /// 获得组合代码
         /// </summary>
         /// <param name="Tags"></param>
         /// <returns></returns>

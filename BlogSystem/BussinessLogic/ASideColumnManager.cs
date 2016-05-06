@@ -201,7 +201,7 @@ namespace BlogSystem.BussinessLogic
             var titlelist = new AsideColumnBody()
             {
                 Title = "最多文章作者",
-                DetailItem = GetGenericItemListByRankContain(new RankContain(groupCntResult), AuthorCnt, GithubAccount.GetNameByAccountId),
+                DetailItem = GetGenericItemListByRankContain(new RankContain(groupCntResult), AuthorCnt, UserInfo.GetUserNickNameByAccountId),
                 HrefBase = "/Author/Index?AccountId="
             };
             return titlelist;
@@ -219,7 +219,7 @@ namespace BlogSystem.BussinessLogic
             var titlelist = new AsideColumnBody()
             {
                 Title = "最多文章作者",
-                DetailItem = GetGenericItemListByRankContain(new RankContain(groupCntResult), AuthorCnt, GithubAccount.GetNameByAccountId),
+                DetailItem = GetGenericItemListByRankContain(new RankContain(groupCntResult), AuthorCnt, UserInfo.GetUserNickNameByAccountId),
                 HrefBase = "/Author/Index?AccountId="
             };
             return titlelist;

@@ -108,7 +108,7 @@ namespace BlogSystem.Entity
                             Login = obj.login,
                             Avatar_url = obj.avatar_url,
                             Email = obj.email == null ? "<未知>" : obj.email,
-                            Name = obj.name == null?"<未知>":obj.name,
+                            Name = obj.name == null ? obj.login : obj.name,
                             Html_url = obj.html_url,
                             Company = obj.company == null ? "<未知>" : obj.company,
                             Blog = obj.blog == null ? "<未知>" : obj.blog,

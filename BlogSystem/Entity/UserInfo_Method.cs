@@ -9,6 +9,18 @@ namespace BlogSystem.Entity
     public partial class UserInfo : EntityBase
     {
         /// <summary>
+        /// 获得用户昵称
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public static string GetUserNickNameByAccountId(string accountId)
+        {
+            var u = GetUserInfoBySn(accountId);
+            if (u != null) return u.NickName;
+            return string.Empty;
+        }
+
+        /// <summary>
         /// 除去管理员和拉黑用户之外的所有人
         /// </summary>
         public static IMongoQuery NormalUserQuery

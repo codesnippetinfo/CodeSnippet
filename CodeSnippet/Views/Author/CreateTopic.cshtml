@@ -52,16 +52,18 @@
                         @Html.ValidationMessageFor(model => model.IsNeedApproval, "", new { @class = "text-danger" })
                     </label>
                 </div>
-                <span class="label label-info" style="margin:10px 10px">
+                如果您只想创建一个收纳文章的文集，请进入<a href="/PostEdit/PostList">投稿</a>功能，新建文集<br />
+                <span class="label label-info">
                     每个用户只能建立一个专题，并且新建之后无法修改名称，请谨慎新建专题
                 </span>
+                <br /><br />
                 @if (string.IsNullOrEmpty(Model.Title))
                 {
-                    <input type="submit" class="btn btn-primary " value="新建" />
+                    <input type="submit" class="btn-lg btn-primary " value="新建" />
                 }
                 else
                 {
-                    <input type="submit" class="btn btn-primary " value="保存" />
+                    <input type="submit" class="btn-lg btn-primary " value="保存" />
                 }
             </div>
         </div>

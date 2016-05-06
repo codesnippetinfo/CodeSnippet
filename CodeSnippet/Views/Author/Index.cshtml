@@ -117,7 +117,13 @@
                     </li>
                     <li class="list-group-item">
                         <label>博客:</label>
-                        <a href="@Model.GitInfo.Blog">@Model.GitInfo.Blog</a><br />
+                        @{ var blogurl = Model.GitInfo.Blog;
+                            if (!blogurl.StartsWith("http://") && !blogurl.StartsWith("https://"))
+                            {
+                                blogurl = "http://" + blogurl;
+                            }
+                        }
+                        <a href="@blogurl">@Model.GitInfo.Blog</a><br />
                     </li>
                     <li class="list-group-item">
                         <label>位置:</label>
@@ -132,7 +138,7 @@
                         @Model.GitInfo.Following<br />
                     </li>
                 </ul>
-            }
+                            }
             @if (Model.UserInfo.RegisterMethod == QQAccount.QQ)
             {
                 <ul class="list-group">

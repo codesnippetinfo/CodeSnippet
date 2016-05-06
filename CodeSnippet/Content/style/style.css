@@ -64,10 +64,10 @@ hr {
     border-color: #ddd;
     border-width: 1px;
     border-style: solid;
-    border-radius: 4px 4px 0px 0px;
+    border-radius: 4px 4px 0 0;
     width: 415px;
     height: 220px;
-    margin: 0px 10px;
+    margin: 0 10px;
 }
 
 /*文章展示的位置，各个块的样式*/
@@ -102,7 +102,14 @@ hr {
 .Privilege {
     border: 1px solid #e78170;
     color: #e78170;
-    padding: 1px;
+    padding: 2px;
+    background-color: white;
+}
+
+.FriendLink {
+    border: 1px solid #0094ff;
+    color: #0094ff;
+    padding: 5px;
     background-color: white;
 }
 

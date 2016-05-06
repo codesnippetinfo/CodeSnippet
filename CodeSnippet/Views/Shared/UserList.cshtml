@@ -45,7 +45,7 @@
                     }
                 </td>
                 <td align="right">
-                    @if (Session[ConstHelper.Session_USERID] != null)
+                    @if (Session[ConstHelper.Session_USERID] != null && Session[ConstHelper.Session_USERID].ToString() != item.Sn)
                     {
                         if (FocusIdList.Contains(item.Sn))
                         {

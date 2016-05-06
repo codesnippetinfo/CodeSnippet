@@ -159,7 +159,8 @@ namespace BlogSystem.Entity
                     TagList = new List<string>(),
                     RegisterMethod = QQ,
                     NickName = qqlogin.nickname,
-                    Avatar_url = qqlogin.figureurl
+                    Avatar_url = qqlogin.figureurl,
+                    Privilege = UserType.Normal
                 };
                 var userinfoId = UserInfo.InsertUserInfo(userinfo);
                 if (userinfoId == 1.ToString(SnFormat))

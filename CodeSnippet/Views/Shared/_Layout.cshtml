@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="~/Content/editormd/css/editormd.min.css" />
     <link rel="stylesheet" href="~/Content/style/Style.css" />
     <link rel="icon" href="~/Content/img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="~/Content/img/favicon.ico" type="image/x-icon">  
+    <link rel="shortcut icon" href="~/Content/img/favicon.ico" type="image/x-icon">
 </head>
 
 <body style="background-color: #fff">
@@ -73,6 +73,10 @@
                         }
                         else
                         {
+                            <img src="@Session[ConstHelper.Session_AVATAR]" width="32" height="32" />
+                            <a href="/Author/Index?AccountId=@Session[ConstHelper.Session_USERID]">
+                                @Session[ConstHelper.Session_NAME]
+                            </a>
                             <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
                                 @if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Admin)
                                 {

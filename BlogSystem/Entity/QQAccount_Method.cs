@@ -142,7 +142,8 @@ namespace BlogSystem.Entity
             QQAccount qqlogin = new QQAccount()
             {
                 nickname = obj.nickname,
-                figureurl = obj.figureurl,
+                //使用40*40的QQ头像图片作为标准头像
+                figureurl = obj.figureurl_qq_1,
                 gender = obj.gender,
                 OpenID = openID,
                 LastAccess = DateTime.Now

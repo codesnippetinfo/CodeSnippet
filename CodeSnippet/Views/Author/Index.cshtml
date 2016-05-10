@@ -154,7 +154,7 @@
             <div class="panel-heading">
                 @Model.UserInfo.NickName 关注的人
                 <a href="/Author/FocusList?UserId=@Model.UserInfo.Sn" class="btn btn-primary" style="float:right;padding:0;border:0;">
-                    <span class="glyphicon glyphicon-list">&nbsp;详细(@Model.FocusList.Count)</span>
+                    <span class="glyphicon glyphicon-list"/><span>&nbsp;详细(@Model.FocusList.Count)</span>
                 </a>
             </div>
             <div class="panel-body">
@@ -171,7 +171,7 @@
             <div class="panel-heading">
                 关注 @Model.UserInfo.NickName 的人
                 <a href="/Author/FollowList?UserId=@Model.UserInfo.Sn" class="btn btn-primary" style="float:right;padding:0;border:0;">
-                    <span class="glyphicon glyphicon-list">&nbsp;详细(@Model.FollowList.Count)</span>
+                    <span class="glyphicon glyphicon-list"/><span>&nbsp;详细(@Model.FollowList.Count)</span>
                 </a>
             </div>
             <div class="panel-body">

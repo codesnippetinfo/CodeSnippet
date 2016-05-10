@@ -42,15 +42,15 @@
                         {
                             case SiteMessage.YesNoType:
                                 <a class="btn btn-success" href="@item.AcceptURL&MessageId=@item.Sn">
-                                    <span class="glyphicon glyphicon-folder-open">&nbsp;同意</span>
+                                    <span class="glyphicon glyphicon-folder-open"/><span>&nbsp;同意</span>
                                 </a>
                                 <a class="btn btn-danger" href="@item.RefuseURL&MessageId=@item.Sn">
-                                    <span class="glyphicon glyphicon-folder-open">&nbsp;拒绝</span>
+                                    <span class="glyphicon glyphicon-folder-open"/><span>&nbsp;拒绝</span>
                                 </a>
                                 break;
                             case SiteMessage.NotifyType:
                                 <button class="btn btn-primary" id="btnMsg_@item.Sn" onclick="ReadMessage('@item.Sn')">
-                                    <span class="glyphicon glyphicon-folder-open">&nbsp;标记为已读</span>
+                                    <span class="glyphicon glyphicon-folder-open"/><span>&nbsp;标记为已读</span>
                                 </button>
                                 break;
                         }

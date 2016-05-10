@@ -14,7 +14,7 @@
             <th>
                 是否为首页
             </th>
-            <th  width="150px">
+            <th width="150px">
                 作者
             </th>
             <th>
@@ -82,10 +82,10 @@
                     @if (item.ArticleInfo.IsFirstPage && item.ArticleInfo.PublishStatus == ApproveStatus.Accept)
                     {
                         <a href="/Admin/SetTopArticle?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-primary">
-                            <span class="glyphicon glyphicon-star">&nbsp;置顶文章&nbsp;</span>
+                            <span class="glyphicon glyphicon-star" /><span>&nbsp;置顶文章&nbsp;</span>
                         </a>
                         <a href="/Admin/RemoveFromFirstPage?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger">
-                            <span class="glyphicon glyphicon-remove">&nbsp;移出首页&nbsp;</span>
+                            <span class="glyphicon glyphicon-remove"/><span>&nbsp;移出首页&nbsp;</span>
                         </a>
                     }
                 </td>

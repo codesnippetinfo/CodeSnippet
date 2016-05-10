@@ -3,16 +3,16 @@
 <span id="AutoSaveTooltip" class="label label-success">@ViewBag.FreeVolumn</span>
 <div class="btn-group" role="group" style="float:right;padding:5px">
     <a class="btn btn-primary" onclick="PublishContent()">
-        <span class="glyphicon glyphicon-send">&nbsp;发布&nbsp;</span>
+        <span class="glyphicon glyphicon-send"/><span>&nbsp;发布&nbsp;</span>
     </a>
     @if (!ViewBag.IsPrivate)
     {
         <a class="btn btn-primary" onclick="SaveContent()">
-            <span class="glyphicon glyphicon-floppy-save">&nbsp;保存&nbsp;</span>
+            <span class="glyphicon glyphicon-floppy-save"/><span>&nbsp;保存&nbsp;</span>
         </a>
     }
     <a href="/Home/Index" class="btn btn-danger">
-        <span class="glyphicon glyphicon-remove">&nbsp;退出&nbsp;</span>
+        <span class="glyphicon glyphicon-remove"/><span>&nbsp;退出&nbsp;</span>
     </a>
 </div>
 <div id="article-editormd" style="margin:0">

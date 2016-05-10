@@ -14,7 +14,8 @@
 
 
 <div class="SingleArticle" style="margin:0 auto;padding:20px 0">
-    <h1>@ViewBag.Title</h1>
+    <h3 style="text-align:center;color:#555555;font-weight:bold;font-family:'Microsoft YaHei';">@ViewBag.Title</h3>
+    <br />
     <table class="table table-striped">
         @foreach (var item in Model)
         {
@@ -50,13 +51,13 @@
                         if (FocusIdList.Contains(item.Sn))
                         {
                             <button class="btn btn-primary" style="width:150px">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true">&nbsp;已关注</span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"/><span>&nbsp;已关注</span>
                             </button>
                         }
                         else
                         {
                             <button class="btn btn-primary" style="width:150px" onclick="FocusUser('@item.Sn')">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnFocus_@item.Sn">&nbsp;关注</span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnFocus_@item.Sn"/><span>&nbsp;关注</span>
                             </button>
                         }
                     }

@@ -29,11 +29,11 @@
                     @item.PublishDateTime
                 </td>
                 <td>
-                    @GithubAccount.GetGithubAccountBySn(item.OwnerId).Name
+                    @UserInfo.GetUserInfoBySn(item.OwnerId).NickName
                 </td>
                 <td>
                     <a href="/Admin/ViewArticle?ArticleID=@item.Sn" class="btn btn-sm btn-primary">
-                        <span class="glyphicon glyphicon-open">&nbsp;查看&nbsp;</span>
+                        <span class="glyphicon glyphicon-open"/><span>&nbsp;查看&nbsp;</span>
                     </a>
                 </td>
             </tr>

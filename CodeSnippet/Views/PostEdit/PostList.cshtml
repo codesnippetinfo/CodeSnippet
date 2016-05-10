@@ -87,12 +87,12 @@
                 <td>
                     <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId&ArticleId=@item.ArticleInfo.Sn" class="btn-primary btn">修改信息</a>
                     <a href="/PostEdit/MarkDownEditor?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-primary">
-                        <span class="glyphicon glyphicon-pencil">&nbsp;编辑&nbsp;</span>
+                        <span class="glyphicon glyphicon-pencil" /><span>&nbsp;编辑&nbsp;</span>
                     </a>
                     @if (!(item.ArticleInfo.IsFirstPage && item.ArticleInfo.PublishStatus == ApproveStatus.Accept))
                     {
                         <a href="/PostEdit/DeletePost?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href,'确认删除','确认删除该条记录？')">
-                            <span class="glyphicon glyphicon-remove">&nbsp;删除&nbsp;</span>
+                            <span class="glyphicon glyphicon-remove" /><span>&nbsp;删除&nbsp;</span>
                         </a>
                     }
                 </td>

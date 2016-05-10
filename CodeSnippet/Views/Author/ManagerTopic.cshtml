@@ -60,7 +60,7 @@
                     @if (item.Score != 0)
                     {
                         <a href="/Author/RemoveFromTopic?ArticleId=@item.ArticleInfo.Sn" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href, '取消收藏', '确认取消收藏该文章？')">
-                            <span class="glyphicon glyphicon-remove">&nbsp;移出专题&nbsp;</span>
+                            <span class="glyphicon glyphicon-remove"/><span>&nbsp;移出专题&nbsp;</span>
                         </a>
                     }
                 </td>

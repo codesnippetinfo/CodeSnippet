@@ -23,6 +23,7 @@ namespace CodeSnippet.Controllers
                     IsFirstPage = true,
                     IsOriginal = true,
                     IsTopicable = true,
+                    Level = ArticleLevel.Normal
                 };
                 ViewBag.Title = "新建";
             }

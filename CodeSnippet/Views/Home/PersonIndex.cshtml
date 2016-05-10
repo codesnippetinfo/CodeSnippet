@@ -33,7 +33,7 @@
         </ul>
         <br />
         <a href="/Author/Setting" class="btn btn-success" style="float:right">
-                <span class="glyphicon glyphicon-th">&nbsp;设定文章过滤器&nbsp;</span>
+                <span class="glyphicon glyphicon-cog">&nbsp;设定文章过滤器&nbsp;</span>
         </a>
 
         @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))

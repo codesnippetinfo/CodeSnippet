@@ -11,7 +11,7 @@
         @if (topic.IsPostable)
         {
             <a class="btn btn-success" href="/Author/PostToTopic?TopicId=@topic.Sn">
-                <span class="glyphicon glyphicon-open">&nbsp;投稿</span> 
+                <span class="glyphicon glyphicon-open"/><span>&nbsp;投稿</span> 
             </a>
         }
         @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "TopicPage", new { PageNo = (pageno), AccountId = Request.QueryString["AccountId"] }).ToString()))

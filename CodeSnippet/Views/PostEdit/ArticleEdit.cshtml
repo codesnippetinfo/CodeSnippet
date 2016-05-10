@@ -50,9 +50,9 @@
                 <br />
                 <label>难度</label>
                 <br />
-                <input name="Level" type="radio" value="10" />入门 (阅读无需开发经验，某个技术的简介) &nbsp;
-                <input name="Level" type="radio" value="20" checked />普通 (阅读需要一定的开发经验，默认难度) &nbsp;
-                <input name="Level" type="radio" value="30" />困难 (阅读需要足够的IT知识，源代码分析)
+                <input name="Level" type="radio" value="10" @(Model.Level == ArticleLevel.Easy ? "checked" : string.Empty) />入门 (阅读无需开发经验，某个技术的简介) &nbsp;<br />
+                <input name="Level" type="radio" value="20" @(Model.Level == ArticleLevel.Normal ? "checked" : string.Empty) />普通 (阅读需要一定的开发经验，默认难度) &nbsp;<br />
+                <input name="Level" type="radio" value="30" @(Model.Level == ArticleLevel.Hard ? "checked" : string.Empty)/>困难 (阅读需要足够的IT知识，源代码分析)
                 <div class="checkbox">
                     <label>
                         @if (Model.IsOriginal)

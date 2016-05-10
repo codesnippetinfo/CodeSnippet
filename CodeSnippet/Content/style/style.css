@@ -1,5 +1,5 @@
-﻿html {
-    font-family: '微软雅黑';
+﻿body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, span, label, .btn, .FriendLink, .Privilege {
+    font-family: Microsoft YaHei,'宋体', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
 }
 
 /*横线样式*/

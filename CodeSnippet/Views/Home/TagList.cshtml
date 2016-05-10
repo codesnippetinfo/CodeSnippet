@@ -18,13 +18,13 @@
         if (UserInfo.IsJoined(@Request.QueryString["TagName"], Session[CodeSnippet.ConstHelper.Session_USERID].ToString()))
         {
             <button class="btn btn-primary" style="width:150px">
-                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnCircle">&nbsp;已加入</span>
+                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnCircle"/><span>&nbsp;已加入</span>
             </button>
         }
         else
         {
             <button class="btn btn-primary" style="width:150px" onclick="Join('@Request.QueryString["TagName"]')">
-                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnCircle">&nbsp;加入圈子</span>
+                <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnCircle"/><span>&nbsp;加入圈子</span>
             </button>
         }
     }
@@ -48,7 +48,7 @@
             }
         }
         <a href="/Home/CircleUserList?TagName=@Url.Encode(tagname)" class="btn btn-success">
-            <span class="glyphicon glyphicon-list">&nbsp;所有圈子爱好者(@CricleCnt)</span>
+            <span class="glyphicon glyphicon-list"/><span>&nbsp;所有圈子爱好者(@CricleCnt)</span>
         </a>
     </div>
 </div>

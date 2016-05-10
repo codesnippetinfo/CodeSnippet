@@ -3,22 +3,22 @@
     string accountid = Session[ConstHelper.Session_USERID].ToString();
     <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
         <a href="/Author/SiteMessageList?PageNo=1" class="btn btn-primary">
-            站内消息列表
+            <span class="glyphicon glyphicon-envelope" /><span>&nbsp;站内消息列表&nbsp;</span>
         </a>
         <a href="/Author/Setting" class="btn btn-primary">
-            个人设定
+            <span class="glyphicon glyphicon-cog" /><span>&nbsp;个人设定&nbsp;</span>
         </a>
         <a href="/Author/StockPage?PageNo=1" class="btn btn-primary">
-            收藏文章列表
+            <span class="glyphicon glyphicon-heart" /><span>&nbsp;收藏文章列表&nbsp;</span>
         </a>
         @if (Topic.IsExistTopic(accountid))
         {
-            <a href="/Author/ManagerTopic?PageNo=1" class="btn-primary btn">管理专题</a>
-            <a href="/Author/CreateTopic" class="btn-primary btn">修改专题</a>
+            <a href="/Author/ManagerTopic?PageNo=1" class="btn-primary btn"><span class="glyphicon glyphicon-wrench" /><span>&nbsp;管理专题&nbsp;</span></a>
+            <a href="/Author/CreateTopic" class="btn-primary btn"><span class="glyphicon glyphicon-edit" /><span>&nbsp;修改专题</span></a>
         }
         else
         {
-            <a href="/Author/CreateTopic" class="btn-primary btn">新建专题</a>
+            <a href="/Author/CreateTopic" class="btn-primary btn"><span class="glyphicon glyphicon-pencil" /><span>&nbsp;新建专题</span></a>
         }
     </div>
 }

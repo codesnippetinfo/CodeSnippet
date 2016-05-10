@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="请输入关键字" id="txtKeyword" name="txtKeyword">
                             <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search">&nbsp;检索&nbsp;</span>
+                                <span class="glyphicon glyphicon-search" /><span>&nbsp;检索&nbsp;</span>
                             </button>
                         </div>
                     </form>
@@ -76,30 +76,30 @@
                         else
                         {
                             <img src="@Session[ConstHelper.Session_AVATAR]" width="32" height="32" />
-                            <a href="/Author/Index?AccountId=@Session[ConstHelper.Session_USERID]">
-                                @Session[ConstHelper.Session_NAME]
-                            </a>
                             <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
+                                <a class="btn btn-info" href="/Author/Index?AccountId=@Session[ConstHelper.Session_USERID]">
+                                    <span class="glyphicon glyphicon-user">&nbsp;@Session[ConstHelper.Session_NAME]&nbsp;</span>
+                                </a>
                                 @if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Admin)
                                 {
                                     <button class="btn btn-info" onclick="window.location.href = '/Admin/Index'">
-                                        <span class="glyphicon glyphicon-user">&nbsp;管理员&nbsp;</span>
+                                        <span class="glyphicon glyphicon-user" /><span>&nbsp;管理员&nbsp;</span>
                                     </button>
                                 }
                                 @if ((UserType)Session[ConstHelper.Session_PRIVILEGE] == UserType.Editor)
                                 {
                                     <button class="btn btn-info" onclick="window.location.href = '/Admin/Index'">
-                                        <span class="glyphicon glyphicon-user">&nbsp;审核&nbsp;</span>
+                                        <span class="glyphicon glyphicon-user" /><span>&nbsp;审核&nbsp;</span>
                                     </button>
                                 }
                                 <button onclick="window.location.href = '/PostEdit/PostList'" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-pencil">&nbsp;投稿&nbsp;</span>
+                                    <span class="glyphicon glyphicon-pencil" /><span>&nbsp;投稿&nbsp;</span>
                                 </button>
                                 <button onclick="window.location.href = '/Author/SiteMessageList?PageNo=1'" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-th">&nbsp;管理&nbsp;</span>
+                                    <span class="glyphicon glyphicon-th" /><span>&nbsp;管理&nbsp;</span>
                                 </button>
                                 <button class="btn btn-danger" onclick="window.location.href = '/Home/Logoff'">
-                                    <span class="glyphicon glyphicon-log-out">&nbsp;注销&nbsp;</span>
+                                    <span class="glyphicon glyphicon-log-out" /><span>&nbsp;注销&nbsp;</span>
                                 </button>
                             </div>
                         }

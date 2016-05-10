@@ -132,7 +132,7 @@ namespace CodeSnippet.Controllers
             u.ContainTag = colllection["ContainTag"];
             UserInfo.UpdateUserInfo(u);
             ViewData.Model = u;
-            return View();
+            return Redirect("/Home/PersonIndex");
         }
         /// <summary>
         /// 站内消息

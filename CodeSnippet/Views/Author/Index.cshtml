@@ -89,8 +89,8 @@
 
         <div class="panel panel-primary" style="margin:0 0 0 10px">
             <div class="panel-heading">
-                <img src="@Model.GitInfo.Avatar_url" class="AvatarImage" />
-                <label>@Model.GitInfo.Name</label>
+                <img src="@Model.UserInfo.Avatar_url" class="AvatarImage" />
+                <label>@Model.UserInfo.NickName</label>
                 @if (Model.UserInfo.Privilege == UserType.Author)
                 {
                     <label class="Privilege">特约作者</label>
@@ -138,7 +138,7 @@
                         @Model.GitInfo.Following<br />
                     </li>
                 </ul>
-            }
+                            }
             @if (Model.UserInfo.RegisterMethod == QQAccount.QQ)
             {
                 <ul class="list-group">

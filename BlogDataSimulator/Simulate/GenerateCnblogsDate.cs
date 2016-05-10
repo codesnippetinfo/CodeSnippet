@@ -75,35 +75,73 @@ namespace BlogDataSimulator
                     string user = Line.Substring(pos + 3);
                     if (!userdic.ContainsKey(user))
                     {
-                        //帐号
-                        GithubAccount gitaccount = new GithubAccount()
+                        var userinfo = new UserInfo();
+                        int qqOrGit = r.Next(100);
+                        string accId = string.Empty;
+                        QQAccount qqaccount = new QQAccount();
+                        GithubAccount gitaccount = new GithubAccount();
+                        if (qqOrGit % 2 == 0)
                         {
-                            Avatar_url = "https://avatars.githubusercontent.com/u/897796?v=3",
-                            Login = user,
-                            Name = user,
-                            Email = "mynightelfplayer@hotmail.com",
-                            Location = "Shanghai,China",
-                            Blog = "http://www.mywechatapp.com",
-                            Company = "Shanghai Chuwa software co.ltd",
-                            Followers = 50,
-                            Following = 2,
-                        };
-                        var gitId = MongoDbRepository.InsertRec(gitaccount);
+                            //Github帐号
+                            gitaccount = new GithubAccount()
+                            {
+                                Avatar_url = "https://avatars.githubusercontent.com/u/897796?v=3",
+                                Login = user,
+                                Name = user,
+                                Email = "mynightelfplayer@hotmail.com",
+                                Location = "Shanghai,China",
+                                Blog = "http://www.mywechatapp.com",
+                                Company = "Shanghai Chuwa software co.ltd",
+                                Followers = 50,
+                                Following = 2,
+                            };
 
-                        UserInfo userinfo = new UserInfo()
+                            accId = MongoDbRepository.InsertRec(gitaccount);
+
+                            userinfo = new UserInfo()
+                            {
+                                RegisterAccountID = accId,
+                                Privilege = UserType.Normal,
+                                RegisterMethod = GithubAccount.Github,
+                                TopicList = new List<string>(),
+                                TagList = new List<string>(),
+                                NickName = gitaccount.Name,
+                                Avatar_url = gitaccount.Avatar_url,
+                                ContainTag = string.Empty,
+                                AntiTag = string.Empty,
+                                Catalog = new List<string>(),
+                                Level = new List<ArticleLevel>()
+                            };
+                        }
+                        else
                         {
-                            RegisterAccountID = gitId,
-                            Privilege = UserType.Normal,
-                            RegisterMethod = GithubAccount.Github,
-                            TopicList = new List<string>(),
-                            TagList = new List<string>(),
-                            NickName = gitaccount.Name,
-                            Avatar_url = gitaccount.Avatar_url,
-                            ContainTag = string.Empty,
-                            AntiTag = string.Empty,
-                            Catalog = new List<string>(),
-                            Level = new List<ArticleLevel>()
-                        };
+                            //QQ
+                            qqaccount = new QQAccount()
+                            {
+                                figureurl = "https://avatars.githubusercontent.com/u/19196306?v=3",
+                                gender = "男",
+                                nickname = user,
+                                OpenID = "1234567890"
+                            };
+
+                            accId = MongoDbRepository.InsertRec(qqaccount);
+
+                            userinfo = new UserInfo()
+                            {
+                                RegisterAccountID = accId,
+                                Privilege = UserType.Normal,
+                                RegisterMethod = QQAccount.QQ,
+                                TopicList = new List<string>(),
+                                TagList = new List<string>(),
+                                NickName = qqaccount.nickname,
+                                Avatar_url = qqaccount.figureurl,
+                                ContainTag = string.Empty,
+                                AntiTag = string.Empty,
+                                Catalog = new List<string>(),
+                                Level = new List<ArticleLevel>()
+                            };
+                        }
+
                         var x = r.Next(100);
                         if (x % 10 == 0)
                         {
@@ -128,9 +166,16 @@ namespace BlogDataSimulator
                             UserInfo.UpdateUserInfo(userinfo);
                         }
 
-                        MongoDbRepository.UpdateRec(gitaccount, nameof(GithubAccount.UserInfoID), (BsonString)userId);
+                        if (qqOrGit % 2 == 0)
+                        {
+                            MongoDbRepository.UpdateRec(gitaccount, nameof(GithubAccount.UserInfoID), (BsonString)userId);
+                        }
+                        else
+                        {
+                            MongoDbRepository.UpdateRec(qqaccount, nameof(QQAccount.UserInfoID), (BsonString)userId);
+                        }
+                        userdic.Add(user, accId);
 
-                        userdic.Add(user, gitId);
                         //默认文集
                         Collection col = new Collection()
                         {
@@ -138,7 +183,7 @@ namespace BlogDataSimulator
                             Description = user + " 的文集",
                             IsSerie = (r.Next(100) % 2 == 1)
                         };
-                        var colId = Collection.InsertCollection(col, gitId);
+                        var colId = Collection.InsertCollection(col, accId);
                         userColdic.Add(user, colId);
                     }
 

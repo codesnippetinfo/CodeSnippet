@@ -24,13 +24,17 @@
             <li role="presentation"><a href="/Home/Index">首页</a></li>
             @if (Session[CodeSnippet.ConstHelper.Session_NAME] != null)
             {
-                <li role="presentation">
-                    <a href="/Home/PersonIndex" class="active">我的首页</a>
+                <li role="presentation" class="active">
+                    <a href="/Home/PersonIndex">我的首页</a>
                 </li>
             }
             <li role="presentation"><a href="/Home/TopicList">专题列表</a></li>
             <li role="presentation"><a href="/Home/SerialList">系列教程</a></li>
         </ul>
+        <br />
+        <a href="/Author/Setting" class="btn btn-success" style="float:right">
+                <span class="glyphicon glyphicon-th">&nbsp;设定文章过滤器&nbsp;</span>
+        </a>
 
         @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))
 

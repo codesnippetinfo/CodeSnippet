@@ -1,7 +1,9 @@
 ﻿@model ArticleBody
 @using System.Configuration;
-@{
-    List<CommentBody> CommentList = ViewBag.CommentList;
+@section head
+{
+    <meta name="keywords" content="@string.Join(",",Model.ArticleInfo.TagName)" />
+    <meta name="description" content="@Model.ArticleInfo.Title" />
     <script type="text/javascript" src="/Content/imgBox/jquery.imgbox.js"></script>
     <link rel="stylesheet" href="/Content/imgBox/imgbox.css" />
     <script src="~/Content/editormd/lib/marked.min.js"></script>
@@ -11,9 +13,11 @@
     <script src="~/Content/editormd/lib/sequence-diagram.min.js"></script>
     <script src="~/Content/editormd/lib/flowchart.min.js"></script>
     <script src="~/Content/editormd/lib/jquery.flowchart.min.js"></script>
+}
+@{
+    List<CommentBody> CommentList = ViewBag.CommentList;
     Dictionary<string, string> FileMapping = ViewBag.FileMapping;
     var CommentOrder = 1;
-
 }
 <div class="row" style="width:1200px;margin: 20px auto;">
     <div class="col-md-9" style="margin:0;padding:0">

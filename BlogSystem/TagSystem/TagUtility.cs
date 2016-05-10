@@ -334,7 +334,20 @@ namespace BlogSystem.TagSystem
             Dictionary<string, int> TagCntDic = new Dictionary<string, int>();
             foreach (var article in articles)
             {
-                var tags = GetTagNameList(article.Title,article.CustomTagList);
+                if (article.IsPrivate)
+                {
+                    //私有的不计算
+                    continue;
+                }
+                else
+                {
+                    //公有的未发布的，不计算
+                    if (!(article.PublishStatus == ApproveStatus.Accept || article.PublishStatus == ApproveStatus.NotNeed))
+                    {
+                        continue;
+                    }
+                }
+                var tags = GetTagNameList(article.Title, article.CustomTagList);
                 foreach (var tag in tags)
                 {
                     if (TagCntDic.ContainsKey(tag))
@@ -359,6 +372,19 @@ namespace BlogSystem.TagSystem
             Dictionary<string, int> TagCntDic = new Dictionary<string, int>();
             foreach (var article in articles)
             {
+                if (article.IsPrivate)
+                {
+                    //私有的不计算
+                    continue;
+                }
+                else
+                {
+                    //公有的未发布的，不计算
+                    if (!(article.PublishStatus == ApproveStatus.Accept || article.PublishStatus == ApproveStatus.NotNeed))
+                    {
+                        continue;
+                    }
+                }
                 var tags = GetTagNameList(article.Title, article.CustomTagList);
                 var twoCombo = GetTwoCombo(tags);
                 foreach (var tag in twoCombo)

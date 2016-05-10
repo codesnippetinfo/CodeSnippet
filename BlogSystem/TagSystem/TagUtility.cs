@@ -295,7 +295,7 @@ namespace BlogSystem.TagSystem
             var totalTags = getTagsFromTitle(Title);
             //这里注意，如果作者的自定义标签已经被系统收录了，但是这个自定义标签又归属于一个基础词
             //这个时候就会发生用户自定义标签统计为0的问题
-            var customTags = Tag.GetCustomTag(CustomTagList);
+            var customTags = GetCustomTag(CustomTagList);
             foreach (var customTag in customTags)
             {
                 if (!totalTags.Contains(customTag))
@@ -305,7 +305,25 @@ namespace BlogSystem.TagSystem
             }
             return totalTags;
         }
-
+        /// <summary>
+        ///     处理用户标签（获得未定义的新标签）
+        /// </summary>
+        /// <param name="TagList"></param>
+        private static List<string> GetCustomTag(string TagList)
+        {
+            var NewTag = new List<string>();
+            if (string.IsNullOrEmpty(TagList)) return NewTag;
+            //使用分号切割
+            var tags = TagList.Split(";".ToCharArray());
+            foreach (var tag in tags)
+            {
+                //去掉版本（如果有）
+                var pureTag = tag.Split(":".ToCharArray())[0];
+                //新标签
+                NewTag.Add(pureTag);
+            }
+            return NewTag;
+        }
         /// <summary>
         /// 文章标签统计
         /// </summary>
@@ -316,7 +334,7 @@ namespace BlogSystem.TagSystem
             Dictionary<string, int> TagCntDic = new Dictionary<string, int>();
             foreach (var article in articles)
             {
-                var tags = getTagsFromTitle(article.Title);
+                var tags = GetTagNameList(article.Title,article.CustomTagList);
                 foreach (var tag in tags)
                 {
                     if (TagCntDic.ContainsKey(tag))
@@ -341,7 +359,7 @@ namespace BlogSystem.TagSystem
             Dictionary<string, int> TagCntDic = new Dictionary<string, int>();
             foreach (var article in articles)
             {
-                var tags = getTagsFromTitle(article.Title);
+                var tags = GetTagNameList(article.Title, article.CustomTagList);
                 var twoCombo = GetTwoCombo(tags);
                 foreach (var tag in twoCombo)
                 {

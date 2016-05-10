@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using static BlogSystem.BussinessLogic.ArticleListManager;
 
 namespace CodeSnippet.Controllers
 {
@@ -19,11 +20,11 @@ namespace CodeSnippet.Controllers
         /// <returns></returns>
         public ActionResult Index(int PageNo = 1)
         {
-            Pages p = new Pages(ArticleListManager.GetArticleCnt(ArticleListManager.FirstPageArticleQueryFileter), 20);
+            Pages p = new Pages(GetArticleCnt(FirstPageArticleQueryFileter), 20);
             p.CurrentPageNo = PageNo;
-            var currentpageList = ArticleListManager.GetPublicListForArticleByPage(p,true);
+            var currentpageList = GetPublicListForArticleByPage(p, FirstPageArticleQueryFileter);
             ViewData.Model = currentpageList;
-            ViewBag.TopArticle = ArticleListManager.GetTopArticle();
+            ViewBag.TopArticle = GetTopArticle();
             ViewBag.Pages = p;
             ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
             ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
@@ -38,7 +39,7 @@ namespace CodeSnippet.Controllers
         public ActionResult TopicList()
         {
             ViewData.Model = ViewData.Model = Topic.getAllTopic();
-            ViewBag.TopArticle = ArticleListManager.GetTopArticle();
+            ViewBag.TopArticle = GetTopArticle();
             ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
             ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
             ViewBag.AsideThird = ASideColumnManager.HotArticle(10, 72);
@@ -52,7 +53,35 @@ namespace CodeSnippet.Controllers
         public ActionResult SerialList()
         {
             ViewData.Model = Collection.getAllSerial();
-            ViewBag.TopArticle = ArticleListManager.GetTopArticle();
+            ViewBag.TopArticle = GetTopArticle();
+            ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
+            ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
+            ViewBag.AsideThird = ASideColumnManager.HotArticle(10, 72);
+            return View();
+        }
+
+        /// <summary>
+        /// 个人首页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PersonIndex(int PageNo = 1)
+        {
+            if (Session[ConstHelper.Session_USERID] == null) return Redirect("/Home/Index");
+            var u = UserInfo.GetUserInfoBySn(Session[ConstHelper.Session_USERID].ToString());
+            ArticleQueryFilter filter = FirstPageArticleQueryFileter;
+            //难度和分类
+            filter.Levelist = u.Level.Count == 0 ? null : u.Level.ToArray();
+            filter.Cataloglist = u.Catalog.Count == 0 ? null : u.Catalog.ToArray();
+            filter.ContainTag = string.IsNullOrEmpty(u.ContainTag) ? null : u.ContainTag.Split(";".ToArray());
+            filter.AntiTag = string.IsNullOrEmpty(u.AntiTag) ? null : u.AntiTag.Split(";".ToArray());
+            //TODO:标签
+            Pages p = new Pages(GetArticleCnt(filter), 20);
+            p.CurrentPageNo = PageNo;
+            var currentpageList = GetPublicListForArticleByPage(p, filter);
+            ViewData.Model = currentpageList;
+            ViewBag.TopArticle = GetTopArticle();
+            ViewBag.Pages = p;
+            ViewBag.TopArticle = GetTopArticle();
             ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
             ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
             ViewBag.AsideThird = ASideColumnManager.HotArticle(10, 72);
@@ -190,7 +219,7 @@ namespace CodeSnippet.Controllers
                 var qqOauthInfo = QQAccount.GetOauthInfo(code);
                 //获取用的OpenID,这个ID是QQ给我们的用户的唯一ID，可以作为我们系统用户唯一性的判断存在我们自己的库中
                 string openID = QQAccount.GetOpenID(qqOauthInfo);
-                var userInfo = QQAccount.GetUserInfo(qqOauthInfo,openID);
+                var userInfo = QQAccount.GetUserInfo(qqOauthInfo, openID);
                 if (userInfo != null)
                 {
                     //SN和UserInfoId在多种登陆方式的时候，不是同步的

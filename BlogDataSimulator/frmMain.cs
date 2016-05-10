@@ -353,6 +353,18 @@ namespace BlogDataSimulator
         /// <param name="e"></param>
         private void btnPdfCreator_Click(object sender, EventArgs e)
         {
+            foreach (var file in new DirectoryInfo(@"C:\Users\scs\Desktop\DD").GetFiles())
+            {
+                System.Diagnostics.Debug.Print(file.Name);
+                foreach (var c in file.Name.ToCharArray())
+                {
+                    System.Diagnostics.Debug.Print(c.ToString() + ":" + (int)c);
+                    var cx1 = (char)160;
+                    var cx2 = (char)32;
+                }
+                break;
+            }
+            return;
 
             //callback( { "client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
             var res = "callback( { \"client_id\":\"YOUR_APPID\",\"openid\":\"YOUR_OPENID\"} );";

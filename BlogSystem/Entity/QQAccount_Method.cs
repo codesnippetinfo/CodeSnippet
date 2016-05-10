@@ -161,7 +161,11 @@ namespace BlogSystem.Entity
                     RegisterMethod = QQ,
                     NickName = qqlogin.nickname,
                     Avatar_url = qqlogin.figureurl,
-                    Privilege = UserType.Normal
+                    Privilege = UserType.Normal,
+                    ContainTag = string.Empty,
+                    AntiTag = string.Empty,
+                    Catalog = new List<string>(),
+                    Level = new List<ArticleLevel>()
                 };
                 var userinfoId = UserInfo.InsertUserInfo(userinfo);
                 if (userinfoId == 1.ToString(SnFormat))
@@ -189,9 +193,13 @@ namespace BlogSystem.Entity
                 var userinfo = GetUserInfoByRegMethodInnerId(qqAccount.Sn);
                 userinfo.Avatar_url = qqlogin.figureurl;
                 userinfo.NickName = qqlogin.nickname;
+
                 //防御性代码
                 if (userinfo.TagList == null) userinfo.TagList = new List<string>();
                 if (userinfo.TopicList == null) userinfo.TopicList = new List<string>();
+                if (userinfo.Catalog == null) userinfo.Catalog = new List<string>();
+                if (userinfo.Level == null) userinfo.Level = new List<ArticleLevel>();
+
                 UserInfo.UpdateUserInfo(userinfo);
                 return userinfo;
             }

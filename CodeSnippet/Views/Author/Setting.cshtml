@@ -1,0 +1,55 @@
+﻿@model UserInfo
+@{
+    ViewBag.Title = "个人设定";
+}
+@using (Html.BeginForm())
+{
+    <div class="SingleBox" style="border:none">
+        <div class="panel panel-primary">
+            <div class="panel-heading">文章详细</div>
+            <div class="panel-body">
+                <label>难度</label>
+                <br />
+                <input type="checkbox" name="Level" value="10" @(Model.Level.Contains(ArticleLevel.Easy) ? "checked" : string.Empty) />简单
+                <input type="checkbox" name="Level" value="20" @(Model.Level.Contains(ArticleLevel.Normal) ? "checked" : string.Empty) />普通
+                <input type="checkbox" name="Level" value="30" @(Model.Level.Contains(ArticleLevel.Hard) ? "checked" : string.Empty) />困难
+                <br /><br />
+                <label>分类</label>
+                <br />
+                @foreach (string item in Article.CatalogItem)
+                {
+                    <input type="checkbox" name="Catalog" value="@item.Substring(0, 4)" @(Model.Catalog.Contains(item.Substring(0, 4)) ? "checked" : string.Empty) />@item
+                    <br />
+                }
+                <br />
+                <br />
+                <label>标签(包含该标签,使用分号分割)</label>
+                <input class="form-control" type="text" name="ContainTag" style="margin:10px 0" value="@Model.ContainTag" onblur="GetTagFromTitle('ContainTag')" />
+                <span class="label label-info" style="margin:10px 10px" id="ContainTag"></span>
+                <br /><br />
+                <label>过滤标签(不包含该标签,使用分号分割)</label>
+                <input class="form-control" type="text" name="AntiTag" style="margin:10px 0" value="@Model.AntiTag"  onblur="GetTagFromTitle('AntiTag')" />
+                <span class="label label-info" style="margin:10px 10px" id="AntiTag"></span>
+                <br />
+                <br />
+                <input type="submit" class="btn btn-primary " value="保存" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function GetTagFromTitle(controlname) {
+        var _title = document.getElementsByName(controlname)[0].value;
+        $.post("/API/GetTagListByString.ashx",
+                {
+                    strTitle: _title,
+                },
+                function (data, textStatus) {
+                    //data 可以是 xmlDoc, jsonObj, html, text, 等等.
+                    //this; // 这个Ajax请求的选项配置信息，请参考jQuery.get()说到的this
+                    if (data.success == 1) {
+                        document.getElementById(controlname).innerText = "检测到标签：" + data.TagList
+                    }
+                }, "json");
+    }
+</script>

@@ -39,26 +39,5 @@ namespace BlogSystem.TagSystem
             }
             return TagCnt;
         }
-
-        /// <summary>
-        ///     处理用户标签（获得未定义的新标签）
-        /// </summary>
-        /// <param name="TagList"></param>
-        public static List<string> GetCustomTag(string TagList)
-        {
-            var NewTag = new List<string>();
-            if (string.IsNullOrEmpty(TagList)) return NewTag;
-            //使用分号切割
-            var tags = TagList.Split(";".ToCharArray());
-            foreach (var tag in tags)
-            {
-                //去掉版本（如果有）
-                var pureTag = tag.Split(":".ToCharArray())[0];
-                //新标签
-                NewTag.Add(pureTag);
-            }
-            return NewTag;
-        }
-
     }
 }

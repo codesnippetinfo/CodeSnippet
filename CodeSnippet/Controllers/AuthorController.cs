@@ -6,6 +6,7 @@ using InfraStructure.DataBase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System;
 
 namespace CodeSnippet.Controllers
 {
@@ -99,7 +100,40 @@ namespace CodeSnippet.Controllers
             return View("UserList");
         }
 
-
+        /// <summary>
+        /// 个人设定 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Setting()
+        {
+            if (Session[ConstHelper.Session_USERID] == null) return Redirect("/");
+            ViewData.Model = UserInfo.GetUserInfoBySn(Session[ConstHelper.Session_USERID].ToString());
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Setting(FormCollection colllection)
+        {
+            if (Session[ConstHelper.Session_USERID] == null) return Redirect("/");
+            var u = UserInfo.GetUserInfoBySn(Session[ConstHelper.Session_USERID].ToString());
+            if (colllection.AllKeys.Contains("Catalog"))
+            {
+                u.Catalog = colllection["Catalog"].Split(",".ToArray()).ToList();
+            }
+            if (colllection.AllKeys.Contains("Level"))
+            {
+                u.Level.Clear();
+                foreach (var level in colllection["Level"].Split(",".ToArray()))
+                {
+                    u.Level.Add((ArticleLevel)Enum.Parse(typeof(ArticleLevel), level));
+                }
+            }
+            u.AntiTag = colllection["AntiTag"];
+            u.ContainTag = colllection["ContainTag"];
+            UserInfo.UpdateUserInfo(u);
+            ViewData.Model = u;
+            return View();
+        }
         /// <summary>
         /// 站内消息
         /// </summary>

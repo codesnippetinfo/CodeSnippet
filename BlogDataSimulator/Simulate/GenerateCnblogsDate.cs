@@ -99,6 +99,10 @@ namespace BlogDataSimulator
                             TagList = new List<string>(),
                             NickName = gitaccount.Name,
                             Avatar_url = gitaccount.Avatar_url,
+                            ContainTag = string.Empty,
+                            AntiTag = string.Empty,
+                            Catalog = new List<string>(),
+                            Level = new List<ArticleLevel>()
                         };
                         var x = r.Next(100);
                         if (x % 10 == 0)

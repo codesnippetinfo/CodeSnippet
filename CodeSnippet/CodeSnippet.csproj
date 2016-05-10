@@ -626,6 +626,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\Article\DisplayTemplates\FunctionArea.cshtml" />
     <Content Include="Views\Author\DisplayTemplates\AuthorNavi.cshtml" />
+    <Content Include="Views\Author\Setting.cshtml" />
     <Content Include="Views\Shared\UserList.cshtml" />
     <Content Include="Views\Article\DisplayTemplates\ArticleInfo.cshtml" />
     <Content Include="Views\Author\PostToTopic.cshtml" />
@@ -724,6 +725,7 @@
     <Content Include="Views\Home\SerialList.cshtml" />
     <Content Include="Views\Home\DisplayTemplates\TopicListItem.cshtml" />
     <Content Include="webconfig.dummy" />
+    <Content Include="Views\Home\PersonIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

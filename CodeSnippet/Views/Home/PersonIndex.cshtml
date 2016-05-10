@@ -1,7 +1,8 @@
 ﻿@using InfraStructure.Utility
-@model IEnumerable<Topic>
+@model IEnumerable<ArticleItemBody>
 @{
-    ViewBag.Title = "专题一览";
+    ViewBag.Title = "首页";
+    Pages pages = ViewBag.Pages;
     ArticleBody TopArticle = ViewBag.TopArticle;
     AsideColumnBody AsideFirst = ViewBag.AsideFirst;
     AsideColumnBody AsideSecond = ViewBag.AsideSecond;
@@ -24,18 +25,21 @@
             @if (Session[CodeSnippet.ConstHelper.Session_NAME] != null)
             {
                 <li role="presentation">
-                    <a href="/Home/PersonIndex">我的首页</a>
+                    <a href="/Home/PersonIndex" class="active">我的首页</a>
                 </li>
             }
-            <li role="presentation" class="active"><a href="/Home/TopicList">专题列表</a></li>
+            <li role="presentation"><a href="/Home/TopicList">专题列表</a></li>
             <li role="presentation"><a href="/Home/SerialList">系列教程</a></li>
         </ul>
 
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))
+
         @foreach (var item in Model)
         {
-            @Html.DisplayFor(t => item, "TopicListItem", item)
+            @Html.DisplayFor(t => item, "ArticleListItem", item)
         }
 
+        @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "Index", new { PageNo = (pageno) }).ToString()))
     </div>
 
     <div class="col-md-4  visible-md-block visible-lg-block" style="margin:0;padding:0">

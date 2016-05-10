@@ -115,7 +115,7 @@ namespace CodeSnippet.Controllers
             //公开的审核通过的所有文章
             Pages p = new Pages(ArticleListManager.GetArticleCnt(ArticleListManager.PublicArticleQueryFilter), 50);
             p.CurrentPageNo = PageNo;
-            var currentpageList = ArticleListManager.GetPublicListForArticleByPage(p, false);
+            var currentpageList = ArticleListManager.GetPublicListForArticleByPage(p, ArticleListManager.PublicArticleQueryFilter);
             ViewData.Model = currentpageList;
             ViewBag.Pages = p;
             return View();
@@ -199,12 +199,13 @@ namespace CodeSnippet.Controllers
         {
             if (Session[ConstHelper.Session_USERID] == null || (UserType)Session[ConstHelper.Session_PRIVILEGE] != UserType.Admin) return Redirect("/");
             ViewData.Model = Tag.GetAllTags();
+            ViewBag.CustomTag = TagUtility.CustomNewTags;
             if (Request.Files.Count == 1 && Request.Files[0].ContentLength > 0)
             {
                 ReloadTagListFromExcel(Request.Files[0]);
                 TagUtility.Init();
                 ViewData.Model = Tag.GetAllTags();
-                ViewBag.CustomeTag = TagUtility.CustomNewTags;
+                ViewBag.CustomTag = TagUtility.CustomNewTags;
             }
             ViewBag.Title = "导入标签";
             return View();

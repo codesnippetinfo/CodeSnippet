@@ -150,7 +150,11 @@ namespace BlogSystem.Entity
                     Privilege = gitlogin.Followers >= 50 ? UserType.Author : UserType.Normal,
                     RegisterMethod = Github,
                     NickName = gitlogin.Name,
-                    Avatar_url = gitlogin.Avatar_url
+                    Avatar_url = gitlogin.Avatar_url,
+                    ContainTag = string.Empty,
+                    AntiTag = string.Empty,
+                    Catalog = new List<string>(),
+                    Level = new List<ArticleLevel>()
                 };
                 var userinfoId = UserInfo.InsertUserInfo(userinfo);
                 if (userinfoId == 1.ToString(SnFormat))
@@ -185,9 +189,13 @@ namespace BlogSystem.Entity
                 //这里必须返回gitAccount，因为gitlogin没有UserInfoID
                 userinfo.Avatar_url = gitlogin.Avatar_url;
                 userinfo.NickName = gitlogin.Name;
+
                 //防御性代码
                 if (userinfo.TagList == null) userinfo.TagList = new List<string>();
                 if (userinfo.TopicList == null) userinfo.TopicList = new List<string>();
+                if (userinfo.Catalog == null) userinfo.Catalog = new List<string>();
+                if (userinfo.Level == null) userinfo.Level = new List<ArticleLevel>();
+
                 //具有50个追随者的普通人是特约作者
                 if (gitlogin.Followers >= 50)
                 {

@@ -135,7 +135,7 @@
             this.txtCnblogFilename.Name = "txtCnblogFilename";
             this.txtCnblogFilename.Size = new System.Drawing.Size(412, 21);
             this.txtCnblogFilename.TabIndex = 3;
-            this.txtCnblogFilename.Text = "E:\\WorkSpace\\Domino\\BlogDataSimulator\\Sample\\ArticleList.txt";
+            this.txtCnblogFilename.Text = "E:\\WorkSpace\\CodeSnippet\\BlogDataSimulator\\Sample\\ArticleList.txt";
             // 
             // Cnblogs
             // 
@@ -163,7 +163,7 @@
             this.txtMDContent.Name = "txtMDContent";
             this.txtMDContent.Size = new System.Drawing.Size(412, 21);
             this.txtMDContent.TabIndex = 3;
-            this.txtMDContent.Text = "E:\\WorkSpace\\Domino\\BlogDataSimulator\\Sample\\Markdown.txt";
+            this.txtMDContent.Text = "E:\\WorkSpace\\CodeSnippet\\BlogDataSimulator\\Sample\\Markdown.txt";
             // 
             // groupBox1
             // 
@@ -363,7 +363,7 @@
             this.txtHTMLContent.Name = "txtHTMLContent";
             this.txtHTMLContent.Size = new System.Drawing.Size(411, 21);
             this.txtHTMLContent.TabIndex = 12;
-            this.txtHTMLContent.Text = "E:\\WorkSpace\\Domino\\BlogDataSimulator\\Sample\\Html.txt";
+            this.txtHTMLContent.Text = "E:\\WorkSpace\\CodeSnippet\\BlogDataSimulator\\Sample\\Html.txt";
             // 
             // btnHTMLContent
             // 
@@ -563,7 +563,7 @@
             // 
             // btnMarkDownFile
             // 
-            this.btnMarkDownFile.Location = new System.Drawing.Point(541, 476);
+            this.btnMarkDownFile.Location = new System.Drawing.Point(478, 476);
             this.btnMarkDownFile.Name = "btnMarkDownFile";
             this.btnMarkDownFile.Size = new System.Drawing.Size(75, 23);
             this.btnMarkDownFile.TabIndex = 9;
@@ -575,7 +575,7 @@
             // 
             this.txtMarkDownFile.Location = new System.Drawing.Point(124, 478);
             this.txtMarkDownFile.Name = "txtMarkDownFile";
-            this.txtMarkDownFile.Size = new System.Drawing.Size(411, 21);
+            this.txtMarkDownFile.Size = new System.Drawing.Size(348, 21);
             this.txtMarkDownFile.TabIndex = 12;
             this.txtMarkDownFile.Text = "E:\\WorkSpace\\Domino\\BlogDataSimulator\\Sample\\MarkDownForAnlyze.txt";
             // 
@@ -583,7 +583,7 @@
             // 
             this.btnAnlyzeMarkDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnAnlyzeMarkDown.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAnlyzeMarkDown.Location = new System.Drawing.Point(541, 508);
+            this.btnAnlyzeMarkDown.Location = new System.Drawing.Point(571, 476);
             this.btnAnlyzeMarkDown.Name = "btnAnlyzeMarkDown";
             this.btnAnlyzeMarkDown.Size = new System.Drawing.Size(75, 23);
             this.btnAnlyzeMarkDown.TabIndex = 29;

@@ -1,7 +1,7 @@
 ﻿@using BlogSystem.TagSystem
 @model IEnumerable<Tag>
 @{
-    List<string> CustomeTag = ViewBag.CustomeTag;
+    List<string> CustomTag = ViewBag.CustomTag;
 }
 
 @Html.DisplayFor(t => t, "AdminNavi", null)
@@ -16,7 +16,7 @@
     </div>
 }
 <br />
-@if (CustomeTag.Count != 0)
+@if (CustomTag.Count != 0)
 {
     <table class="table table-striped">
         <tr>
@@ -24,7 +24,7 @@
                 新标签
             </td>
         </tr>
-        @foreach (var item in CustomeTag)
+        @foreach (var item in CustomTag)
         {
             <tr>
                 <td>

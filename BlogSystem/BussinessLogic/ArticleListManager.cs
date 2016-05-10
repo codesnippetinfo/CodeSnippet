@@ -43,6 +43,14 @@ namespace BlogSystem.BussinessLogic
             public ApproveStatus[] statuslist;
             public string ownid;
             public string collectionid;
+
+            //过滤
+            public ArticleLevel[] Levelist;
+            public string[] Cataloglist;
+            //包含标签
+            public string[] ContainTag;
+            //过滤标签
+            public string[] AntiTag;
         }
         /// <summary>
         /// 获得文章列表查询条件
@@ -51,27 +59,27 @@ namespace BlogSystem.BussinessLogic
         /// <returns></returns>
         public static IMongoQuery GetQueryByArticelFilter(ArticleQueryFilter filter)
         {
-            IMongoQuery query = null;
+            IMongoQuery basicQuery = null;
             if (filter.isFirstPage != null)
             {
-                if (query != null)
+                if (basicQuery != null)
                 {
-                    query = Query.And(query, Query.EQ(nameof(Article.IsFirstPage), filter.isFirstPage));
+                    basicQuery = Query.And(basicQuery, Query.EQ(nameof(Article.IsFirstPage), filter.isFirstPage));
                 }
                 else
                 {
-                    query = Query.EQ(nameof(Article.IsFirstPage), filter.isFirstPage);
+                    basicQuery = Query.EQ(nameof(Article.IsFirstPage), filter.isFirstPage);
                 }
             }
             if (filter.isPrivate != null)
             {
-                if (query != null)
+                if (basicQuery != null)
                 {
-                    query = Query.And(query, Query.EQ(nameof(Article.IsPrivate), filter.isPrivate));
+                    basicQuery = Query.And(basicQuery, Query.EQ(nameof(Article.IsPrivate), filter.isPrivate));
                 }
                 else
                 {
-                    query = Query.EQ(nameof(Article.IsPrivate), filter.isPrivate);
+                    basicQuery = Query.EQ(nameof(Article.IsPrivate), filter.isPrivate);
                 }
             }
             if (filter.statuslist != null)
@@ -88,38 +96,147 @@ namespace BlogSystem.BussinessLogic
                         statusQuery = Query.EQ(nameof(Article.PublishStatus), status);
                     }
                 }
-                if (query != null)
+                if (basicQuery != null)
                 {
-                    query = Query.And(query, statusQuery);
+                    basicQuery = Query.And(basicQuery, statusQuery);
                 }
                 else
                 {
-                    query = statusQuery;
+                    basicQuery = statusQuery;
                 }
             }
+            //Owner
             if (!string.IsNullOrEmpty(filter.ownid))
             {
-                if (query != null)
+                if (basicQuery != null)
                 {
-                    query = Query.And(query, Query.EQ(nameof(Article.OwnerId), filter.ownid));
+                    basicQuery = Query.And(basicQuery, Query.EQ(nameof(Article.OwnerId), filter.ownid));
                 }
                 else
                 {
-                    query = Query.EQ(nameof(Article.OwnerId), filter.ownid);
+                    basicQuery = Query.EQ(nameof(Article.OwnerId), filter.ownid);
                 }
             }
             if (!string.IsNullOrEmpty(filter.collectionid))
             {
-                if (query != null)
+                if (basicQuery != null)
                 {
-                    query = Query.And(query, Query.EQ(nameof(Article.CollectionID), filter.collectionid));
+                    basicQuery = Query.And(basicQuery, Query.EQ(nameof(Article.CollectionID), filter.collectionid));
                 }
                 else
                 {
-                    query = Query.EQ(nameof(Article.CollectionID), filter.collectionid);
+                    basicQuery = Query.EQ(nameof(Article.CollectionID), filter.collectionid);
                 }
             }
-            return query;
+
+
+            IMongoQuery userQuery = null;
+            //难度
+            if (filter.Levelist != null)
+            {
+                IMongoQuery levelQuery = null;
+                foreach (var level in filter.Levelist)
+                {
+                    if (levelQuery != null)
+                    {
+                        levelQuery = Query.Or(levelQuery, Query.EQ(nameof(Article.Level), level));
+                    }
+                    else
+                    {
+                        levelQuery = Query.EQ(nameof(Article.Level), level);
+                    }
+                }
+                if (userQuery != null)
+                {
+                    userQuery = Query.And(userQuery, levelQuery);
+                }
+                else
+                {
+                    userQuery = levelQuery;
+                }
+            }
+            //分类
+            if (filter.Cataloglist != null)
+            {
+                IMongoQuery CatalogQuery = null;
+                foreach (var catalog in filter.Cataloglist)
+                {
+                    if (CatalogQuery != null)
+                    {
+                        CatalogQuery = Query.Or(CatalogQuery, Query.EQ(nameof(Article.Catalog), catalog));
+                    }
+                    else
+                    {
+                        CatalogQuery = Query.EQ(nameof(Article.Catalog), catalog);
+                    }
+                }
+                if (userQuery != null)
+                {
+                    userQuery = Query.And(userQuery, CatalogQuery);
+                }
+                else
+                {
+                    userQuery = CatalogQuery;
+                }
+            }
+
+            //不包含，使用AND连接
+            if (filter.AntiTag != null)
+            {
+                IMongoQuery AntiTagQuery = null;
+                foreach (var tag in filter.AntiTag)
+                {
+                    if (AntiTagQuery != null)
+                    {
+                        //过滤标签用AND
+                        AntiTagQuery = Query.And(AntiTagQuery, Query.NE(nameof(Article.TagName), tag));
+                    }
+                    else
+                    {
+                        AntiTagQuery = Query.NE(nameof(Article.TagName), tag);
+                    }
+                }
+                if (userQuery != null)
+                {
+                    userQuery = Query.And(userQuery, AntiTagQuery);
+                }
+                else
+                {
+                    userQuery = AntiTagQuery;
+                }
+            }
+
+
+            //注意：这个条件必须写在最后
+            //注意：这个条件必须写在最后
+            //注意：这个条件必须写在最后
+            //包含，使用OR连接
+            if (filter.ContainTag != null)
+            {
+                IMongoQuery ContainTagQuery = null;
+                foreach (var tag in filter.ContainTag)
+                {
+                    if (ContainTagQuery != null)
+                    {
+                        //过滤标签用AND
+                        ContainTagQuery = Query.Or(ContainTagQuery, Query.EQ(nameof(Article.TagName), tag));
+                    }
+                    else
+                    {
+                        ContainTagQuery = Query.EQ(nameof(Article.TagName), tag);
+                    }
+                }
+                if (userQuery != null)
+                {
+                    userQuery = Query.Or(userQuery, ContainTagQuery);
+                }
+                else
+                {
+                    userQuery = ContainTagQuery;
+                }
+            }
+
+            return userQuery == null ? basicQuery : Query.And(basicQuery, userQuery);
         }
 
         /// <summary>
@@ -234,7 +351,10 @@ namespace BlogSystem.BussinessLogic
         /// 按照确认时间排序
         /// </summary>
         /// <param name="p">分页器</param>
-        public static List<ArticleItemBody> GetPublicListForArticleByPage(Pages p, bool isFirstPage = true)
+        /// <param name="isFirstPage">仅首页</param>
+        /// <param name="AddtionalCondition">附加条件</param>
+        /// <returns></returns>
+        public static List<ArticleItemBody> GetPublicListForArticleByPage(Pages p, ArticleQueryFilter filter)
         {
             //注意这里必须要控制取出的数量，当然现在可以不考虑优化问题
             //所有文章中首页审核通过的，限制数量4000篇（20 * 20）
@@ -249,14 +369,7 @@ namespace BlogSystem.BussinessLogic
             //修改后的文章再发布，则发布日期是最新的，这里使用首页审核日期作为排序日期。
             Action<MongoCursor> setCursor = x => { x.SetSkip(p.SkipCount()).SetLimit(p.PageItemCount).SetSortOrder(Sort.GetSortBuilder(sortArgs)); };
             var firstpage = new List<Article>();
-            if (isFirstPage)
-            {
-                firstpage = MongoDbRepository.GetRecList<Article>(FirstPageArticleQuery, setCursor);
-            }
-            else
-            {
-                firstpage = MongoDbRepository.GetRecList<Article>(PublicArticleQuery, setCursor);
-            }
+            firstpage = MongoDbRepository.GetRecList<Article>(GetQueryByArticelFilter(filter), setCursor);
             var titlelist = new List<ArticleItemBody>();
             foreach (var item in firstpage)
             {

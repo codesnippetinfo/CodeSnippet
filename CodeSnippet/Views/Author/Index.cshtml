@@ -93,15 +93,15 @@
                 <label>@Model.UserInfo.NickName</label>
                 @if (Model.UserInfo.Privilege == UserType.Author)
                 {
-                    <label class="Privilege">特约作者</label>
+                    <label class="Privilege" style="float:right">特约作者</label>
                 }
                 @if (Model.UserInfo.Privilege == UserType.Editor)
                 {
-                    <label class="Privilege">编辑</label>
+                    <label class="Privilege" style="float:right">编辑</label>
                 }
                 @if (Model.UserInfo.Privilege == UserType.Admin)
                 {
-                    <label class="Privilege">管理员</label>
+                    <label class="Privilege" style="float:right">管理员</label>
                 }
             </div>
             @if (Model.UserInfo.RegisterMethod == GithubAccount.Github)

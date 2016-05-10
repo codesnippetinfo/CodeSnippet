@@ -185,8 +185,16 @@ namespace CodeSnippet.Controllers
                 Session[ConstHelper.Session_NAME] = userInfo.NickName;
                 Session[ConstHelper.Session_AVATAR] = userInfo.Avatar_url;
                 Session[ConstHelper.Session_PRIVILEGE] = userInfo.Privilege;
+                if (userInfo.Privilege == UserType.Admin)
+                {
+                    return Redirect("/Admin/Index");
+                }
+                else
+                {
+                    return Redirect("/Author/SiteMessageList");
+                }
             }
-            return Redirect("/Author/SiteMessageList");
+            return Redirect("/");
         }
 
         /// <summary>
@@ -227,14 +235,25 @@ namespace CodeSnippet.Controllers
                     Session[ConstHelper.Session_NAME] = userInfo.NickName;
                     Session[ConstHelper.Session_AVATAR] = userInfo.Avatar_url;
                     Session[ConstHelper.Session_PRIVILEGE] = userInfo.Privilege;
+                    if (userInfo.Privilege == UserType.Admin)
+                    {
+                        return Redirect("/Admin/Index");
+                    }
+                    else
+                    {
+                        return Redirect("/Author/SiteMessageList");
+                    }
+                }
+                else
+                {
+                    return Redirect("/");
                 }
             }
             catch (Exception ex)
             {
                 InfraStructure.Log.ExceptionLog.Log("SYSTEM", "QQOAuth", "GET USER INFO", ex.ToString());
-                Redirect("/");
+                return Redirect("/");
             }
-            return Redirect("/Author/SiteMessageList");
         }
         /// <summary>
         /// 注销

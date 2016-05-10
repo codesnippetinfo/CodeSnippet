@@ -199,6 +199,8 @@ namespace BlogSystem.Entity
                 if (userinfo.TopicList == null) userinfo.TopicList = new List<string>();
                 if (userinfo.Catalog == null) userinfo.Catalog = new List<string>();
                 if (userinfo.Level == null) userinfo.Level = new List<ArticleLevel>();
+                if (userinfo.ContainTag == null) userinfo.ContainTag = string.Empty;
+                if (userinfo.AntiTag == null) userinfo.AntiTag = string.Empty;
 
                 UserInfo.UpdateUserInfo(userinfo);
                 return userinfo;

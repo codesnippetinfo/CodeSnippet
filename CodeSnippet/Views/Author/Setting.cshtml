@@ -10,9 +10,18 @@
             <div class="panel-body">
                 <label>难度</label>
                 <br />
-                <input type="checkbox" name="Level" value="10" @(Model.Level.Contains(ArticleLevel.Easy) ? "checked" : string.Empty) />简单
-                <input type="checkbox" name="Level" value="20" @(Model.Level.Contains(ArticleLevel.Normal) ? "checked" : string.Empty) />普通
-                <input type="checkbox" name="Level" value="30" @(Model.Level.Contains(ArticleLevel.Hard) ? "checked" : string.Empty) />困难
+                <input type="checkbox" name="Level" value="10" @(Model.Level.Contains(ArticleLevel.Easy) ? "checked" : string.Empty) />
+                <span class="label label-info">
+                    入门
+                </span><br /><br />
+                <input type="checkbox" name="Level" value="20" @(Model.Level.Contains(ArticleLevel.Normal) ? "checked" : string.Empty) />
+                <span class="label label-success">
+                    普通
+                </span><br /><br />
+                <input type="checkbox" name="Level" value="30" @(Model.Level.Contains(ArticleLevel.Hard) ? "checked" : string.Empty) />
+                <span class="label label-primary">
+                    困难
+                </span><br />
                 <br /><br />
                 <label>分类</label>
                 <br />
@@ -28,7 +37,7 @@
                 <span class="label label-info" style="margin:10px 10px" id="ContainTag"></span>
                 <br /><br />
                 <label>过滤标签(不包含该标签,使用分号分割)</label>
-                <input class="form-control" type="text" name="AntiTag" style="margin:10px 0" value="@Model.AntiTag"  onblur="GetTagFromTitle('AntiTag')" />
+                <input class="form-control" type="text" name="AntiTag" style="margin:10px 0" value="@Model.AntiTag" onblur="GetTagFromTitle('AntiTag')" />
                 <span class="label label-info" style="margin:10px 10px" id="AntiTag"></span>
                 <br />
                 <br />

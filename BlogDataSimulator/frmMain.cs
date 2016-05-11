@@ -353,25 +353,25 @@ namespace BlogDataSimulator
         /// <param name="e"></param>
         private void btnPdfCreator_Click(object sender, EventArgs e)
         {
-            foreach (var file in new DirectoryInfo(@"C:\Users\scs\Desktop\DD").GetFiles())
-            {
-                System.Diagnostics.Debug.Print(file.Name);
-                foreach (var c in file.Name.ToCharArray())
-                {
-                    System.Diagnostics.Debug.Print(c.ToString() + ":" + (int)c);
-                    var cx1 = (char)160;
-                    var cx2 = (char)32;
-                }
-                break;
-            }
-            return;
-
+            //Console.WriteLine((char)('生' & '死'));
+            //foreach (var file in new DirectoryInfo(@"C:\Users\scs\Desktop\DD").GetFiles())
+            //{
+            //    System.Diagnostics.Debug.Print(file.Name);
+            //    foreach (var c in file.Name.ToCharArray())
+            //    {
+            //        System.Diagnostics.Debug.Print(c.ToString() + ":" + (int)c);
+            //        var cx1 = (char)160;
+            //        var cx2 = (char)32;
+            //    }
+            //    break;
+            //}
+            //return;
             //callback( { "client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
-            var res = "callback( { \"client_id\":\"YOUR_APPID\",\"openid\":\"YOUR_OPENID\"} );";
-            string json = res.Substring(res.IndexOf("(") + 1);
-            json = json.Substring(0, json.IndexOf(")"));
-            dynamic obj = JsonConvert.DeserializeObject(json);
-            string openid = obj.openid;
+            //var res = "callback( { \"client_id\":\"YOUR_APPID\",\"openid\":\"YOUR_OPENID\"} );";
+            //string json = res.Substring(res.IndexOf("(") + 1);
+            //json = json.Substring(0, json.IndexOf(")"));
+            //dynamic obj = JsonConvert.DeserializeObject(json);
+            //string openid = obj.openid;
             string articleId = txtArticleIdForPDF.Text;
             articleId = "00000575";
             Misc.ConvertUrlToPdf("http://localhost:60907/Article/SimplePdf?ArticleId=" + articleId, articleId,true);

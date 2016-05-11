@@ -4,19 +4,20 @@ www.codesnippet.info 是一个专注于科技博客的写作分享平台。
 我们的网站是完全开源的，开源地址请参见本文下方的地址。
 如果您对于ASP.NET MVC5熟悉，对于MongoDB熟悉，对于HTML熟悉，对于ElasticSearch熟悉，都可以参与网站的开发。当然，您的意见和建议也是对于我们的支持。
 除了开源之外，我们还有以下的特色，这里先罗列一下，后文会逐一介绍。
-- 作者的推广区域，每个作者可以有权利在网站中做推广。优秀作者可以置顶文章推广
-- 无广告，36个月之内保证没有官方广告，成本维持不下去，就关闭网站
-- 自动保存，再也不用担心网络问题造成的文章丢失
-- 文章过滤器，您可以关注您想看的内容，大虾可以过滤掉小白的文章
-- 热爱文学，我们不拒绝文学作品
-- 开源，增加您的参与度
-- MarkDown，好的写作和阅读体验.
-- PDF下载和阅读模式
-- 使用BootStrap开发，整体UI尽量保持美感
-- 我们不保存您的用户名和密码，使用QQ和Github进行登录，保护您的隐私
-- 您可以申请作为编辑，参与我们的工作。
-- 详细的文章设定，标签系统
-- 我们只做博客，没有论坛，没有代码托管，我们要做IT界的jianshu.com
+
+- 作者的推广区域，每个作者可以有权利在网站中做推广。优秀作者可以置顶文章推广  
+- 无广告，36个月之内保证没有官方广告，成本维持不下去，就关闭网站  
+- 自动保存，再也不用担心网络问题造成的文章丢失  
+- 文章过滤器，您可以关注您想看的内容，大虾可以过滤掉小白的文章  
+- 热爱文学，我们不拒绝文学作品  
+- 开源，增加您的参与度  
+- MarkDown，好的写作和阅读体验，例如预览功能和图片放大功能   
+- PDF下载和阅读模式  
+- 使用BootStrap开发，整体UI尽量保持美感  
+- 我们不保存您的用户名和密码，使用QQ和Github进行登录，保护您的隐私  
+- 您可以申请作为编辑，参与我们的工作。  
+- 详细的文章设定，标签系统  
+- 我们只做博客，没有论坛，没有代码托管，我们要做IT界的jianshu.com  
 
 本文的地址：
 [www.codesnippet.info 网站介绍](http://www.codesnippet.info/PostEdit/MarkDownEditor?ArticleID=00000006 "www.codesnippet.info 网站介绍")
@@ -217,13 +218,13 @@ www.codesnippet.info 是一个专注于科技博客的写作分享平台。
         }
 ```
 # 开源和贡献
-本网站所有代码都开源：[CodeSnippet.info 源代码](https://github.com/codesnippetinfo/CodeSnippet "CodeSnippet.info 源代码")
-开发环境搭建说明：[CodeSnippet.info 开源说明 和 环境搭建](http://codesnippet.info/Article/Index?ArticleId=00000009 "CodeSnippet.info 开源说明 和 环境搭建")
-本网站使用 [https://www.bugclose.com](https://www.bugclose.com)  进行项目品质管理。
-如果您想要成为开发者，可以和我联系：请在Github上留个Issue
+本网站所有代码都开源：[CodeSnippet.info 源代码](https://github.com/codesnippetinfo/CodeSnippet "CodeSnippet.info 源代码")  
+开发环境搭建说明：[CodeSnippet.info 开源说明 和 环境搭建](http://codesnippet.info/Article/Index?ArticleId=00000009 "CodeSnippet.info 开源说明 和 环境搭建")  
+本网站使用 [https://www.bugclose.com](https://www.bugclose.com)  进行项目品质管理。  
+如果您想要成为开发者，可以和我联系：请在Github上留个Issue  
 
 # 友情链接
-[手册网（第一个友情链接）](http://www.shouce.ren/ "手册网")
-[削微寒的个人博客（第一位特约作者）](http://www.xueweihan.com/ "削微寒的个人博客")
-[上海中和软件公司（本人工作的公司）](http://www.shanghaichuwa.com/ "上海中和软件公司")
-[王福朋的开源项目（热心推广者）](http://wangeditor.github.io/ "王福朋的开源项目")
+- [手册网（第一个友情链接）](http://www.shouce.ren/ "手册网")
+- [削微寒的个人博客（第一位特约作者）](http://www.xueweihan.com/ "削微寒的个人博客")
+- [上海中和软件公司（本人工作的公司）](http://www.shanghaichuwa.com/ "上海中和软件公司")
+- [王福朋的开源项目（热心推广者）](http://wangeditor.github.io/ "王福朋的开源项目")

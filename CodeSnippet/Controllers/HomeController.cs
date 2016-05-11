@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using static BlogSystem.BussinessLogic.ArticleListManager;
+using BlogSystem.TagSystem;
 
 namespace CodeSnippet.Controllers
 {
@@ -26,6 +27,29 @@ namespace CodeSnippet.Controllers
             ViewData.Model = currentpageList;
             ViewBag.TopArticle = GetTopArticle();
             ViewBag.Pages = p;
+            ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
+            ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
+            ViewBag.AsideThird = ASideColumnManager.HotArticle(10, 72);
+            return View();
+        }
+
+        /// <summary>
+        /// 统计
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Statistics()
+        {
+            ViewBag.TagChartName = "/Temp/" + DateTime.Now.ToString("yyyyMMdd") + "_Tag.jpeg";
+            string filename = Server.MapPath(ViewBag.TagChartName);
+            if (!System.IO.File.Exists(filename))
+            {
+                var tagDictionary = new Dictionary<string, int>();
+                for (int i = 0; i < Math.Min(10, TagUtility.TagRankContain.RankList.Count); i++)
+                {
+                    tagDictionary.Add(TagUtility.TagRankContain.RankList[i].Key, TagUtility.TagRankContain.RankList[i].Count);
+                }
+                InfraStructure.Chart.ChartHelper.GetColumnChart(filename, "标签数量TOP10", tagDictionary,InfraStructure.Chart.ChartType.Column,800,600);
+            }
             ViewBag.AsideFirst = ASideColumnManager.MostArticleAuthor(10);
             ViewBag.AsideSecond = ASideColumnManager.MostHotTag(10);
             ViewBag.AsideThird = ASideColumnManager.HotArticle(10, 72);

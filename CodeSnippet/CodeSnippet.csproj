@@ -726,6 +726,7 @@
     <Content Include="Views\Home\DisplayTemplates\TopicListItem.cshtml" />
     <Content Include="webconfig.dummy" />
     <Content Include="Views\Home\PersonIndex.cshtml" />
+    <Content Include="Views\Home\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

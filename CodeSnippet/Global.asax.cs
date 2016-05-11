@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.IO;
+using InfraStructure.Utility;
 
 namespace CodeSnippet
 {
@@ -89,7 +90,24 @@ namespace CodeSnippet
             }
             //业务配置加载
             GetConfig();
+            //临时文件夹
+            ClearAllTempFiles(Server.MapPath("/"));
         }
+
+        /// <summary>
+        ///     清除所有图表缓存
+        /// </summary>
+        /// <param name="rootPath">服务器根路径</param>
+        public static void ClearAllTempFiles(string rootPath)
+        {
+            var tempPath = rootPath + "/Temp/";
+            if (Directory.Exists(tempPath))
+            {
+                Directory.Delete(tempPath, true);
+            }
+            Directory.CreateDirectory(tempPath);
+        }
+
         /// <summary>
         /// 设置缓存
         /// </summary>

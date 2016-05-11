@@ -11,19 +11,16 @@ namespace InfraStructure.Chart
         /// <summary>
         /// 获得图表
         /// </summary>
-        /// <param name="ownerId"></param>
-        /// <param name="imageName"></param>
-        /// <param name="title"></param>
-        /// <param name="chanelList"></param>
-        /// <param name="chartType"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="title">标题</param>
+        /// <param name="chanelList">数据项目</param>
+        /// <param name="chartType">图表类型</param>
+        /// <param name="width">高度</param>
+        /// <param name="height">宽度</param>
         /// <returns></returns>
-        public static string GetColumnChart(string ownerId, string imageName, string title,
+        public static string GetColumnChart(string chartImageFileName, string title,
             Dictionary<string, int> chanelList,
             ChartType chartType = ChartType.Column, int width = 600, int height = 400)
         {
-            var chartImageFileName = TempFileExtend.GetChartFileName(ownerId, imageName);
             var mChart = new System.Web.Helpers.Chart(width, height);
             mChart.AddTitle(title);
             mChart.AddSeries(
@@ -38,9 +35,8 @@ namespace InfraStructure.Chart
         /// </summary>
         /// <param name="chartSet"></param>
         /// <returns></returns>
-        public static string GetColumnChart(ChartSetCenter chartSet)
+        public static string GetColumnChart(string chartImageFileName, ChartSetCenter chartSet)
         {
-            var chartImageFileName = TempFileExtend.GetChartFileName(chartSet.OwnerId, chartSet.FieldName);
             var mChart = new System.Web.Helpers.Chart(chartSet.Width, chartSet.Height);
             mChart.AddTitle(chartSet.Title);
             var chartData = chartSet.GetChartData();

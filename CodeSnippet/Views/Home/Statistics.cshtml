@@ -1,0 +1,41 @@
+﻿@using InfraStructure.Utility
+@using BlogSystem.TagSystem;
+@model IEnumerable<ArticleItemBody>
+@{
+    ViewBag.Title = "首页";
+    Pages pages = ViewBag.Pages;
+    ArticleBody TopArticle = ViewBag.TopArticle;
+    AsideColumnBody AsideFirst = ViewBag.AsideFirst;
+    AsideColumnBody AsideSecond = ViewBag.AsideSecond;
+    AsideColumnBody AsideThird = ViewBag.AsideThird;
+}
+<div class="row" style="width:1275px;margin: 20px auto;">
+    <div class="col-md-8" style="margin:0;padding:0">
+        <img src="@ViewBag.TagChartName" />
+        <table class="table table-striped">
+            <tr>
+                <th>Rank</th>
+                <th>名称</th>
+                <th>数量</th>
+            </tr>
+            @for (int i = 0; i < Math.Min(10, TagUtility.TagRankContain.RankList.Count); i++)
+            {
+                <tr>
+                    <td>@TagUtility.TagRankContain.RankList[i].Rank</td>
+                    <td>@TagUtility.TagRankContain.RankList[i].Key</td>
+                    <td>@TagUtility.TagRankContain.RankList[i].Count</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4  visible-md-block visible-lg-block" style="margin:0;padding:0">
+        @Html.DisplayFor(t => AsideFirst, "SideColumn", AsideFirst)
+        <br />
+        <br />
+        @Html.DisplayFor(t => AsideSecond, "SideColumn", AsideSecond)
+        <br />
+        <br />
+        @Html.DisplayFor(t => AsideThird, "SideColumn", AsideThird)
+    </div>
+
+</div>

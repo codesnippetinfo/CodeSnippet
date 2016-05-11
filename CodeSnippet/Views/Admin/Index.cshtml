@@ -13,6 +13,12 @@
                 申请时间
             </th>
             <th>
+                难度
+            </th>
+            <th width="100px">
+                分类
+            </th>
+            <th>
                 作者
             </th>
             <th>
@@ -29,11 +35,17 @@
                     @item.PublishDateTime
                 </td>
                 <td>
+                    @item.Level
+                </td>
+                <td>
+                    @item.Catalog
+                </td>
+                <td>
                     @UserInfo.GetUserInfoBySn(item.OwnerId).NickName
                 </td>
                 <td>
                     <a href="/Admin/ViewArticle?ArticleID=@item.Sn" class="btn btn-sm btn-primary">
-                        <span class="glyphicon glyphicon-open"/><span>&nbsp;查看&nbsp;</span>
+                        <span class="glyphicon glyphicon-open" /><span>&nbsp;查看&nbsp;</span>
                     </a>
                 </td>
             </tr>

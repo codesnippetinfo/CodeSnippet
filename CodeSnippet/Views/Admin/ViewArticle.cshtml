@@ -17,16 +17,18 @@
     </div>
 </div>
 <div class="SingleBox">
+    <label>难度：[@Model.ArticleInfo.Level]</label><br />
+    <label>分类：[@Model.ArticleInfo.Catalog]</label><br />
     <label>推广文字：[@Model.ArticleInfo.AdvText]</label><br />
     <label>推广链接：[@Model.ArticleInfo.AdvLink]</label><br />
     <label>推广图片：</label><br /><img src="@Model.ArticleInfo.AdvImageUrl" style="max-height:400px;max-width:400px;" /><br /><br />
     <a href="/Admin/Accept?ArticleID=@Model.ArticleInfo.Sn" class="btn btn-sm btn-success" onclick="return OpenModal(this.href, '确认接受', '确认接受该条记录？')">
-        <span class="glyphicon glyphicon-remove"/><span>&nbsp;接受&nbsp;</span>
+        <span class="glyphicon glyphicon-remove" /><span>&nbsp;接受&nbsp;</span>
     </a>
     <br /><br />
     <form action="/Admin/Reject" method="post">
         <a href="javascript:document.forms[1].submit();" class="btn btn-sm btn-danger" onclick="return OpenModal(this.href, '确认拒绝', '确认拒绝该条记录？')">
-            <span class="glyphicon glyphicon-remove"/><span>&nbsp;拒绝&nbsp;</span>
+            <span class="glyphicon glyphicon-remove" /><span>&nbsp;拒绝&nbsp;</span>
         </a>
         审核留言：
         <input type="text" name="message" style="width:400px" value="内容不符合网站首页要求" />

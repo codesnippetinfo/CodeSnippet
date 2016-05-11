@@ -84,9 +84,12 @@
                     }
                 </td>
                 <td>
-                    <a href="/Admin/Privilege?Group=@UserType.Editor.ToString()&AccountId=@item.UserInfo.Sn">编辑</a> |
-                    <a href="/Admin/Privilege?Group=@UserType.Author.ToString()&AccountId=@item.UserInfo.Sn">特约作者</a> |
-                    <a href="/Admin/Privilege?Group=@UserType.Block.ToString()&AccountId=@item.UserInfo.Sn">拉黑</a>
+                    @if (item.UserInfo.Privilege != UserType.Admin)
+                    {
+                        <a href="/Admin/Privilege?Group=@UserType.Editor.ToString()&AccountId=@item.UserInfo.Sn">编辑</a> @:|
+                        <a href="/Admin/Privilege?Group=@UserType.Author.ToString()&AccountId=@item.UserInfo.Sn"> 特约作者 </a> @:|
+                        <a href="/Admin/Privilege?Group=@UserType.Block.ToString()&AccountId=@item.UserInfo.Sn"> 拉黑 </a>
+                    }
                 </td>
             </tr>
         }

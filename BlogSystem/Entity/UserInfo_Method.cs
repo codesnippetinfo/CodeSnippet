@@ -21,34 +21,35 @@ namespace BlogSystem.Entity
         }
 
         /// <summary>
-        /// 除去管理员和拉黑用户之外的所有人
+        /// 除去拉黑用户之外的所有人
         /// </summary>
-        public static IMongoQuery NormalUserQuery
+        public static IMongoQuery NoBlockUserQuery
         {
             get
             {
                 var NormalQuery = Query.EQ(nameof(Privilege), UserType.Normal);
                 var AuthorQuery = Query.EQ(nameof(Privilege), UserType.Author);
                 var EditorQuery = Query.EQ(nameof(Privilege), UserType.Editor);
-                return Query.Or(NormalQuery, AuthorQuery, EditorQuery);
+                var AdminQuery = Query.EQ(nameof(Privilege), UserType.Admin);
+                return Query.Or(NormalQuery, AuthorQuery, EditorQuery, AdminQuery);
             }
         }
         
         /// <summary>
-        /// 普通和作者的人数
+        /// 非黑名单的人数
         /// </summary>
         /// <returns></returns>
-        public static int GetNormalUserCnt()
+        public static int GetNoBlockUserCnt()
         {
-            return MongoDbRepository.GetRecordCount<UserInfo>(NormalUserQuery);
+            return MongoDbRepository.GetRecordCount<UserInfo>(NoBlockUserQuery);
         }
 
         /// <summary>
-        /// 普通和作者的一览表
+        /// 非黑名单的一览表
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static List<UserInfo> GetNormalUserInfo(Pages p)
+        public static List<UserInfo> GetNoBlockUserInfo(Pages p)
         {
             var sortArgs = new Sort.SortArg[1];
             sortArgs[0] = new Sort.SortArg
@@ -58,7 +59,7 @@ namespace BlogSystem.Entity
                 SortOrder = 1
             };
             Action<MongoCursor> setCursor = x => { x.SetSkip(p.SkipCount()).SetLimit(p.PageItemCount).SetSortOrder(Sort.GetSortBuilder(sortArgs)); };
-            return MongoDbRepository.GetRecList<UserInfo>(NormalUserQuery, setCursor);
+            return MongoDbRepository.GetRecList<UserInfo>(NoBlockUserQuery, setCursor);
         }
 
         /// <summary>

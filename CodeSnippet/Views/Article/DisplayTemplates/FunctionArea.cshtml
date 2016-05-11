@@ -28,15 +28,15 @@
         @if (Session[ConstHelper.Session_USERID] != null)
         {
             <a href="/FileSystem/PDF?ArticleId=@Model.ArticleInfo.Sn" class="btn btn-success">
-                <span class="glyphicon glyphicon-download" aria-hidden="true"/><span>&nbsp;下载PDF文章</span>
+                <span class="glyphicon glyphicon-download" aria-hidden="true" /><span>&nbsp;下载PDF文章</span>
             </a>
             <a href="/Article/SimplePdf?ArticleId=@Model.ArticleInfo.Sn" class="btn btn-success">
-                <span class="glyphicon glyphicon-print" aria-hidden="true"/><span>&nbsp;简洁打印版本</span>
+                <span class="glyphicon glyphicon-print" aria-hidden="true" /><span>&nbsp;简洁打印版本</span>
             </a>
             if (TopicButton)
             {
                 <button class="btn btn-success" style="width:150px;" onclick="Topic('@Model.ArticleInfo.Sn')">
-                    <span class="glyphicon glyphicon-book" aria-hidden="true" id="btnTopic"/><span>&nbsp;收录到我的专题</span>
+                    <span class="glyphicon glyphicon-book" aria-hidden="true" id="btnTopic" /><span>&nbsp;收录到我的专题</span>
                 </button>
             }
             else
@@ -44,7 +44,7 @@
                 if (IsPutToTopic)
                 {
                     <button class="btn btn-success" style="width:150px;">
-                        <span class="glyphicon glyphicon-book" aria-hidden="true" id="btnTopic"/><span>&nbsp;已收录</span>
+                        <span class="glyphicon glyphicon-book" aria-hidden="true" id="btnTopic" /><span>&nbsp;已收录</span>
                     </button>
                 }
             }
@@ -53,25 +53,25 @@
                 if (Focus.IsFocused(Session[ConstHelper.Session_USERID].ToString(), Model.AuthorInfo.Sn))
                 {
                     <button class="btn btn-success" style="width:150px">
-                        <span class="glyphicon glyphicon-star" aria-hidden="true"/><span>&nbsp;已关注</span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true" /><span>&nbsp;已关注</span>
                     </button>
                 }
                 else
                 {
                     <button class="btn btn-success" style="width:150px" onclick="FocusUser('@Model.AuthorInfo.Sn')">
-                        <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnFocus_@Model.AuthorInfo.Sn"/><span>&nbsp;关注作者</span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true" id="btnFocus_@Model.AuthorInfo.Sn" /><span>&nbsp;关注作者</span>
                     </button>
                 }
                 if (Stock.IsStocked(Session[ConstHelper.Session_USERID].ToString(), Model.ArticleInfo.Sn))
                 {
                     <button class="btn btn-danger" style="width:150px">
-                        <span class="glyphicon glyphicon-heart" aria-hidden="true"/><span>&nbsp;已收藏</span>
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true" /><span>&nbsp;已收藏</span>
                     </button>
                 }
                 else
                 {
                     <button class="btn btn-danger" style="width:150px" onclick="Stock('@Model.ArticleInfo.Sn')">
-                        <span class="glyphicon glyphicon-heart" aria-hidden="true" id="btnStock"/><span>&nbsp; 收藏文章</span>
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true" id="btnStock" /><span>&nbsp; 收藏文章</span>
                     </button>
                 }
             }
@@ -79,9 +79,14 @@
         else
         {
             string authUrl = "https://github.com/login/oauth/authorize?client_id=" + GithubAccount.ClientID;
-            <a class="btn btn-sm btn-default" href="@authUrl">
-                @Html.DisplayForModel("GithubSVG")&nbsp;使用GitHub登录&nbsp;
-            </a>
+            <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
+                <button class="btn btn-default" onclick="window.location.href = '@authUrl'">
+                    @Html.DisplayForModel("GithubSVG")&nbsp;使用GitHub登录&nbsp;
+                </button>
+                <button class="btn btn-default" onclick="window.location.href = '/Home/LoginQQ'" style="padding:5px 5px 4px 5px">
+                    <img src="~/Content/img/QQLogin.png" alt="" />
+                </button>
+            </div>
         }
     </div>
 </div>

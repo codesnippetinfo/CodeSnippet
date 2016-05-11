@@ -129,9 +129,9 @@ namespace CodeSnippet.Controllers
         {
             if (Session[ConstHelper.Session_USERID] == null || (UserType)Session[ConstHelper.Session_PRIVILEGE] != UserType.Admin) return Redirect("/");
             ViewBag.Title = "用户管理";
-            Pages p = new Pages(UserInfo.GetNormalUserCnt(), 50);
+            Pages p = new Pages(UserInfo.GetNoBlockUserCnt(), 50);
             p.CurrentPageNo = PageNo;
-            var currentpageList = UserInfo.GetNormalUserInfo(p);
+            var currentpageList = UserInfo.GetNoBlockUserInfo(p);
             var UserItemBodyList = new List<UserItemBody>();
             foreach (var item in currentpageList)
             {

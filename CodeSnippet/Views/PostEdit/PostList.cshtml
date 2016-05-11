@@ -23,14 +23,16 @@
                 }
             }
         </select>
-        <a href="/PostEdit/CollectionEdit" class="btn-primary btn">新建文集</a>
-        @if (!string.IsNullOrEmpty(CollectionId))
-        {
-            <a href="/PostEdit/CollectionEdit?CollectionId=@CollectionId" class="btn-primary btn">编辑文集</a>
-            <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId" class="btn-primary btn">添加新文章</a>
-        }
-    </div>
 
+        <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
+            <a href="/PostEdit/CollectionEdit" class="btn-primary btn">新建文集</a>
+            @if (!string.IsNullOrEmpty(CollectionId))
+            {
+                <a href="/PostEdit/CollectionEdit?CollectionId=@CollectionId" class="btn-primary btn">编辑文集</a>
+                <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId" class="btn-primary btn">添加新文章</a>
+            }
+        </div>
+    </div>
     <br />
 
     <table class="table table-striped">
@@ -85,7 +87,9 @@
                     @item.ArticleInfo.FirstPageMessage
                 </td>
                 <td>
-                    <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId&ArticleId=@item.ArticleInfo.Sn" class="btn-primary btn">修改信息</a>
+                    <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId&ArticleId=@item.ArticleInfo.Sn" class="btn-primary btn btn-sm">
+                        <span class="glyphicon glyphicon-cog" /><span>&nbsp;修改信息&nbsp;</span>
+                    </a>
                     <a href="/PostEdit/MarkDownEditor?ArticleID=@item.ArticleInfo.Sn" class="btn btn-sm btn-primary">
                         <span class="glyphicon glyphicon-pencil" /><span>&nbsp;编辑&nbsp;</span>
                     </a>

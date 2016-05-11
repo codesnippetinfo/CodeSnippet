@@ -1,4 +1,27 @@
-﻿# 关于登陆
+﻿版本：1.01 时间：2016年5月11日
+# 欢迎大家使用 codesnippet.info
+www.codesnippet.info 是一个专注于科技博客的写作分享平台。
+我们的网站是完全开源的，开源地址请参见本文下方的地址。
+如果您对于ASP.NET MVC5熟悉，对于MongoDB熟悉，对于HTML熟悉，对于ElasticSearch熟悉，都可以参与网站的开发。当然，您的意见和建议也是对于我们的支持。
+除了开源之外，我们还有以下的特色，这里先罗列一下，后文会逐一介绍。
+- 作者的推广区域，每个作者可以有权利在网站中做推广。优秀作者可以置顶文章推广
+- 无广告，36个月之内保证没有官方广告，成本维持不下去，就关闭网站
+- 自动保存，再也不用担心网络问题造成的文章丢失
+- 文章过滤器，您可以关注您想看的内容，大虾可以过滤掉小白的文章
+- 热爱文学，我们不拒绝文学作品
+- 开源，增加您的参与度
+- MarkDown，好的写作和阅读体验.
+- PDF下载和阅读模式
+- 使用BootStrap开发，整体UI尽量保持美感
+- 我们不保存您的用户名和密码，使用QQ和Github进行登录，保护您的隐私
+- 您可以申请作为编辑，参与我们的工作。
+- 详细的文章设定，标签系统
+- 我们只做博客，没有论坛，没有代码托管，我们要做IT界的jianshu.com
+
+本文的地址：
+[www.codesnippet.info 网站介绍](http://www.codesnippet.info/PostEdit/MarkDownEditor?ArticleID=00000006 "www.codesnippet.info 网站介绍")
+
+# 关于登陆
 为了保证文章的品质，暂时只允许拥有Github的用户登陆本网站。
 考虑到GitHub在国内访问速度和普及度的问题，也可以使用QQ登陆
 
@@ -14,6 +37,10 @@
 管理员可以将任意用户设定为编辑或者特约作者
 通过审核的文章允许修改，但是管理员和编辑可以将通过审核的文章再次从首页移除
 
+# 编辑权益
+- 编辑将参与网站文章的审核
+- 编辑的文章不需要审核即可放入首页
+
 # 特约作者权益
 - 特约作者的文章不需要审核即可放入首页
 - 特约作者的文章还有机会展示在首页置顶的位置
@@ -22,10 +49,30 @@
 
 ![](http://www.codesnippet.info/FileSystem/Thumbnail?filename=00000001_20160503192641_Author.PNG)
 
+# 处罚
+对于违规内容，违规图片，网站有权将用户放入黑名单中
+
 # 文章和文集
 每篇文章必须属于某个文集。新用户在投稿之前，必须建立一个新的文集。
 如果该文集里面所有文章可以构成一个系列教程，请在新建文集的时候勾选上 “系列教程”
 所有的“系列教程”会出现在网站首页的“系列教程”标签中。
+
+# 文学作品的处理
+本网站欢迎文学作品，但是请在文章分类中选择“杂文趣事”分类，难度选择“入门”
+文学作品可以是科幻和程序员题材，其他题材暂时不允许。
+
+# 个人首页设置系统
+您可以定制您的个人首页：（管理 - 个人设定）
+例如，只想看难度为普通和困难的文章，分类为开发经验和源代码等。
+当然，只要该文章拥有 iOS，Java标签，没有.NET的文章也想看，可以这样设置。
+（标签设定和难度，分类无需同时满足）
+
+![](http://www.codesnippet.info/FileSystem/Thumbnail?filename=00000001_20160510113700_setting.PNG)
+
+过滤器结果，包含iOS或者Java的文章，虽然是“入门”难度，但是还是被选择出来了。
+.NET的文章则被过滤掉了。剩余的是难度为普通和困难的文章，分类为源代码的文章。
+
+![](http://www.codesnippet.info/FileSystem/Thumbnail?filename=00000001_20160510130116_setting2.PNG)
 
 # 专题
 每个用户可以创建一个专题用来收集本站文章。（注意专题建立之后，名称是不允许修改的！）
@@ -89,6 +136,32 @@
 首页文章不需要只发布在本网站，你可以将您的文章发布在其他网站
 您必须保证您是该文章的作者，如果发现是抄袭，则您的账号会被永久禁止
 
+# 文章评分标准
+
+对于每篇文章，系统内部的评分标准如下：
+- 阅读数：重复IP地址只算一次，（爬虫过滤）
+- 评论人数和评论条数同时计算，防止出现同一用户多次评论造成的不公正。
+- 收藏数：被多人收藏的文章认为价值很高，如果您支持文章，请收藏文章
+
+```csharp
+        /// <summary>
+        /// 文章综合评分
+        /// </summary>
+        /// <param name="ReadCnt">阅读数</param>
+        /// <param name="CommentCnt">评论数</param>
+        /// <param name="CommentAccountCnt">评论人数</param>
+        /// <param name="StockCnt">收藏数</param>
+        /// <returns></returns>
+        public int EvaluateScore(int ReadCnt, int CommentCnt, int CommentAccountCnt, int StockCnt)
+        {
+            return (ReadCnt / 20) +
+                   (CommentCnt * 1) +
+                   (CommentAccountCnt * 2) +
+                   (StockCnt * 5);
+        }
+        #endregion
+```
+
 # 建议和意见
 
 任何人可以针对本网站提出意见和建议
@@ -105,6 +178,11 @@
 每个用户的图片资源存储空间是有上限的10M基础 + 按照文章品质的奖赏空间
 特约作者的图片上限为1GB
 图片的发布请遵守相关的国家法律法规
+
+# PDF和阅读模式
+对于登陆用户，您可以下载没有水印的文章
+您也可以使用阅读模式，查看使用打印的版本的文章。
+（无推广，无评论，纯文章）
 
 # 关于盗链
 
@@ -140,8 +218,12 @@
 ```
 # 开源和贡献
 本网站所有代码都开源：[CodeSnippet.info 源代码](https://github.com/codesnippetinfo/CodeSnippet "CodeSnippet.info 源代码")
+开发环境搭建说明：[CodeSnippet.info 开源说明 和 环境搭建](http://codesnippet.info/Article/Index?ArticleId=00000009 "CodeSnippet.info 开源说明 和 环境搭建")
 本网站使用 [https://www.bugclose.com](https://www.bugclose.com)  进行项目品质管理。
-如果您想要成为开发者，可以和我联系：稍后公布
+如果您想要成为开发者，可以和我联系：请在Github上留个Issue
 
 # 友情链接
-[手册网](http://www.shouce.ren/ "手册网")
+[手册网（第一个友情链接）](http://www.shouce.ren/ "手册网")
+[削微寒的个人博客（第一位特约作者）](http://www.xueweihan.com/ "削微寒的个人博客")
+[上海中和软件公司（本人工作的公司）](http://www.shanghaichuwa.com/ "上海中和软件公司")
+[王福朋的开源项目（热心推广者）](http://wangeditor.github.io/ "王福朋的开源项目")

@@ -92,7 +92,7 @@ namespace BlogDataSimulator
             {
                 var strMDContent = new StreamReader(txtMDContent.Text).ReadToEnd();
                 var strHTMLContent = new StreamReader(txtHTMLContent.Text).ReadToEnd();
-                GenerateCnblogsDate.InsertCnblogs(txtCnblogFilename.Text, strMDContent, strHTMLContent, (int)NumArticleCount.Value, client);
+                GenerateCnblogsDate.InsertCnblogs(txtCnblogFilename.Text, strMDContent, strHTMLContent, (int)NumArticleCount.Value, client,chkIsArticleRandom.Checked);
             }
             if (chkStock.Checked) GenerateCnblogsDate.SimulateStock(5, 50);
             if (chkFocus.Checked) GenerateCnblogsDate.SimulateFocus(5, 50);

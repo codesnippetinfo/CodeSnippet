@@ -3,6 +3,7 @@
 @{
     AsideColumnBody PersonalTagAside = ViewBag.PersonalTagAside;
     AsideColumnBody PersonalHobbyAside = ViewBag.PersonalHobbyAside;
+    var Age = DateTime.Now - Model.UserInfo.CreateDateTime;
 }
 <div class="row" style="width:1275px;margin: 20px auto;">
     <div class="col-md-8" style="margin:0;padding:0">
@@ -85,8 +86,6 @@
         </table>
     </div>
     <div class="col-md-4" style="margin:0;padding:0">
-
-
         <div class="panel panel-primary" style="margin:0 0 0 10px">
             <div class="panel-heading">
                 <img src="@Model.UserInfo.Avatar_url" class="AvatarImage" />
@@ -137,6 +136,10 @@
                         <label>关注人数(Github):</label>
                         @Model.GitInfo.Following<br />
                     </li>
+                    <li class="list-group-item">
+                        <label>入驻时间:</label>
+                        @Age.TotalDays<br />
+                    </li>
                 </ul>
                             }
             @if (Model.UserInfo.RegisterMethod == QQAccount.QQ)
@@ -145,6 +148,10 @@
                     <li class="list-group-item">
                         <label>性别:</label>
                         @Model.QQInfo.gender<br />
+                    </li>
+                    <li class="list-group-item">
+                        <label>入驻时间:</label>
+                        @Age.TotalDays<br />
                     </li>
                 </ul>
             }
@@ -184,6 +191,7 @@
             </div>
         </div>
         <br />
+        @Html.DisplayFor(t => PersonalTagAside, "SideColumn", PersonalTagAside)
     </div>
 </div>
 

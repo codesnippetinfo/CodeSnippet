@@ -78,6 +78,7 @@
             this.btnPdfCreator = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.txtArticleIdForPDF = new System.Windows.Forms.TextBox();
+            this.chkIsArticleRandom = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NumPortDataBase)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumArticleCount)).BeginInit();
@@ -620,12 +621,23 @@
             this.txtArticleIdForPDF.Size = new System.Drawing.Size(196, 21);
             this.txtArticleIdForPDF.TabIndex = 31;
             // 
+            // chkIsArticleRandom
+            // 
+            this.chkIsArticleRandom.AutoSize = true;
+            this.chkIsArticleRandom.Location = new System.Drawing.Point(376, 79);
+            this.chkIsArticleRandom.Name = "chkIsArticleRandom";
+            this.chkIsArticleRandom.Size = new System.Drawing.Size(108, 16);
+            this.chkIsArticleRandom.TabIndex = 32;
+            this.chkIsArticleRandom.Text = "文章完全随机化";
+            this.chkIsArticleRandom.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(658, 535);
+            this.Controls.Add(this.chkIsArticleRandom);
             this.Controls.Add(this.txtArticleIdForPDF);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.btnAnlyzeMarkDown);
@@ -731,6 +743,7 @@
         private System.Windows.Forms.Button btnPdfCreator;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtArticleIdForPDF;
+        private System.Windows.Forms.CheckBox chkIsArticleRandom;
     }
 }
 

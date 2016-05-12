@@ -33,10 +33,12 @@ namespace BlogDataSimulator
         /// <param name="strHTMLContent"></param>
         /// <param name="LimitCnt"></param>
         /// <param name="client"></param>
-        public static void InsertCnblogs(string cnblogFilename, string strMDContent, string strHTMLContent, int LimitCnt, ElasticClient client)
+        public static void InsertCnblogs(string cnblogFilename, string strMDContent, string strHTMLContent, int LimitCnt, ElasticClient client, bool IsArticleRandom)
         {
             Random r = new Random();
             titles.Clear();
+            userdic.Clear();
+            userColdic.Clear();
             StreamReader FileReader = new StreamReader(cnblogFilename);
             string Line = string.Empty;
             int startlength = "the article title is :".Length;
@@ -44,8 +46,11 @@ namespace BlogDataSimulator
             MongoDbRepository.DrapCollection(Article.CollectionName);
             MongoDbRepository.DrapCollection(Collection.CollectionName);
             MongoDbRepository.DrapCollection(GithubAccount.CollectionName);
+            MongoDbRepository.DrapCollection(QQAccount.CollectionName);
             MongoDbRepository.DrapCollection(UserInfo.CollectionName);
             MongoDbRepository.DrapCollection(ArticleContent.CollectionName);
+            MongoDbRepository.DrapCollection(SiteConfig.CollectionName);
+
 
             var PublishStatusTypeValues = Enum.GetValues(typeof(ApproveStatus));
             var ArticleLevelValues = Enum.GetValues(typeof(ArticleLevel));
@@ -80,6 +85,7 @@ namespace BlogDataSimulator
                         string accId = string.Empty;
                         QQAccount qqaccount = new QQAccount();
                         GithubAccount gitaccount = new GithubAccount();
+
                         if (qqOrGit % 2 == 0)
                         {
                             //Github帐号
@@ -174,7 +180,7 @@ namespace BlogDataSimulator
                         {
                             MongoDbRepository.UpdateRec(qqaccount, nameof(QQAccount.UserInfoID), (BsonString)userId);
                         }
-                        userdic.Add(user, accId);
+                        userdic.Add(user, userId);
 
                         //默认文集
                         Collection col = new Collection()
@@ -183,7 +189,7 @@ namespace BlogDataSimulator
                             Description = user + " 的文集",
                             IsSerie = (r.Next(100) % 2 == 1)
                         };
-                        var colId = Collection.InsertCollection(col, accId);
+                        var colId = Collection.InsertCollection(col, userId);
                         userColdic.Add(user, colId);
                     }
 
@@ -194,11 +200,11 @@ namespace BlogDataSimulator
                         Article article = new Article()
                         {
                             Title = title,
-                            IsFirstPage = (r.Next(0, 100) % 2 == 1),
-                            IsPrivate = (r.Next(0, 100) % 2 == 1),
+                            IsFirstPage = IsArticleRandom ? (r.Next(0, 100) % 2 == 1) : true,
+                            IsPrivate = IsArticleRandom ? (r.Next(0, 100) % 2 == 1) : false,
+                            PublishStatus = IsArticleRandom ? (ApproveStatus)(PublishStatusTypeValues.GetValue(r.Next(0, 100) % PublishStatusTypeValues.Length)) : ApproveStatus.Accept,
                             IsCloseComment = (r.Next(0, 100) % 2 == 1),
                             IsOriginal = (r.Next(0, 100) % 2 == 1),
-                            PublishStatus = (ApproveStatus)(PublishStatusTypeValues.GetValue(r.Next(0, 100) % PublishStatusTypeValues.Length)),
                             CollectionID = collecId,
                             PublishDateTime = DateTime.Now.AddMinutes(r.NextDouble() * -10000),
                             Level = (ArticleLevel)(ArticleLevelValues.GetValue(r.Next(0, 100) % ArticleLevelValues.Length)),

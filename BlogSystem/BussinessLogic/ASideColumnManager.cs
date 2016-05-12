@@ -197,11 +197,10 @@ namespace BlogSystem.BussinessLogic
         /// <returns></returns>
         public static AsideColumnBody MostArticleAuthor(int AuthorCnt)
         {
-            var groupCntResult = MongoDbRepository.GroupCount(Article.CollectionName, nameof(Article.OwnerId), ArticleListManager.FirstPageArticleQuery);
             var titlelist = new AsideColumnBody()
             {
                 Title = "最多文章作者",
-                DetailItem = GetGenericItemListByRankContain(new RankContain(groupCntResult), AuthorCnt, UserInfo.GetUserNickNameByAccountId),
+                DetailItem = GetGenericItemListByRankContain(new RankContain(UserManager.UserGroupCntResult()), AuthorCnt, UserInfo.GetUserNickNameByAccountId),
                 HrefBase = "/Author/Index?AccountId="
             };
             return titlelist;

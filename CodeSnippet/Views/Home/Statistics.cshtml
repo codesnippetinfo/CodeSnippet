@@ -1,12 +1,13 @@
 ﻿@using BlogSystem.TagSystem;
+@using InfraStructure.Misc;
 @model IEnumerable<ArticleItemBody>
 @{
-    ViewBag.Title = "首页";
-    Pages pages = ViewBag.Pages;
+    ViewBag.Title = "统计";
     ArticleBody TopArticle = ViewBag.TopArticle;
     AsideColumnBody AsideFirst = ViewBag.AsideFirst;
     AsideColumnBody AsideSecond = ViewBag.AsideSecond;
     AsideColumnBody AsideThird = ViewBag.AsideThird;
+    RankContain UserRank = ViewBag.UserRank;
 }
 <div class="row" style="width:1275px;margin: 20px auto;">
     <div class="col-md-8" style="margin:0;padding:0">
@@ -14,7 +15,7 @@
         <table class="table table-striped">
             <tr>
                 <th>Rank</th>
-                <th>名称</th>
+                <th>标签</th>
                 <th>数量</th>
             </tr>
             @for (int i = 0; i < Math.Min(10, TagUtility.TagRankContain.RankList.Count); i++)
@@ -23,6 +24,22 @@
                     <td>@TagUtility.TagRankContain.RankList[i].Rank</td>
                     <td>@TagUtility.TagRankContain.RankList[i].Key</td>
                     <td>@TagUtility.TagRankContain.RankList[i].Count</td>
+                </tr>
+            }
+        </table>
+        <img src="@ViewBag.AuthorChartName" />
+        <table class="table table-striped">
+            <tr>
+                <th>Rank</th>
+                <th>作者</th>
+                <th>数量</th>
+            </tr>
+            @for (int i = 0; i < Math.Min(10, UserRank.RankList.Count); i++)
+            {
+                <tr>
+                    <td>@UserRank.RankList[i].Rank</td>
+                    <td>@UserInfo.GetUserNickNameByAccountId(UserRank.RankList[i].Key)</td>
+                    <td>@UserRank.RankList[i].Count</td>
                 </tr>
             }
         </table>

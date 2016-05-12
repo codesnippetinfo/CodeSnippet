@@ -33,7 +33,7 @@
                     例如:&nbsp;&nbsp; Swift:3.2.3;iOs;TCP协议
                 </span>
                 <br /><br />
-                <label>分类</label>
+                <label>分类 （文学作品请选择杂闻趣事）</label>
                 <select class="form-control" name="Catalog" id="Catalog">
                     @foreach (string item in Article.CatalogItem)
                     {
@@ -50,7 +50,7 @@
                 <br />
                 <label>难度</label>
                 <br />
-                <input name="Level" type="radio" value="10" @(Model.Level == ArticleLevel.Easy ? "checked" : string.Empty) />入门 (阅读无需开发经验，某个技术的简介) &nbsp;<br />
+                <input name="Level" type="radio" value="10" @(Model.Level == ArticleLevel.Easy ? "checked" : string.Empty) />入门 (阅读无需开发经验，某个技术的简介.文学作品请选择这个难度) &nbsp;<br />
                 <input name="Level" type="radio" value="20" @(Model.Level == ArticleLevel.Normal ? "checked" : string.Empty) />普通 (阅读需要一定的开发经验，默认难度) &nbsp;<br />
                 <input name="Level" type="radio" value="30" @(Model.Level == ArticleLevel.Hard ? "checked" : string.Empty)/>困难 (阅读需要足够的IT知识，源代码分析)
                 <div class="checkbox">

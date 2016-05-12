@@ -3,7 +3,7 @@
 @{
     AsideColumnBody PersonalTagAside = ViewBag.PersonalTagAside;
     AsideColumnBody PersonalHobbyAside = ViewBag.PersonalHobbyAside;
-    var Age = DateTime.Now - Model.UserInfo.CreateDateTime;
+    var Age = Math.Ceiling((DateTime.Now - Model.UserInfo.CreateDateTime).TotalDays);
 }
 <div class="row" style="width:1275px;margin: 20px auto;">
     <div class="col-md-8" style="margin:0;padding:0">
@@ -138,7 +138,7 @@
                     </li>
                     <li class="list-group-item">
                         <label>入驻时间:</label>
-                        @Age.TotalDays<br />
+                        @Age 天<br />
                     </li>
                 </ul>
                             }
@@ -151,7 +151,7 @@
                     </li>
                     <li class="list-group-item">
                         <label>入驻时间:</label>
-                        @Age.TotalDays<br />
+                        @Age 天<br />
                     </li>
                 </ul>
             }

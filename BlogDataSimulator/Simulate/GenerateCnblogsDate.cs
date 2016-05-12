@@ -82,7 +82,7 @@ namespace BlogDataSimulator
                     {
                         var userinfo = new UserInfo();
                         int qqOrGit = r.Next(100);
-                        string accId = string.Empty;
+                        string accountId = string.Empty;
                         QQAccount qqaccount = new QQAccount();
                         GithubAccount gitaccount = new GithubAccount();
 
@@ -102,11 +102,11 @@ namespace BlogDataSimulator
                                 Following = 2,
                             };
 
-                            accId = MongoDbRepository.InsertRec(gitaccount);
+                            accountId = MongoDbRepository.InsertRec(gitaccount);
 
                             userinfo = new UserInfo()
                             {
-                                RegisterAccountID = accId,
+                                RegisterAccountID = accountId,
                                 Privilege = UserType.Normal,
                                 RegisterMethod = GithubAccount.Github,
                                 TopicList = new List<string>(),
@@ -130,11 +130,11 @@ namespace BlogDataSimulator
                                 OpenID = "1234567890"
                             };
 
-                            accId = MongoDbRepository.InsertRec(qqaccount);
+                            accountId = MongoDbRepository.InsertRec(qqaccount);
 
                             userinfo = new UserInfo()
                             {
-                                RegisterAccountID = accId,
+                                RegisterAccountID = accountId,
                                 Privilege = UserType.Normal,
                                 RegisterMethod = QQAccount.QQ,
                                 TopicList = new List<string>(),
@@ -183,14 +183,14 @@ namespace BlogDataSimulator
                         userdic.Add(user, userId);
 
                         //默认文集
-                        Collection col = new Collection()
+                        Collection collection = new Collection()
                         {
-                            Title = title,
+                            Title = user + " 的文集",
                             Description = user + " 的文集",
                             IsSerie = (r.Next(100) % 2 == 1)
                         };
-                        var colId = Collection.InsertCollection(col, userId);
-                        userColdic.Add(user, colId);
+                        var CollectionId = Collection.InsertCollection(collection, userId);
+                        userColdic.Add(user, CollectionId);
                     }
 
                     if (!titles.Contains(title))
@@ -253,6 +253,8 @@ namespace BlogDataSimulator
             System.Diagnostics.Debug.WriteLine("LineCnt:" + LineCnt);
 
         }
+
+        #endregion
 
         /// <summary>
         /// 模拟收藏
@@ -354,6 +356,7 @@ namespace BlogDataSimulator
                 }
             }
         }
+
         /// <summary>
         /// 模拟专题
         /// </summary>
@@ -481,6 +484,6 @@ namespace BlogDataSimulator
                 }
             }
         }
-        #endregion
+
     }
 }

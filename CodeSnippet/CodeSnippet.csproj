@@ -608,7 +608,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Domino.js" />
     <Content Include="API\JoinCircle.ashx" />
-    <Content Include="Content\Tag.xlsm" />
+    <None Include="Content\Tag.xlsm" />
     <Content Include="API\PutToTopic.ashx" />
     <Content Include="API\ReadMessage.ashx" />
     <Content Include="API\FocusTopic.ashx" />
@@ -724,7 +724,7 @@
     <Content Include="Views\Home\DisplayTemplates\CollectionListItem.cshtml" />
     <Content Include="Views\Home\SerialList.cshtml" />
     <Content Include="Views\Home\DisplayTemplates\TopicListItem.cshtml" />
-    <Content Include="webconfig.dummy" />
+    <None Include="webconfig.dummy" />
     <Content Include="Views\Home\PersonIndex.cshtml" />
     <Content Include="Views\Home\Statistics.cshtml" />
   </ItemGroup>

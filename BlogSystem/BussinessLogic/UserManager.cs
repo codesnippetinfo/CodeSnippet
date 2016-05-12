@@ -11,6 +11,8 @@ namespace BlogSystem.BussinessLogic
     public static class UserManager
     {
 
+        public static Dictionary<string,int> UserGroupCntResult() =>  MongoDbRepository.GroupCount(Article.CollectionName, nameof(Article.OwnerId), ArticleListManager.FirstPageArticleQuery);
+
         public static UserItemBody GetUserItemBody(string accountId)
         {
             IMongoQuery x = Query.EQ(nameof(UserItemBody.UserInfo) + "." + MongoDbRepository.MongoKeyField, accountId);

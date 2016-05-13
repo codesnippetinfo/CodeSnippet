@@ -1,0 +1,15 @@
+﻿@{
+    var url = "/" + ViewContext.RouteData.Values["controller"] + "/" + ViewContext.RouteData.Values["action"];
+
+}
+<ul class="nav nav-tabs">
+    @if (Session[ConstHelper.Session_NAME] != null)
+    {
+        <li role="presentation" @MvcHtmlString.Create((url.Equals("/Home/PersonIndex") ? "class='active'" : string.Empty))>
+        <a href="/Home/PersonIndex">我的首页</a>
+        </li>
+    }
+    <li role="presentation" @MvcHtmlString.Create((url.Equals("/Home/Index") ? "class='active'" : string.Empty))><a href="/Home/Index">首页</a></li>
+    <li role="presentation" @MvcHtmlString.Create((url.Equals("/Home/TopicList") ? "class='active'" : string.Empty))><a href="/Home/TopicList">专题列表</a></li>
+    <li role="presentation" @MvcHtmlString.Create((url.Equals("/Home/SerialList") ? "class='active'" : string.Empty))><a href="/Home/SerialList">系列教程</a></li>
+</ul>

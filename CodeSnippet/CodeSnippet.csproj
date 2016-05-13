@@ -724,6 +724,7 @@
     <Content Include="Views\Home\DisplayTemplates\CollectionListItem.cshtml" />
     <Content Include="Views\Home\SerialList.cshtml" />
     <Content Include="Views\Home\DisplayTemplates\TopicListItem.cshtml" />
+    <Content Include="Views\Home\DisplayTemplates\HomeNavi.cshtml" />
     <None Include="webconfig.dummy" />
     <Content Include="Views\Home\PersonIndex.cshtml" />
     <Content Include="Views\Home\Statistics.cshtml" />

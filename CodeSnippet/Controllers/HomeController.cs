@@ -233,7 +233,7 @@ namespace CodeSnippet.Controllers
                 }
                 else
                 {
-                    return Redirect("/Author/SiteMessageList");
+                    return Redirect("/Home/PersonIndex");
                 }
             }
             return Redirect("/");
@@ -283,7 +283,7 @@ namespace CodeSnippet.Controllers
                     }
                     else
                     {
-                        return Redirect("/Author/SiteMessageList");
+                        return Redirect("/Home/PersonIndex");
                     }
                 }
                 else

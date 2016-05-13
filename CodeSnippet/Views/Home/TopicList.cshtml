@@ -19,17 +19,7 @@
             <hr style="padding:0;margin:0" />
         }
 
-        <ul class="nav nav-tabs">
-            <li role="presentation"><a href="/Home/Index">首页</a></li>
-            @if (Session[CodeSnippet.ConstHelper.Session_NAME] != null)
-            {
-                <li role="presentation">
-                    <a href="/Home/PersonIndex">我的首页</a>
-                </li>
-            }
-            <li role="presentation" class="active"><a href="/Home/TopicList">专题列表</a></li>
-            <li role="presentation"><a href="/Home/SerialList">系列教程</a></li>
-        </ul>
+        @Html.DisplayFor(t => t, "HomeNavi", null)
 
         @foreach (var item in Model)
         {

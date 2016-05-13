@@ -8,16 +8,19 @@
     <meta charset="utf-8" />
     <!-- Connect.QQ.com -->
     <meta property="qc:admins" content="122527757763745361005461667" />
-    <!-- http://tongji.baidu.com/ -->
-    <script>
-		var _hmt = _hmt || [];
-		(function() {
-		  var hm = document.createElement("script");
-		  hm.src = "//hm.baidu.com/hm.js?250841840dabd0bf23688f14e19d5b93";
-		  var s = document.getElementsByTagName("script")[0];
-		  s.parentNode.insertBefore(hm, s);
-		})();
-    </script>
+    @if (ConfigurationManager.AppSettings["DEBUGMODE"] != "true")
+    {
+        <!-- http://tongji.baidu.com/ -->
+        <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?250841840dabd0bf23688f14e19d5b93";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    }
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/Scripts/jquery-2.2.3.min.js"></script>
     <script src="/Content/bootstrap/js/bootstrap.js"></script>

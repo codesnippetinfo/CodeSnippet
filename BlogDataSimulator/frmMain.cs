@@ -340,11 +340,17 @@ namespace BlogDataSimulator
         /// <param name="e"></param>
         private void btnAnlyzeMarkDown_Click(object sender, EventArgs e)
         {
-            MongoDbRepository.Init(new[] { "Bussiness" }, "Bussiness");
-            MongoDbRepositoryLog.Init();
+           // MongoDbRepository.Init(new[] { "Bussiness" }, "Bussiness");
+            //MongoDbRepositoryLog.Init();
             var r = new StreamReader(txtMarkDownFile.Text);
             var md = r.ReadToEnd();
             var result = MarkDownAnlyzer.Anlyze(md);
+            System.Diagnostics.Debug.WriteLine("ImageList:" + result.ImageList.Count);
+            System.Diagnostics.Debug.WriteLine("LineCnt:" + result.LineCnt);
+            foreach (var item in result.CodeLineCnt)
+            {
+                System.Diagnostics.Debug.WriteLine(item.Language + ":" + item.Count);
+            }
         }
         /// <summary>
         /// 生成PDF

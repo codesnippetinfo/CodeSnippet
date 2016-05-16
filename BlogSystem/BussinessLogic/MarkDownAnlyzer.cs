@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace BlogSystem.BussinessLogic
 {
@@ -18,70 +17,70 @@ namespace BlogSystem.BussinessLogic
             AnlyzeResult result = new AnlyzeResult();
             result.ImageList = new List<string>();
             result.Url = new List<string>();
-
-            //http://qiita.com/hibara/items/78454f6c70c55e7aa612
-            Regex rg = new Regex(@"\[.*\]\((https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)[\t{1,}|\s{1,}]"".*""\)");
-            Regex rg2 = new Regex(@"\[.*\]\((https?|ftp)(:\/\/[-_.!~*\\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)\)");
-
-
-            result.CodeLineCnt = new Dictionary<string, object>();
+            result.CodeLineCnt = new  List<AnlyzeResult.struCodeLine>();
+            //注意：如果是测试文本文件的时候，这里会出现/r/n重复计算的问题
+            //MongoDB的数据从HTML里面进来，没有这个问题。
             var lines = strMarkDown.Split(System.Environment.NewLine.ToCharArray());
-            result.LineCnt = lines.Length;
             var lan = string.Empty;
             var lanCnt = 0;
+            //是否为一门语言的开始
+            var IsStart = true;
             foreach (var line in lines)
             {
+                if (string.IsNullOrEmpty(line.Trim()))
+                {
+                    continue;
+                }
+                //图片
                 if (line.StartsWith("![") && string.IsNullOrEmpty(lan))
                 {
                     //![Alt text](/path/to/img.jpg) 考虑使用正则表达式
                     result.ImageList.Add(line.Substring(line.IndexOf("=") + 1).TrimEnd(")".ToCharArray()));
                     continue;
                 }
-                if (rg.IsMatch(line) || rg2.IsMatch(line))
-                {
-                    //添加URL
-                }
+                //代码起始标志
                 if (line.StartsWith("```"))
                 {
-                    if (line == "```")
+                    if (!IsStart)
                     {
                         //结束语言
-                        if (!string.IsNullOrEmpty(lan))
+                        if (result.IsContainLanguage(lan))
                         {
-                            if (lan.Equals(nameof(AnlyzeResult.ImageList)) ||
-                               lan.Equals(nameof(AnlyzeResult.CodeLineCnt)) ||
-                               lan.Equals(nameof(AnlyzeResult.LineCnt)))
+                            for (int i = 0; i < result.CodeLineCnt.Count; i++)
                             {
-                                //如果出现result.CodeLineCnt.Add("LineCnt", 123);
-                                //则加在CodeLineCnt里面的LineCnt将覆盖原来的LineCnt
-                                //使用Mongo工具则发生重复元素的问题,这里进行重命名
-                                lan = "#" + lan + "#";
-                            }
-                            if (result.CodeLineCnt.ContainsKey(lan))
-                            {
-                                result.CodeLineCnt[lan] = (int)result.CodeLineCnt[lan] + (int)lanCnt;
-                            }
-                            else
-                            {
-                                result.CodeLineCnt.Add(lan, lanCnt);
+                                if (result.CodeLineCnt[i].Language.Equals(lan))
+                                {
+                                    result.CodeLineCnt[i].Count += lanCnt;
+                                    break;
+                                }
                             }
                         }
-                        lan = string.Empty;
+                        else
+                        {
+                            var x = new AnlyzeResult.struCodeLine() { Language = lan, Count = lanCnt };
+                            result.CodeLineCnt.Add(x);
+                        }
                         lanCnt = 0;
+                        lan = string.Empty;
+                        IsStart = true;
                     }
                     else
                     {
                         //开始语言
                         lan = line.Substring(3);
+                        if (string.IsNullOrEmpty(lan)) lan = "Gerneric";
                         lanCnt = 0;
+                        IsStart = false;
                     }
                     continue;
                 }
+                //代码段计数
                 if (!string.IsNullOrEmpty(lan))
                 {
-                    //非空行计数
                     if (!string.IsNullOrEmpty(line.Trim())) lanCnt++;
+                    continue;
                 }
+                result.LineCnt++;
             }
             return result;
         }

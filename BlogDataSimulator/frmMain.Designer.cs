@@ -578,7 +578,7 @@
             this.txtMarkDownFile.Name = "txtMarkDownFile";
             this.txtMarkDownFile.Size = new System.Drawing.Size(348, 21);
             this.txtMarkDownFile.TabIndex = 12;
-            this.txtMarkDownFile.Text = "E:\\WorkSpace\\Domino\\BlogDataSimulator\\Sample\\MarkDownForAnlyze.txt";
+            this.txtMarkDownFile.Text = "E:\\WorkSpace\\CodeSnippet\\BlogDataSimulator\\Sample\\MarkDownForAnlyze.txt";
             // 
             // btnAnlyzeMarkDown
             // 

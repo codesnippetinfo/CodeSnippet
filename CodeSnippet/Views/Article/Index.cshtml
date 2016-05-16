@@ -77,14 +77,14 @@
                     本文包含图片数：@Model.MarkDownAnlyze.ImageList.Count
                 </span>
                 <span class="btn btn-info btn-sm">
-                    本文长度：@Model.MarkDownAnlyze.TotalLineCnt()
+                    有效总行数：@Model.MarkDownAnlyze.TotalLineCnt()
                 </span>
                 @if (Model.MarkDownAnlyze.CodeLineCnt != null)
                 {
                     foreach (var lan in Model.MarkDownAnlyze.CodeLineCnt)
                     {
                         <span class="btn btn-warning btn-sm">
-                            @lan.Key : @lan.Value
+                            @lan.Language : @lan.Count
                         </span>
                     }
                 }
@@ -282,8 +282,9 @@
     //提交前收集修改评论或者回复评论的内容
     function GetReplyComment() {
         var md = ReplyEditor.getMarkdown();
-        var html = ReplyEditor.getHTML();
         document.getElementById("ModifyReplyContent").value = md;
+        ReplyEditor.markdown = md;
+        var html = ReplyEditor.htmlTextarea[0].defaultValue;
         document.getElementById("ModifyReplyHTML").value = html;
         return true;
     }

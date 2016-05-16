@@ -246,7 +246,7 @@ namespace CodeSnippet.Controllers
         public ActionResult LoginQQ()
         {
             //随机数
-            string state = new Random(100000).Next(99, 99999).ToString();
+            string state = new Random().Next(99, 99999).ToString();
             Session["QQState"] = state;
             string authenticationUrl = string.Format("{0}?client_id={1}&response_type=code&redirect_uri={2}&state={3}", QQAccount.authorizeURL, QQAccount.appID, QQAccount.callback, state);//互联地址
             return new RedirectResult(authenticationUrl);
@@ -263,7 +263,10 @@ namespace CodeSnippet.Controllers
             var state = Request.Params["state"];
             //随机数验证
             string requestState = Session["QQState"] == null ? "" : Session["QQState"].ToString();
-            if (state != requestState) return Redirect("/");
+            if (state != requestState) {
+                InfraStructure.Log.InfoLog.Log("SYSTEM", "QQOAuth", "GET USER INFO", "QQState(预期)：" + state + "(实际)：" + requestState);
+                return Redirect("/");
+            }
             try
             {
                 var qqOauthInfo = QQAccount.GetOauthInfo(code);
@@ -288,6 +291,7 @@ namespace CodeSnippet.Controllers
                 }
                 else
                 {
+                    InfraStructure.Log.InfoLog.Log("SYSTEM", "QQOAuth", "GET USER INFO", "openID：" + openID);
                     return Redirect("/");
                 }
             }

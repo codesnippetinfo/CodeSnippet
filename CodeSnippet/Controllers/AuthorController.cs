@@ -130,6 +130,14 @@ namespace CodeSnippet.Controllers
             }
             u.AntiTag = colllection["AntiTag"];
             u.ContainTag = colllection["ContainTag"];
+            u.AlipayImageURL = colllection["AlipayImageURL"];
+            u.AlipayImageURL = u.AlipayImageURL.Trim();
+            if (u.AlipayImageURL.Length != 0 && u.AlipayImageURL.Length != 18)
+            {
+                ViewData.Model = u;
+                ViewData.ModelState.AddModelError("AlipayImageURL", "二维码应该为18位");
+                return View();
+            }
             UserInfo.UpdateUserInfo(u);
             ViewData.Model = u;
             return Redirect("/Home/PersonIndex");

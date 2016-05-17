@@ -49,7 +49,7 @@ namespace CodeSnippet.Controllers
                 {
                     tagDictionary.Add(TagUtility.TagRankContain.RankList[i].Key, TagUtility.TagRankContain.RankList[i].Count);
                 }
-                InfraStructure.Chart.ChartHelper.GetColumnChart(tagFilename, "标签数量TOP10", tagDictionary,InfraStructure.Chart.ChartType.Column,800,600);
+                InfraStructure.Chart.ChartHelper.GetColumnChart(tagFilename, "标签数量TOP10", tagDictionary, InfraStructure.Chart.ChartType.Column, 800, 600);
             }
 
             //作者
@@ -262,8 +262,10 @@ namespace CodeSnippet.Controllers
             var code = Request.Params["code"];
             var state = Request.Params["state"];
             //随机数验证
-            string requestState = Session["QQState"] == null ? "" : Session["QQState"].ToString();
-            if (state != requestState) {
+            string requestState = Session["QQState"] == null ? string.Empty : Session["QQState"].ToString();
+            if (!(string.IsNullOrEmpty(requestState) || state.Equals(requestState)))
+            {
+                //第一次登陆的时候，QQState是不可能获得的，只有登陆过的时候再次登陆，QQState才会出现。（Cookies未开启的状态？）
                 InfraStructure.Log.InfoLog.Log("SYSTEM", "QQOAuth", "GET USER INFO", "QQState(预期)：" + state + "(实际)：" + requestState);
                 return Redirect("/");
             }

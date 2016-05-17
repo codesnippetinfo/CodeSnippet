@@ -52,7 +52,7 @@
                 <br />
                 <input name="Level" type="radio" value="10" @(Model.Level == ArticleLevel.Easy ? "checked" : string.Empty) />入门 (阅读无需开发经验，某个技术的简介.文学作品请选择这个难度) &nbsp;<br />
                 <input name="Level" type="radio" value="20" @(Model.Level == ArticleLevel.Normal ? "checked" : string.Empty) />普通 (阅读需要一定的开发经验，默认难度) &nbsp;<br />
-                <input name="Level" type="radio" value="30" @(Model.Level == ArticleLevel.Hard ? "checked" : string.Empty)/>困难 (阅读需要足够的IT知识，源代码分析)
+                <input name="Level" type="radio" value="30" @(Model.Level == ArticleLevel.Hard ? "checked" : string.Empty) />困难 (阅读需要足够的IT知识，源代码分析)
                 <div class="checkbox">
                     <label>
                         @if (Model.IsOriginal)
@@ -158,6 +158,25 @@
                 <label>推广文字（发布后无法更改）</label><input class="form-control" type="text" name="AdvText" value="@Model.AdvText" @IsReadOnly /><br />
                 <label>推广链接(发布后无法更改，必须添加 http:// )</label><input class="form-control" type="text" name="AdvLink" value="@Model.AdvLink" @IsReadOnly /><br />
                 <label>推广图片(发布后无法更改，必须添加 http:// )</label><input class="form-control" type="text" name="AdvImageUrl" value="@Model.AdvImageUrl" @IsReadOnly /><br />
+                <div class="checkbox">
+                    <label>
+                        @if (Model.IsEnableAliPay)
+                        {
+                            <input type="checkbox" name="IsEnableAliPay" checked @IsDisabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="IsEnableAliPay" @IsDisabled />
+                        }
+                        <strong>开启打赏功能（如果还没有设定过支付二维码，请先设定支付二维码）</strong>
+                        @Html.ValidationMessageFor(model => model.IsEnableAliPay, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <br />
+                <a href="/Author/Setting" class="btn btn-success">
+                    <span class="glyphicon glyphicon-cog">&nbsp;设定二维码&nbsp;</span>
+                </a>
+                <br /><br />
                 @if (string.IsNullOrEmpty(Request.QueryString["ArticleId"]))
                 {
                     <input type="submit" class="btn btn-primary " value="新建" />

@@ -59,6 +59,7 @@ namespace CodeSnippet.Controllers
                 IsNeedTopicApproval = collection[nameof(Article.IsNeedTopicApproval)] != null,
                 IsPutToMyTopic = collection[nameof(Article.IsPutToMyTopic)] != null,
                 IsTopicable = collection[nameof(Article.IsTopicable)] != null,
+                IsEnableAliPay = collection[nameof(Article.IsEnableAliPay)] != null,
             };
             NewArticle.Title = NewArticle.Title.Trim();
             NewArticle.CustomTagList = NewArticle.CustomTagList.Trim();

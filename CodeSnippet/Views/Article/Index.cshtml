@@ -69,7 +69,7 @@
                     }
                 }
                 <a href="/Article/StockUserList?ArticleId=@Model.ArticleInfo.Sn" class="btn btn-success">
-                    <span class="glyphicon glyphicon-list"/><span>&nbsp;所有收藏者(@Model.StockAccountList.Count)</span>
+                    <span class="glyphicon glyphicon-list" /><span>&nbsp;所有收藏者(@Model.StockAccountList.Count)</span>
                 </a>
             </div>
             <div style="padding-top:10px">
@@ -105,7 +105,7 @@
         {
             <div class="SingleBox" style="margin-bottom:0;border:dashed; border-width: 2px; border-color: #ddd;">
                 <div style="background-color:white;padding:10px">
-                    <button class="btn-sm btn-success" style="float:left;margin:0;padding:0">
+                    <button class="btn-sm btn-danger" style="float:left;margin:0;padding:0">
                         文章作者推广（请谨慎点击链接或者扫描二维码）
                     </button>
                     <br /><br />
@@ -114,6 +114,7 @@
                         <!--推广图片-->
                         <div style="text-align:center">
                             <img src="@Model.ArticleInfo.AdvImageUrl" style="max-height:400px;max-width:400px;" />
+                            <br />
                         </div>
                         <br />
                     }
@@ -135,6 +136,39 @@
                             }
                         </div>
                     }
+                    <br />
+                    @if (!string.IsNullOrEmpty(Model.ArticleInfo.AdvLink))
+                    {
+                        <div style="text-align:center">
+                            <label>该链接网址：@Model.ArticleInfo.AdvLink</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ArticleInfo.AdvImageUrl))
+                    {
+                        <div style="text-align:center">
+                            <label>该图片网址：@Model.ArticleInfo.AdvImageUrl</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.ArticleInfo.IsEnableAliPay && !string.IsNullOrEmpty(Model.AuthorInfo.AlipayImageURL))
+        {
+            <!--支付宝打赏-->
+            <div class="SingleBox" style="margin-bottom:0;border:dashed; border-width: 2px; border-color: #ddd;">
+                <div style="background-color:white;padding:10px">
+                    <button class="btn-sm btn-danger" style="float:left;margin:0;padding:0">
+                        支付宝打赏（转账之前，请谨慎确认转账金额！！！）
+                    </button>
+                    <br /><br />
+                    <!--推广图片-->
+                    <div style="text-align:center">
+                        <img src="https://t.alipayobjects.com/images/mobilecodec/@Model.AuthorInfo.AlipayImageURL" style="max-height:400px;max-width:400px;" />
+                        <br />
+                        <label>该图片网址：https://t.alipayobjects.com/images/mobilecodec/@Model.AuthorInfo.AlipayImageURL</label>
+                    </div>
+                    <br />
                 </div>
             </div>
         }

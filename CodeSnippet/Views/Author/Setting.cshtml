@@ -6,6 +6,18 @@
 {
     <div class="SingleBox" style="border:none">
         <div class="panel panel-primary">
+            <div class="panel-heading">个人设定</div>
+            <div class="panel-body">
+                <label>支付宝二维码<br />(请填写 https://t.alipayobjects.com/images/mobilecodec/ 之后的18位字符串,例如 T12YhpXgVaXXXXXXXX )</label>
+                <input class="form-control" type="text" name="AlipayImageURL" style="margin:10px 0" value="@Model.AlipayImageURL" />
+                @Html.ValidationMessageFor(model => model.AlipayImageURL, "", new { @class = "text-danger" })
+                <br />
+                <input type="submit" class="btn btn-primary " value="保存" />
+            </div>
+        </div>
+    </div>
+    <div class="SingleBox" style="border:none">
+        <div class="panel panel-primary">
             <div class="panel-heading">文章过滤器</div>
             <div class="panel-body">
                 <label>难度</label>
@@ -29,7 +41,7 @@
                 {
                     <input type="checkbox" name="Catalog" value="@item.Substring(0, 4)" @(Model.Catalog.Contains(item.Substring(0, 4)) ? "checked" : string.Empty) />@item
                     <br />
-                }
+                    }
                 <br />
                 <br />
                 <label>标签(包含该标签,使用分号分割)</label>

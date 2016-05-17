@@ -5,7 +5,7 @@
 }
 @Html.DisplayFor(t => t, "AdminNavi", null)
 
-<div class="SingleBox" style="border:none">
+<div class="SingleBox" style="border:none;width:1200px">
     @MvcHtmlString.Create(HtmlUiHelper.GetPageNavi(pages, pageno => Html.ActionLink((pageno).ToString(), "AuthorList", new { PageNo = pageno }).ToString()))
     <table class="table table-striped">
         <tr>
@@ -26,6 +26,12 @@
             </th>
             <th>
                 注册方式
+            </th>
+            <th>
+                注册天数
+            </th>
+            <th>
+                最后登陆时间
             </th>
             <th>
                 用户组
@@ -57,6 +63,12 @@
                 </td>
                 <td>
                     @item.UserInfo.RegisterMethod
+                </td>
+                <td>
+                    @Math.Ceiling((DateTime.Now - item.UserInfo.CreateDateTime).TotalDays) 天
+                </td>
+                <td>
+                    @item.UserInfo.UpdateDateTime
                 </td>
                 <td>
                     @if (item.UserInfo.Privilege != UserType.Normal)

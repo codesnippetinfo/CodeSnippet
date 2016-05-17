@@ -24,6 +24,7 @@
              imageFormats:  @MvcHtmlString.Create(ConstHelper.ImageFileExtend),
              imageUploadURL: "/API/Upload.ashx?ArticleId=@Request["ArticleId"]&OwnerId=@Session[ConstHelper.Session_USERID]",
              autoFocus : false,
+             emoji : true,
              watch:false
          });
     });

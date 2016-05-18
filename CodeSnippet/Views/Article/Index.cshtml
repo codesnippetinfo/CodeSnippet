@@ -251,7 +251,7 @@
     $(document).ready(function () {
         $(".PostBody img").wrap(
             function () {
-                if (this.className = "emoji") return;
+                if (this.className == "emoji") return;
                 var filepath = this.src;
                 var imagefilename = filepath.substring(_urlstr.length + "/FileSystem/Thumbnail?filename=".length)
                 @{

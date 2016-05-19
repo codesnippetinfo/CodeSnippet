@@ -269,7 +269,17 @@
                 //原图是外部连接的处理
                 if (this.src.indexOf("/FileSystem/Thumbnail") == -1){
                     if (this.src.indexOf("@ConfigurationManager.AppSettings["URLBASE"]") == -1){
-                        filepath = this.src;
+                        //对于简书带缓存图片的处理
+                        //http://upload-images.jianshu.io/upload_images/1628444-e5f3c79f2c853f91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240
+                        //http://upload-images.jianshu.io/upload_images/1628444-e5f3c79f2c853f91.png
+                        var jianshuUrl = "http://upload-images.jianshu.io/upload_images/";
+                        if (this.src.indexOf(jianshuUrl) == -1){
+                            //非简书
+                            filepath = this.src;
+                        }else{
+                            filepath = this.src.substring(0,this.src.indexOf("?"));
+                            this.src = filepath;
+                        }
                     }
                 }
                 return "<div class='imgArea'><a href='" + filepath + "'></a></div>"

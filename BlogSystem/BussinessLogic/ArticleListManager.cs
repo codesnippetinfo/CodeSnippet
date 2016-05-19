@@ -21,10 +21,10 @@ namespace BlogSystem.BussinessLogic
         /// <summary>
         ///  获得每日推荐文章
         /// </summary>
-        public static ArticleBody GetTopArticle()
+        public static ArticleItemBody GetTopArticle()
         {
             if (string.IsNullOrEmpty(topArticleId)) return null;
-            return GetArticleBodyById(topArticleId);
+            return GetArticleItemBodyById(topArticleId);
         }
         /// <summary>
         /// 设定每日推荐文章

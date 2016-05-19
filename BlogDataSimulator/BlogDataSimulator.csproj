@@ -137,8 +137,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sample\ArticleList.txt" />
-    <Content Include="Sample\cnblogs.txt" />
     <Content Include="Sample\Html.txt" />
     <Content Include="Sample\Markdown.txt" />
     <Content Include="Sample\MarkDownForAnlyze.txt" />

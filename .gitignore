@@ -266,3 +266,5 @@ paket-files/
 /CodeSnippet/FileStorage
 Web.config
 /CodeSnippet/Temp
+/BlogDataSimulator/Sample/OrgDataCnblogs.txt
+/BlogDataSimulator/Sample/OrgDataArticleList.txt

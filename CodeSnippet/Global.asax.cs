@@ -87,6 +87,13 @@ namespace CodeSnippet
             {
                 Directory.CreateDirectory(FileSystemController.PDFFolder);
             }
+            //Jianshu
+            FileSystemController.JianshuFolder = Server.MapPath("/FileStorage/Jianshu/");
+            if (!Directory.Exists(FileSystemController.JianshuFolder))
+            {
+                Directory.CreateDirectory(FileSystemController.JianshuFolder);
+            }
+
             //业务配置加载
             GetConfig();
             //新建临时文件夹

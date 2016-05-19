@@ -1,11 +1,13 @@
 ﻿using BlogSystem.BussinessLogic;
 using BlogSystem.Entity;
+using InfraStructure.Misc;
 using InfraStructure.Storage;
 using Spire.Pdf;
 using Spire.Pdf.Graphics;
 using System.Configuration;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Web.Mvc;
 
@@ -66,6 +68,34 @@ namespace CodeSnippet.Controllers
             if (stream == null) return null;
             return File(stream.ToArray(), "image/jpeg");
         }
+        /// <summary>
+        /// Jianshu路径
+        /// </summary>
+        public static string JianshuFolder = string.Empty;
+        /// <summary>
+        /// Jianshu
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public ActionResult Jianshu(string filename) {
+            string filepath = JianshuFolder + filename;
+            if (!System.IO.File.Exists(filepath))
+            {
+                try
+                {
+                    //下载简书文件
+                    WebClient client = new WebClient();
+                    client.DownloadFile("http://upload-images.jianshu.io/upload_images/" + filename, filepath);
+                }
+                catch (System.Exception ex)
+                {
+                    InfraStructure.Log.ExceptionLog.Log("SYSTEM", "Jianshu", "FileSystem", ex.ToString());
+                    return null;
+                }
+            }
+            return File(filepath, "image/jpeg");
+        }
+
         /// <summary>
         /// QRCode
         /// </summary>

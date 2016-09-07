@@ -9,6 +9,21 @@ hr {
     border-style: dashed;
 }
 
+@media (min-width: 768px) {
+	.pageCenter {
+	    width:740px
+    }
+}
+@media (min-width: 992px) {
+	.pageCenter {
+	    width:1000px
+    }
+}
+@media (min-width: 1200px) {
+	.pageCenter {
+	    width:1160px
+    }
+}
 /*未使用样式*/
 .pageCenter {
     max-width: 1200px;

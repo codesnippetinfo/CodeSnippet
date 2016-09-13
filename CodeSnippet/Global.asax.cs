@@ -158,6 +158,15 @@ namespace CodeSnippet
             }
             else
             {
+                if (config.CatalogItem != null && config.CatalogItem.Length != 0)
+                {
+                    Article.CatalogItem = config.CatalogItem;
+                }
+                else
+                {
+                    config.CatalogItem = Article.CatalogItem;
+                    SiteConfig.UpdateSiteConfig(config);
+                }
                 ArticleListManager.SetTopArticle(config.TopArticleID);
             }
         }

@@ -10,9 +10,16 @@ namespace BlogSystem.BussinessLogic
 {
     public static class UserManager
     {
-
+        /// <summary>
+        /// 获得用户组计数
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string,int> UserGroupCntResult() =>  MongoDbRepository.GroupCount(Article.CollectionName, nameof(Article.OwnerId), ArticleListManager.FirstPageArticleQuery);
-
+        /// <summary>
+        /// 获得用户信息
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         public static UserItemBody GetUserItemBody(string accountId)
         {
             IMongoQuery x = Query.EQ(nameof(UserItemBody.UserInfo) + "." + MongoDbRepository.MongoKeyField, accountId);

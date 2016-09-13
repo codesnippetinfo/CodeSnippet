@@ -18,6 +18,11 @@ namespace BlogSystem.BussinessLogic
         /// </summary>
         const string indexName = "artical";
         /// <summary>
+        /// TokenName
+        /// </summary>
+        const string TokenizerName = "ik";
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public static void Init()
@@ -61,7 +66,7 @@ namespace BlogSystem.BussinessLogic
         {
             AnalyzeRequest a = new AnalyzeRequest();
             a.Text = new string[] { strSentence };
-            a.Tokenizer = "ik";
+            a.Tokenizer = TokenizerName;
             var result = client.Analyze(a);
             if (result.Tokens == null) return null;
             return result.Tokens.Select(x=>x.Token).ToList<string>();

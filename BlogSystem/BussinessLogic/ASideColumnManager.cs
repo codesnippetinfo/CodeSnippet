@@ -137,7 +137,7 @@ namespace BlogSystem.BussinessLogic
             return titlelist;
         }
         /// <summary>
-        /// 
+        /// 最热门标签
         /// </summary>
         /// <param name="TagCnt"></param>
         /// <returns></returns>
@@ -153,7 +153,7 @@ namespace BlogSystem.BussinessLogic
         }
 
         /// <summary>
-        /// 
+        /// HotCircle
         /// </summary>
         /// <returns></returns>
         public static AsideColumnBody HotCircle(int CircleCnt)

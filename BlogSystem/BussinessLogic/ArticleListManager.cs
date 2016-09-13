@@ -337,7 +337,7 @@ namespace BlogSystem.BussinessLogic
             }
         }
         /// <summary>
-        /// 
+        /// GetListForArticleId
         /// </summary>
         /// <returns></returns>
         public static List<string> GetListForArticleId()

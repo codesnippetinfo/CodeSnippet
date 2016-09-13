@@ -78,6 +78,8 @@
                 </span>
                 <span class="btn btn-info btn-sm">
                     有效总行数：@Model.MarkDownAnlyze.TotalLineCnt()
+                    &nbsp;&nbsp;
+                    大约需要 @(Math.Ceiling(Model.MarkDownAnlyze.TotalLineCnt() / (decimal)6)) 分钟阅读
                 </span>
                 @if (Model.MarkDownAnlyze.CodeLineCnt != null)
                 {

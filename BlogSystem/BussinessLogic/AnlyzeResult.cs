@@ -26,7 +26,7 @@ namespace BlogSystem.BussinessLogic
         /// </summary>
         public List<string> Url;
         /// <summary>
-        /// 
+        /// CodeLine
         /// </summary>
         public class struCodeLine
         {
@@ -41,7 +41,7 @@ namespace BlogSystem.BussinessLogic
         }
 
         /// <summary>
-        /// 
+        /// 是否包含语言
         /// </summary>
         public bool IsContainLanguage(string lan)
         {

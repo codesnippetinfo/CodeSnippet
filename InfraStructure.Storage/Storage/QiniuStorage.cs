@@ -81,7 +81,8 @@ namespace InfraStructure.Storage
             myHttpWebRequest.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
             using (HttpWebResponse res = (HttpWebResponse)myHttpWebRequest.GetResponse())
             {
-                if (res.StatusCode == HttpStatusCode.OK || res.StatusCode == HttpStatusCode.PartialContent)//返回为200或206
+                //返回为200或206
+                if (res.StatusCode == HttpStatusCode.OK || res.StatusCode == HttpStatusCode.PartialContent)
                 {
                     string dd = res.ContentEncoding;
                     var stream = res.GetResponseStream();

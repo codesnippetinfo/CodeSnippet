@@ -92,7 +92,7 @@ namespace InfraStructure.DataBase
                 BsonSerializer.RegisterSerializer(typeof(DateTime), new DateTimeSerializer(DateTimeKind.Local));
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

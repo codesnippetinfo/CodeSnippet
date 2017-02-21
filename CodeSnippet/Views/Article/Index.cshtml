@@ -29,7 +29,9 @@
                 <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">
                     <img src="@Model.AuthorInfo.Avatar_url" class="AvatarImageSmall" title="@Model.AuthorInfo.NickName" />
                 </a>
-                <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a> 发表于 @Model.ArticleInfo.ConfirmDateTime
+                <a href="/Author/Index?AccountId=@Model.AuthorInfo.Sn">@Model.AuthorInfo.NickName</a>
+				<br />发布时间 @Model.ArticleInfo.ConfirmDateTime
+				<br />修改时间 @Model.ArticleInfo.UpdateDateTime
             </h5>
             @switch (Model.ArticleInfo.Level)
             {

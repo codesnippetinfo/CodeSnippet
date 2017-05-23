@@ -16,6 +16,10 @@
                 max-width: 700px;
                 max-height: 1200px;
             }
+
+        .editormd-html-preview, .editormd-preview-container {
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -25,7 +29,9 @@
             @Model.ArticleInfo.Title
         </h1>
         <h5 style="float:right">
-            @Model.AuthorInfo.NickName 发表于 @Model.ArticleInfo.ConfirmDateTime
+            文章作者：@Model.AuthorInfo.NickName 
+			<br />发布时间： @Model.ArticleInfo.ConfirmDateTime
+			<br />修改时间：@Model.ArticleInfo.UpdateDateTime
         </h5>
         <br /><br />
         @MvcHtmlString.Create(ViewBag.Html)

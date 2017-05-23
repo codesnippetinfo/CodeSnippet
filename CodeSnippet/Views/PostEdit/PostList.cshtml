@@ -25,12 +25,12 @@
         </select>
 
         <div class="btn-group" role="group" aria-label="..." style="margin:10px;">
-            <a href="/PostEdit/CollectionEdit" class="btn-primary btn">新建文集</a>
             @if (!string.IsNullOrEmpty(CollectionId))
             {
                 <a href="/PostEdit/CollectionEdit?CollectionId=@CollectionId" class="btn-primary btn">编辑文集</a>
                 <a href="/PostEdit/ArticleEdit?CollectionId=@CollectionId" class="btn-primary btn">添加新文章</a>
             }
+            <a href="/PostEdit/CollectionEdit" class="btn-success btn">新建文集</a>
         </div>
     </div>
     <br />

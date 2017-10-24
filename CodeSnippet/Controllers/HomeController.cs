@@ -21,8 +21,10 @@ namespace CodeSnippet.Controllers
         /// <returns></returns>
         public ActionResult Index(int PageNo = 1)
         {
-            Pages p = new Pages(ArticleListManager.GetArticleCnt(ArticleListManager.FirstPageArticleQueryFileter), 20);
-            p.CurrentPageNo = PageNo;
+            Pages p = new Pages(ArticleListManager.GetArticleCnt(ArticleListManager.FirstPageArticleQueryFileter), 20)
+            {
+                CurrentPageNo = PageNo
+            };
             var currentpageList = ArticleListManager.GetPublicListForArticleByPage(p, ArticleListManager.FirstPageArticleQueryFileter);
             ViewData.Model = currentpageList;
             ViewBag.TopArticle = ArticleListManager.GetTopArticle();
@@ -117,8 +119,10 @@ namespace CodeSnippet.Controllers
             filter.ContainTag = string.IsNullOrEmpty(u.ContainTag) ? null : u.ContainTag.Split(";".ToArray());
             filter.AntiTag = string.IsNullOrEmpty(u.AntiTag) ? null : u.AntiTag.Split(";".ToArray());
             //TODO:标签
-            Pages p = new Pages(ArticleListManager.GetArticleCnt(filter), 20);
-            p.CurrentPageNo = PageNo;
+            Pages p = new Pages(ArticleListManager.GetArticleCnt(filter), 20)
+            {
+                CurrentPageNo = PageNo
+            };
             var currentpageList = ArticleListManager.GetPublicListForArticleByPage(p, filter);
             ViewData.Model = currentpageList;
             ViewBag.TopArticle = ArticleListManager.GetTopArticle();
@@ -169,8 +173,10 @@ namespace CodeSnippet.Controllers
             var resultArticleItems = ArticleListManager.GetArticleItemBodyListByArticleList(resultArticles);
             //按照评分排序
             resultArticleItems.Sort((x, y) => { return y.Score.CompareTo(x.Score); });
-            Pages p = new Pages(resultArticles.Count, 20);
-            p.CurrentPageNo = PageNo;
+            Pages p = new Pages(resultArticles.Count, 20)
+            {
+                CurrentPageNo = PageNo
+            };
             ViewBag.Pages = p;
             ViewData.Model = p.GetList(resultArticleItems);
             return View();
@@ -184,8 +190,10 @@ namespace CodeSnippet.Controllers
         public ActionResult TagList(string TagName, int PageNo = 1)
         {
             var articles = Article.GetArticleListByTag(TagName);
-            Pages p = new Pages(articles.Count, 50);
-            p.CurrentPageNo = PageNo;
+            Pages p = new Pages(articles.Count, 50)
+            {
+                CurrentPageNo = PageNo
+            };
             ViewBag.TagArticleCnt = articles.Count;
             ViewBag.Pages = p;
             var articlebodys = ArticleListManager.GetArticleItemBodyListByArticleList(p.GetList(articles));
